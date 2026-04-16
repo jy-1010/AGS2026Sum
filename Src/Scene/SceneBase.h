@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include"../Common/Vector2.h"
-#include"../Utility/Utility.h"
+#include "../Common/Vector2.h"
+#include "../Utility/Utility.h"
 
 class SceneBase
 {
@@ -12,6 +12,7 @@ public:
 	virtual bool Init(void);
 	virtual void Update(void);
 	virtual void Draw(void);
+	virtual void Load(void);
 protected:
 
 private:

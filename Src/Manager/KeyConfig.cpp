@@ -27,150 +27,70 @@ void KeyConfig::Init(void)
 	inputManager_->Init();
 
 	//決定処理
-	Add(CONTROL_TYPE::ENTER, KEY_INPUT_SPACE);
-	Add(CONTROL_TYPE::ENTER, KEY_INPUT_RETURN);
-	Add(CONTROL_TYPE::ENTER, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::ENTER, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
+	AddFixed(CONTROL_TYPE::ENTER, KEY_INPUT_SPACE);
+	AddFixed(CONTROL_TYPE::ENTER, KEY_INPUT_RETURN);
+	AddFixed(CONTROL_TYPE::ENTER, MOUSE::CLICK_LEFT);
+	AddFixed(CONTROL_TYPE::ENTER, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
+	AddFixed(CONTROL_TYPE::ENTER, JOYPAD_BTN::RIGHTBUTTON_DOWN);
 
-	//決定処理
-	Add(CONTROL_TYPE::DECISION_KEY_AND_PAD, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-	Add(CONTROL_TYPE::DECISION_KEY_AND_PAD, KEY_INPUT_SPACE);
-	Add(CONTROL_TYPE::DECISION_MOUSE, MOUSE::CLICK_LEFT);
+	AddFixed(CONTROL_TYPE::CANCEL, KEY_INPUT_BACK);
+	AddFixed(CONTROL_TYPE::CANCEL, JOYPAD_BTN::RIGHTBUTTON_LEFT);
+	AddFixed(CONTROL_TYPE::CANCEL, JOYPAD_BTN::RIGHTBUTTON_TOP);
 
+	//メニューを開く
+	AddFixed(CONTROL_TYPE::OPEN_MENU, KEY_INPUT_TAB);
+	AddFixed(CONTROL_TYPE::OPEN_MENU, JOYPAD_BTN::START_BUTTON);
+	AddFixed(CONTROL_TYPE::PAD_SHOW_HIDE, KEY_INPUT_Q);
+	AddFixed(CONTROL_TYPE::PAD_SHOW_HIDE, JOYPAD_BTN::SELECT_BUTTON);
 
-	//キャンセル
-	Add(CONTROL_TYPE::CANCEL, KEY_INPUT_BACK);	//キャンセル
-	Add(CONTROL_TYPE::CANCEL, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_DOWN);
+	//カメラ変更
+	AddFixed(CONTROL_TYPE::CHENGE_CAMERA_MODE, MOUSE::CLICK_RIGHT);
+	AddFixed(CONTROL_TYPE::CHENGE_CAMERA_MODE, JOYPAD_BTN::L_TRIGGER);
 
-
-	//フェーズ遷移
-	Add(CONTROL_TYPE::PHASE_CHENGE, KEY_INPUT_Z);
-	Add(CONTROL_TYPE::PHASE_CHENGE, JOYPAD_BTN::START_BUTTON);
-	Add(CONTROL_TYPE::PHASE_CHENGE_CHECK, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::PHASE_CHENGE_CHECK, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-
-
-	//ファイル読みこみ
-	Add(CONTROL_TYPE::IMPORT_FILE, KEY_INPUT_N);
-	Add(CONTROL_TYPE::IMPORT_FILE_CLICK, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::IMPORT_FILE_CLICK, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-	Add(CONTROL_TYPE::EXPORT_FILE, KEY_INPUT_M);
-	Add(CONTROL_TYPE::EXPORT_FILE_CLICK, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::EXPORT_FILE_CLICK, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-
-
-	//パレットを開く
-	Add(CONTROL_TYPE::PALETTE_CURSOR_SELECT, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::PALETTE_CURSOR_SELECT, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-
-
-	//エディットカメラ動作
-	Add(CONTROL_TYPE::EDIT_CAMERA_ROT_DOWN, KEY_INPUT_S);
-	Add(CONTROL_TYPE::EDIT_CAMERA_ROT_UP, KEY_INPUT_W);
-	Add(CONTROL_TYPE::EDIT_CAMERA_ROT_LEFT, KEY_INPUT_Q);
-	Add(CONTROL_TYPE::EDIT_CAMERA_ROT_RIGHT, KEY_INPUT_E);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_LEFT, KEY_INPUT_A);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_LEFT, JOYPAD_BTN::L_BUTTON);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_LEFT, JOYPAD_BTN::LEFTBUTTON_LEFT);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_RIGHT, KEY_INPUT_D);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_RIGHT, JOYPAD_BTN::R_BUTTON);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_RIGHT, JOYPAD_BTN::LEFTBUTTON_RIGHT);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_FRONT, MOUSE::WHEEL_FRONT);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_FRONT, JOYPAD_BTN::R_TRIGGER);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_UP, JOYPAD_BTN::LEFTBUTTON_TOP);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_BACK, MOUSE::WHEEL_BACK);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_BACK, JOYPAD_BTN::L_TRIGGER);
-	Add(CONTROL_TYPE::EDIT_CAMERA_MOVE_DOWN, JOYPAD_BTN::LEFTBUTTON_DOWN);
-	Add(CONTROL_TYPE::CURSOR_SPEED_UP, JOYPAD_BTN::LEFT_STICK);
-	Add(CONTROL_TYPE::EDIT_CAMERA_CHENGE,KEY_INPUT_LCONTROL);
-	Add(CONTROL_TYPE::EDIT_CAMERA_CHENGE,JOYPAD_BTN::RIGHT_STICK);
-
-
-	//エディット中のアイテム選択処理
-	Add(CONTROL_TYPE::EDIT_ITEM_SELECT, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::EDIT_ITEM_SELECT, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-	Add(CONTROL_TYPE::EDIT_ITEM_ROTATE, KEY_INPUT_R);
-	Add(CONTROL_TYPE::EDIT_ITEM_ROTATE, JOYPAD_BTN::RIGHTBUTTON_TOP);
-	Add(CONTROL_TYPE::EDIT_ITEM_DELETE, MOUSE::CLICK_RIGHT);
-	Add(CONTROL_TYPE::EDIT_ITEM_DELETE, JOYPAD_BTN::RIGHTBUTTON_DOWN);
-
-	//エディット中のグリッドのオンオフ
-	Add(CONTROL_TYPE::EDIT_GRID_ON_OFF, KEY_INPUT_G);
-	Add(CONTROL_TYPE::EDIT_GRID_ON_OFF, JOYPAD_BTN::RIGHTBUTTON_LEFT);
-
-	//プレイヤーの動作
-	Add(CONTROL_TYPE::PLAYER_DASH, KEY_INPUT_LSHIFT);
-	Add(CONTROL_TYPE::PLAYER_DASH, JOYPAD_BTN::RIGHTBUTTON_DOWN);
-	Add(CONTROL_TYPE::PLAYER_DASH, JOYPAD_BTN::LEFT_STICK);
-	Add(CONTROL_TYPE::PLAYER_DASH, JOYPAD_BTN::R_BUTTON);
-	Add(CONTROL_TYPE::PLAYER_MOVE_FRONT, KEY_INPUT_W);
-	Add(CONTROL_TYPE::PLAYER_MOVE_LEFT, KEY_INPUT_A);
-	Add(CONTROL_TYPE::PLAYER_MOVE_BACK, KEY_INPUT_S);
-	Add(CONTROL_TYPE::PLAYER_MOVE_RIGHT, KEY_INPUT_D);
-	Add(CONTROL_TYPE::PLAYER_JUMP, KEY_INPUT_SPACE);
-	Add(CONTROL_TYPE::PLAYER_JUMP, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-	Add(CONTROL_TYPE::PLAYER_PUNCH, KEY_INPUT_RETURN);
-	Add(CONTROL_TYPE::PLAYER_PUNCH, JOYPAD_BTN::RIGHTBUTTON_LEFT);
-
-	//フリーエディットをやめる
-	Add(CONTROL_TYPE::EDIT_ESCAPE, KEY_INPUT_BACK);
-	Add(CONTROL_TYPE::EDIT_ESCAPE_CLICK, MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::EDIT_ESCAPE_CLICK, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
+	//選択
+	AddFixed(CONTROL_TYPE::SELECT_UP, KEY_INPUT_UP);
+	AddFixed(CONTROL_TYPE::SELECT_DOWN, KEY_INPUT_DOWN);
+	AddFixed(CONTROL_TYPE::SELECT_RIGHT, KEY_INPUT_RIGHT);
+	AddFixed(CONTROL_TYPE::SELECT_LEFT, KEY_INPUT_LEFT);
+	AddFixed(CONTROL_TYPE::SELECT_UP, KEY_INPUT_W);
+	AddFixed(CONTROL_TYPE::SELECT_DOWN, KEY_INPUT_S);
+	AddFixed(CONTROL_TYPE::SELECT_RIGHT, KEY_INPUT_D);
+	AddFixed(CONTROL_TYPE::SELECT_LEFT, KEY_INPUT_A);
+	AddFixed(CONTROL_TYPE::SELECT_UP, JOYPAD_BTN::LEFTBUTTON_TOP);
+	AddFixed(CONTROL_TYPE::SELECT_DOWN, JOYPAD_BTN::LEFTBUTTON_DOWN);
+	AddFixed(CONTROL_TYPE::SELECT_RIGHT, JOYPAD_BTN::LEFTBUTTON_RIGHT);
+	AddFixed(CONTROL_TYPE::SELECT_LEFT, JOYPAD_BTN::LEFTBUTTON_LEFT);
+	AddFixed(CONTROL_TYPE::SELECT_UP, JOYPAD_STICK::L_STICK_UP);
+	AddFixed(CONTROL_TYPE::SELECT_DOWN, JOYPAD_STICK::L_STICK_DOWN);
+	AddFixed(CONTROL_TYPE::SELECT_RIGHT, JOYPAD_STICK::L_STICK_RIGHT);
+	AddFixed(CONTROL_TYPE::SELECT_LEFT, JOYPAD_STICK::L_STICK_LEFT);
 
 
 	//プレイ中のカメラ動作
-	Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_UP, KEY_INPUT_UP);
-	//Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_UP, MOUSE::MOVE_UP);
-	Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_DOWN, KEY_INPUT_DOWN);
-	//Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_DOWN, MOUSE::MOVE_DOWN);
-	Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_RIGHT, KEY_INPUT_RIGHT);
-	//Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_RIGHT, MOUSE::MOVE_RIGHT);
-	Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_LEFT, KEY_INPUT_LEFT);
-	//Add(CONTROL_TYPE::PLAY_CAMERA_MOVE_LEFT, MOUSE::MOVE_LEFT);
-	Add(CONTROL_TYPE::PLAY_CAMERA_ZOOM_IN, JOYPAD_BTN::R_TRIGGER);
-	Add(CONTROL_TYPE::PLAY_CAMERA_ZOOM_IN, MOUSE::WHEEL_FRONT);
-	Add(CONTROL_TYPE::PLAY_CAMERA_ZOOM_OUT, JOYPAD_BTN::L_TRIGGER);
-	Add(CONTROL_TYPE::PLAY_CAMERA_ZOOM_OUT, MOUSE::WHEEL_BACK);
+	AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_UP, KEY_INPUT_UP);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_UP, MOUSE::MOVE_UP);
+	AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_DOWN, KEY_INPUT_DOWN);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_DOWN, MOUSE::MOVE_DOWN);
+	AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_RIGHT, KEY_INPUT_RIGHT);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_RIGHT, MOUSE::MOVE_RIGHT);
+	AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_LEFT, KEY_INPUT_LEFT);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_MOVE_LEFT, MOUSE::MOVE_LEFT);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_ZOOM_IN, JOYPAD_BTN::R_TRIGGER);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_ZOOM_IN, MOUSE::WHEEL_FRONT);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_ZOOM_OUT, JOYPAD_BTN::L_TRIGGER);
+	//AddFixed(CONTROL_TYPE::PLAY_CAMERA_ZOOM_OUT, MOUSE::WHEEL_BACK);
 
-	//選択処理
-	Add(CONTROL_TYPE::SELECT_UP, KEY_INPUT_UP);	//上
-	Add(CONTROL_TYPE::SELECT_UP, KEY_INPUT_W);	//上
-	Add(CONTROL_TYPE::SELECT_UP, KeyConfig::JOYPAD_STICK::L_STICK_UP);
-	Add(CONTROL_TYPE::SELECT_DOWN, KEY_INPUT_DOWN);	//下
-	Add(CONTROL_TYPE::SELECT_DOWN, KEY_INPUT_S);	//下
-	Add(CONTROL_TYPE::SELECT_DOWN, KeyConfig::JOYPAD_STICK::L_STICK_DOWN);
-	Add(CONTROL_TYPE::SELECT_RIGHT, KEY_INPUT_RIGHT);//右
-	Add(CONTROL_TYPE::SELECT_RIGHT, KEY_INPUT_D);//右
-	Add(CONTROL_TYPE::SELECT_RIGHT, KeyConfig::JOYPAD_STICK::L_STICK_RIGHT);
-	Add(CONTROL_TYPE::SELECT_LEFT, KEY_INPUT_LEFT);	//左
-	Add(CONTROL_TYPE::SELECT_LEFT, KEY_INPUT_A);	//左
-	Add(CONTROL_TYPE::SELECT_LEFT, KeyConfig::JOYPAD_STICK::L_STICK_LEFT);
+	AddFixed(CONTROL_TYPE::PLAYER_MOVE_UP, KEY_INPUT_W);
+	AddFixed(CONTROL_TYPE::PLAYER_MOVE_DOWN, KEY_INPUT_S);
+	AddFixed(CONTROL_TYPE::PLAYER_MOVE_RIGHT, KEY_INPUT_D);
+	AddFixed(CONTROL_TYPE::PLAYER_MOVE_LEFT, KEY_INPUT_A);
 
-	//マニュアルを開く
-	Add(CONTROL_TYPE::MANUAL, KEY_INPUT_TAB);
-	Add(CONTROL_TYPE::MANUAL, JOYPAD_BTN::SELECT_BUTTON);
-	Add(CONTROL_TYPE::MANUAL_ICON_CLICK, KeyConfig::MOUSE::CLICK_LEFT);
-	Add(CONTROL_TYPE::MANUAL_ICON_CLICK, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-
-	//デモからタイトルに戻る
-	Add(CONTROL_TYPE::DEMO_TO_TITLE_BACK, KeyConfig::JOYPAD_BTN::START_BUTTON);
-	Add(CONTROL_TYPE::DEMO_TO_TITLE_BACK, KEY_INPUT_BACK);
-
-
-	Add(CONTROL_TYPE::SELECT_SKIP, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_TOP);
-
-
-	Add(CONTROL_TYPE::INPUT_CHECK, KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT);
-
-#ifdef _DEBUG
-	//デバッグ処理
-	Add(CONTROL_TYPE::DEBUG_CHENGE_TITLE, KEY_INPUT_RSHIFT);	//タイトルシーン遷移
-	Add(CONTROL_TYPE::DEBUG_CHENGE_CLEAR, KEY_INPUT_C);	//ゲームクリアへの遷移
-	Add(CONTROL_TYPE::DEBUG_CHANGE_INPUT, KEY_INPUT_F1);
-	Add(CONTROL_TYPE::DEBUG_CHANGE_INPUT, KeyConfig::JOYPAD_BTN::START_BUTTON);
-#endif // _DEBUG
-
-
+	Add(CONTROL_TYPE::PLAYER_JUMP, KEY_INPUT_SPACE);
+	Add(CONTROL_TYPE::PLAYER_JUMP, JOYPAD_BTN::RIGHTBUTTON_DOWN);
+	Add(CONTROL_TYPE::PLAYER_AVOID, KEY_INPUT_LSHIFT);
+	Add(CONTROL_TYPE::PLAYER_AVOID, JOYPAD_BTN::RIGHTBUTTON_LEFT);
+	Add(CONTROL_TYPE::PLAYER_ATTACK, MOUSE::CLICK_LEFT);
+	Add(CONTROL_TYPE::PLAYER_ATTACK, JOYPAD_BTN::R_TRIGGER);
 }
 
 void KeyConfig::Update(void)
@@ -182,6 +102,34 @@ bool KeyConfig::IsNew(CONTROL_TYPE cType, JOYPAD_NO no,TYPE type)
 {
 	if (type == TYPE::KEYBORD_MOUSE || type == TYPE::ALL)
 	{
+		for (auto& key : fixedKeyInput_)
+		{
+			if (key.first != cType)
+			{
+				continue;
+			}
+			for (auto keyI : key.second)
+			{
+				if (inputManager_->IsNew(keyI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& mouse : fixedMouseInput_)
+		{
+			if (mouse.first != cType)
+			{
+				continue;
+			}
+			for (auto mouseI : mouse.second)
+			{
+				if (inputManager_->IsMouseNew(mouseI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& key : keyInput_)
 		{
 			if (key.first != cType)
@@ -213,6 +161,34 @@ bool KeyConfig::IsNew(CONTROL_TYPE cType, JOYPAD_NO no,TYPE type)
 	}
 	if (type == TYPE::PAD || type == TYPE::ALL)
 	{
+		for (auto& con : fixedConInput_)
+		{
+			if (con.first != cType)
+			{
+				continue;
+			}
+			for (auto conI : con.second)
+			{
+				if (inputManager_->IsPadBtnNew(no, conI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& stick : fixedStickInput_)
+		{
+			if (stick.first != cType)
+			{
+				continue;
+			}
+			for (auto stickI : stick.second)
+			{
+				if (inputManager_->IsStickNew(no, stickI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& con : conInput_)
 		{
 			if (con.first != cType)
@@ -250,6 +226,34 @@ bool KeyConfig::IsTrgDown(CONTROL_TYPE cType, JOYPAD_NO no ,TYPE type)
 
 	if (type == TYPE::KEYBORD_MOUSE || type == TYPE::ALL)
 	{
+		for (auto& key : fixedKeyInput_)
+		{
+			if (key.first != cType)
+			{
+				continue;
+			}
+			for (auto keyI : key.second)
+			{
+				if (inputManager_->IsTrgDown(keyI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& mouse : fixedMouseInput_)
+		{
+			if (mouse.first != cType)
+			{
+				continue;
+			}
+			for (auto mouseI : mouse.second)
+			{
+				if (inputManager_->IsMouseTrgDown(mouseI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& key : keyInput_)
 		{
 			if (key.first != cType)
@@ -281,6 +285,34 @@ bool KeyConfig::IsTrgDown(CONTROL_TYPE cType, JOYPAD_NO no ,TYPE type)
 	}
 	if (type == TYPE::PAD || type == TYPE::ALL)
 	{
+		for (auto& con : fixedConInput_)
+		{
+			if (con.first != cType)
+			{
+				continue;
+			}
+			for (auto conI : con.second)
+			{
+				if (inputManager_->IsPadBtnTrgDown(no, conI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& stick : fixedStickInput_)
+		{
+			if (stick.first != cType)
+			{
+				continue;
+			}
+			for (auto stickI : stick.second)
+			{
+				if (inputManager_->IsStickDown(no, stickI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& con : conInput_)
 		{
 			if (con.first != cType)
@@ -317,6 +349,34 @@ bool KeyConfig::IsTrgUp(CONTROL_TYPE cType, JOYPAD_NO no, TYPE type)
 {
 	if (type == TYPE::KEYBORD_MOUSE || type == TYPE::ALL)
 	{
+		for (auto& key : fixedKeyInput_)
+		{
+			if (key.first != cType)
+			{
+				continue;
+			}
+			for (auto keyI : key.second)
+			{
+				if (inputManager_->IsTrgUp(keyI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& mouse : fixedMouseInput_)
+		{
+			if (mouse.first != cType)
+			{
+				continue;
+			}
+			for (auto mouseI : mouse.second)
+			{
+				if (inputManager_->IsMouseTrgUp(mouseI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& key : keyInput_)
 		{
 			if (key.first != cType)
@@ -348,6 +408,34 @@ bool KeyConfig::IsTrgUp(CONTROL_TYPE cType, JOYPAD_NO no, TYPE type)
 	}
 	if (type == TYPE::PAD || type == TYPE::ALL)
 	{
+		for (auto& con : fixedConInput_)
+		{
+			if (con.first != cType)
+			{
+				continue;
+			}
+			for (auto conI : con.second)
+			{
+				if (inputManager_->IsPadBtnTrgUp(no, conI))
+				{
+					return true;
+				}
+			}
+		}
+		for (auto& stick : fixedStickInput_)
+		{
+			if (stick.first != cType)
+			{
+				continue;
+			}
+			for (auto stickI : stick.second)
+			{
+				if (inputManager_->IsStickUp(no, stickI))
+				{
+					return true;
+				}
+			}
+		}
 		for (auto& con : conInput_)
 		{
 			if (con.first != cType)
@@ -380,9 +468,9 @@ bool KeyConfig::IsTrgUp(CONTROL_TYPE cType, JOYPAD_NO no, TYPE type)
 	return false;
 }
 
-void KeyConfig::Add(CONTROL_TYPE type,int key )
+void KeyConfig::Add(CONTROL_TYPE type, int key)
 {
-	for (auto &keys : keyInput_)
+	for (auto& keys : keyInput_)
 	{
 		if (keys.first != type)
 		{
@@ -397,7 +485,7 @@ void KeyConfig::Add(CONTROL_TYPE type,int key )
 	keyInput_.emplace(type, keys);
 }
 
-void KeyConfig::Add(CONTROL_TYPE type,JOYPAD_BTN key)
+void KeyConfig::Add(CONTROL_TYPE type, JOYPAD_BTN key)
 {
 	for (auto& con : conInput_)
 	{
@@ -414,7 +502,7 @@ void KeyConfig::Add(CONTROL_TYPE type,JOYPAD_BTN key)
 	conInput_.emplace(type, cons);
 }
 
-void KeyConfig::Add(CONTROL_TYPE type,JOYPAD_STICK key)
+void KeyConfig::Add(CONTROL_TYPE type, JOYPAD_STICK key)
 {
 	for (auto& stick : stickInput_)
 	{
@@ -448,6 +536,90 @@ void KeyConfig::Add(CONTROL_TYPE type, MOUSE key)
 	mouseInput_.emplace(type, mouse);
 }
 
+void KeyConfig::AllClear(void)
+{
+	keyInput_.clear();
+	conInput_.clear();
+	stickInput_.clear();
+	mouseInput_.clear();
+}
+
+void KeyConfig::Clear(CONTROL_TYPE type)
+{
+	keyInput_.erase(type);
+	conInput_.erase(type);
+	stickInput_.erase(type);
+	mouseInput_.erase(type);
+}
+
+void KeyConfig::AddFixed(CONTROL_TYPE type,int key )
+{
+	for (auto &keys : fixedKeyInput_)
+	{
+		if (keys.first != type)
+		{
+			continue;
+		}
+		keys.second.emplace_back(key);
+		return;
+	}
+
+	std::vector<int> keys;
+	keys.emplace_back(key);
+	fixedKeyInput_.emplace(type, keys);
+}
+
+void KeyConfig::AddFixed(CONTROL_TYPE type,JOYPAD_BTN key)
+{
+	for (auto& con : fixedConInput_)
+	{
+		if (con.first != type)
+		{
+			continue;
+		}
+		con.second.emplace_back(key);
+		return;
+	}
+
+	std::vector<JOYPAD_BTN> cons;
+	cons.emplace_back(key);
+	fixedConInput_.emplace(type, cons);
+}
+
+void KeyConfig::AddFixed(CONTROL_TYPE type,JOYPAD_STICK key)
+{
+	for (auto& stick : fixedStickInput_)
+	{
+		if (stick.first != type)
+		{
+			continue;
+		}
+		stick.second.emplace_back(key);
+		return;
+	}
+
+	std::vector<JOYPAD_STICK> sticks;
+	sticks.emplace_back(key);
+	fixedStickInput_.emplace(type, sticks);
+}
+
+void KeyConfig::AddFixed(CONTROL_TYPE type, MOUSE key)
+{
+	for (auto& mouse : fixedMouseInput_)
+	{
+		if (mouse.first != type)
+		{
+			continue;
+		}
+		mouse.second.emplace_back(key);
+		return;
+	}
+
+	std::vector<MOUSE> mouse;
+	mouse.emplace_back(key);
+	fixedMouseInput_.emplace(type, mouse);
+}
+
 
 Vector2 KeyConfig::GetMousePos(void) const
 {
@@ -477,7 +649,7 @@ float KeyConfig::GetLStickDeg(KeyConfig::JOYPAD_NO no) const
 	{
 		return deg;
 	}
-	auto rad = std::atan2(knockSize.y, knockSize.x);
+	float rad = static_cast<float>(std::atan2(knockSize.y, knockSize.x));
 	deg = rad * (180.0f / DX_PI_F);
 	deg += 90.0f;
 	deg = deg < 0 ? deg + 360 : deg;
@@ -492,7 +664,7 @@ float KeyConfig::GetRStickDeg(KeyConfig::JOYPAD_NO no) const
 	{
 		return deg;
 	}
-	auto rad = std::atan2(knockSize.y, knockSize.x);
+	float rad = static_cast<float>(std::atan2(knockSize.y, knockSize.x));
 	deg = rad * (180.0f / DX_PI_F);
 	deg += 90.0f;
 	deg = deg < 0 ? deg + 360 : deg;
@@ -554,10 +726,10 @@ int KeyConfig::PadStickOverSize(KeyConfig::JOYPAD_NO no, KeyConfig::JOYPAD_STICK
 void KeyConfig::Destroy(void)
 {
 	inputManager_->Release();
-	keyInput_.clear();
-	conInput_.clear();
-	stickInput_.clear();
-	mouseInput_.clear();
+	fixedKeyInput_.clear();
+	fixedConInput_.clear();
+	fixedStickInput_.clear();
+	fixedMouseInput_.clear();
 	delete instance_;
 }
 
@@ -575,6 +747,75 @@ void KeyConfig::StopPadVibration(KeyConfig::JOYPAD_NO _no)
 		_no == JOYPAD_NO::PAD2 ? DX_INPUT_PAD2 :
 		_no == JOYPAD_NO::PAD3 ? DX_INPUT_PAD3 : DX_INPUT_PAD4;
 	StopJoypadVibration(InputType);
+}
+
+std::vector<KeyConfig::JOYPAD_BTN> KeyConfig::GetPushBtns(KeyConfig::JOYPAD_NO no) const
+{
+	std::vector<JOYPAD_BTN> pushBtns;
+	for (int i = 0; i < static_cast<int>(JOYPAD_BTN::MAX); i++)
+	{
+		if (inputManager_->IsPadBtnTrgDown(no,static_cast<JOYPAD_BTN>(i)))
+		{
+			pushBtns.emplace_back(static_cast<JOYPAD_BTN>(i));
+		}
+	}
+	return pushBtns;
+}
+
+std::vector<KeyConfig::JOYPAD_BTN> KeyConfig::GetControlBTN(CONTROL_TYPE cType) const
+{
+	std::vector<JOYPAD_BTN> btns;
+	for (auto& btnPair : conInput_)
+	{
+		if (btnPair.first != cType)
+		{
+			continue;
+		}
+		for(auto btn : btnPair.second)
+		{
+			btns.push_back(btn);
+		}
+	}
+	for (auto& btnPair : fixedConInput_)
+	{
+		if (btnPair.first != cType)
+		{
+			continue;
+		}
+		for(auto btn : btnPair.second)
+		{
+			btns.push_back(btn);
+		}
+	}
+	return btns;
+}
+
+std::vector<int> KeyConfig::GetControlKey(CONTROL_TYPE cType)
+{
+	std::vector<int> keys;
+	for (auto& keyPair : keyInput_)
+	{
+		if (keyPair.first != cType)
+		{
+			continue;
+		}
+		for (auto key : keyPair.second)
+		{
+			keys.push_back(key);
+		}
+	}
+	for (auto& keyPair : fixedKeyInput_)
+	{
+		if (keyPair.first != cType)
+		{
+			continue;
+		}
+		for (auto key : keyPair.second)
+		{
+			keys.push_back(key);
+		}
+	}
+	return keys;
 }
 
 KeyConfig::KeyConfig(void)

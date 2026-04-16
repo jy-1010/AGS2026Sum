@@ -1,4 +1,5 @@
 #include "../Manager/SceneManager.h"
+#include "../Manager/ResourceManager.h"
 #include "Utility.h"
 
 int Utility::Round(float v)
@@ -566,7 +567,7 @@ bool Utility::IsTimeOver(float& totalTime, const float& waitTime)
 void Utility::DrawStringPlace(std::string _str, int _line, int _posY, int _color, STRING_PLACE _place)
 {
     //文字列の長さを取得
-    int width = GetDrawStringWidth(_str.c_str(), strlen(_str.c_str()));
+    int width = GetDrawStringWidth(_str.c_str(), static_cast<int>(strlen(_str.c_str())));
 
     //表示するX座標を求める
     int posX = _line;
@@ -671,20 +672,20 @@ bool Utility::IsPointInRectCircle(const Vector2 _pos, const Vector2 _circlePos, 
     return Distance(_pos, _circlePos) <= _radius;
 }
 
-VECTOR Utility::GetWorldPosAtScreen(const Vector2 screenPos, const float distance, const VECTOR cameraPos, const VECTOR cameraDir)
-{
-    // スクリーン中心の方向ベクトルを取得 (depth = 0.5で中間点)
-    VECTOR sPos = VGet(screenPos.x, screenPos.y, 0.5f);
-    VECTOR screenDir = ConvScreenPosToWorldPos(sPos);
-
-    // カメラ位置から見たスクリーン中心方向へのベクトルを作成
-    VECTOR dir = VSub(screenDir, cameraPos);
-    dir = VNorm(dir); // 正規化して単位ベクトルにする
-
-    // 指定距離だけ進めた座標
-    VECTOR ret = VAdd(cameraPos, VScale(dir, distance));
-    return ret;
-}
+//VECTOR Utility::GetWorldPosAtScreen(const Vector2 screenPos, const float distance, const VECTOR cameraPos, const VECTOR cameraDir)
+//{
+//    // スクリーン中心の方向ベクトルを取得 (depth = 0.5で中間点)
+//    VECTOR sPos = VGet(screenPos.x, screenPos.y, 0.5f);
+//    VECTOR screenDir = ConvScreenPosToWorldPos(sPos);
+//
+//    // カメラ位置から見たスクリーン中心方向へのベクトルを作成
+//    VECTOR dir = VSub(screenDir, cameraPos);
+//    dir = VNorm(dir); // 正規化して単位ベクトルにする
+//
+//    // 指定距離だけ進めた座標
+//    VECTOR ret = VAdd(cameraPos, VScale(dir, distance));
+//    return ret;
+//}
 
 int Utility::GetSign(float f)
 {
@@ -731,7 +732,7 @@ float Utility::ReverseValue(float _f)
 
 IntVector3 Utility::ReverseValue(IntVector3 _iv)
 {
-    return _iv * REVERSE_SCALE;
+    return _iv * static_cast<int>(REVERSE_SCALE);
 }
 
 
@@ -891,4 +892,545 @@ float Utility::PingPongUpdate(const float _value, const float _step, const float
     }
 
     return value;
+}
+
+bool Utility::IsColSphere2Sphere(VECTOR pos1, float radius1, VECTOR pos2, float radius2)
+{
+    return Distance(pos1, pos2) <= radius1 + radius2;
+}
+
+bool Utility::IsColSphere2Model(VECTOR pos, float radius, int modelId)
+{
+    auto col = MV1CollCheck_Sphere(modelId, -1, pos, radius);
+    return col.HitNum > 0;
+}
+
+bool Utility::IsColCircumference2Circle(VECTOR pos1, float radius1, VECTOR pos2, float radius2)
+{
+    float dis = static_cast<float>(Distance(pos1, pos2));
+    return abs(dis - radius1) < radius2;
+}
+
+bool Utility::IsColTriangle2Line(VECTOR tPos1, VECTOR tPos2, VECTOR tPos3, VECTOR lPos1, VECTOR lPos2, VECTOR& hitPos)
+{
+
+    VECTOR dir = VSub(lPos1, lPos2);    //線の方向ベクトル
+    VECTOR edge1 = VSub(tPos3, tPos1);  //三角形の辺ベクトル1
+    VECTOR edge2 = VSub(tPos2, tPos1);  //三角形の辺ベクトル2
+
+    VECTOR h = VCross(dir, edge2);  //平面と線の位置関係を求める補助ベクトル
+    float a = VDot(edge1, h);   //三角形と線分の考査判定に必要な係数
+
+    if (fabs(a) < EPSILON)
+    {
+        // aが0に近ければ、線分は平面とほぼ平行
+        return false;
+    }
+
+    float f = 1.0f / a; //逆数を求めて計算を高速化(何度も使うから)
+
+    VECTOR s = VSub(lPos1, tPos1);  //線分視点から三角形の頂点へのベクトル
+
+    float u = f * VDot(s, h);   //三角形の重心座標
+    if (u < 0.0f || u > 1.0f)
+    {
+        //三角形の外側
+        return false;
+    }
+
+    VECTOR q = VCross(s, edge1);    //三角形内での位置関係補助ベクトル
+
+    float v = f * VDot(dir, q); //三角形のもう一方向の重心座標
+    if (v < 0.0f || u + v > 1.0f)
+    {
+        //三角形の外側
+        return false;
+    }
+
+    float t = f * VDot(edge2, q);   //線分上で交点までの距離
+    if (t < 0.0f || t > 1.0f)
+    {
+        //線分の範囲外
+        return false; 
+    }
+
+    hitPos = VAdd(lPos1,VScale(dir,t)); //当たった座標の計算
+    return true;
+
+}
+
+bool Utility::IsColCapsule2Line(VECTOR cPos1, VECTOR cPos2, float cRadius, VECTOR lPos1, VECTOR lPos2, VECTOR& hitPos)
+{
+    // 線分Aの方向ベクトル（P1→P2）
+    VECTOR u = VSub(lPos2, lPos1);
+
+    // カプセル中心線の方向ベクトル（Q1→Q2）
+    VECTOR v = VSub(cPos2, cPos1);
+
+    // 両線分の始点間ベクトル（P1→Q1）
+    VECTOR w = VSub(lPos1, cPos1);
+
+    // a = u・u → 線分Aの長さの二乗
+    float a = VDot(u, u);
+
+    // b = u・v → AとBの方向の平行度（角度の関係）
+    float b = VDot(u, v);
+
+    // c = v・v → カプセル中心線の長さの二乗
+    float c = VDot(v, v);
+
+    // d = u・w → A方向におけるBの始点の位置関係
+    float d = VDot(u, w);
+
+    // e = v・w → B方向におけるAの始点の位置関係
+    float e = VDot(v, w);
+
+    // D = a*c - b*b → 連立方程式の判別式（平行かどうかの指標）
+    float D = a * c - b * b;
+
+    // s, t → 各線分上の最近点パラメータ (0～1)
+    float s = (b * e - c * d);
+    float t = (a * e - b * d);
+
+    if (D != 0) 
+    {
+        // 通常ケース（非平行）
+        s /= D;
+        t /= D;
+    }
+    else 
+    {
+        // 平行もしくはほぼ平行
+        s = 0;
+        t = e / c;
+    }
+
+    // s, t を [0,1] の範囲に制限（線分内に収める）
+    if (s < 0)s = 0;
+    if (s > 1)s = 1;
+    if (t < 0)t = 0;
+    if (t > 1)t = 1;
+
+    // 各線分上の最近接点座標
+    VECTOR pA = VAdd(lPos1, VScale(u, s));  // 線分A上の最近点
+    VECTOR pB = VAdd(cPos1, VScale(v, t));  // カプセル中心線上の最近点
+
+    // 2点間の距離ベクトル
+    VECTOR diff = VSub(pA, pB);
+
+    // 最近距離
+    double dist = Magnitude(diff);
+
+    // 衝突判定：最近距離がカプセル半径以下なら当たり
+    if (dist > cRadius)
+    {
+        return false;
+    }
+    // 接触点計算：中心線から法線方向へ半径分移動した位置
+    if (dist > 1e-9)
+    {
+        hitPos = VAdd(pB, VScale(VNorm(diff), cRadius));
+    }
+    else
+    {
+        hitPos = pA; // 完全に重なっている場合
+    }
+    return true;
+}
+
+bool Utility::IsColCapsule2Sphere(VECTOR cPos1, VECTOR cPos2, float cRadius, VECTOR sPos, float sRadius, VECTOR& hitPos)
+{
+    VECTOR ab = VSub(cPos2, cPos1); //カプセルの軸方向ベクトル
+    VECTOR ac = VSub(sPos, cPos1);  //球からカプセルの方向ベクトル
+    float t = VDot(ac, ab) / VDot(ab, ab);  //線分上の最近接位置係数
+    t = std::fmax(0.0f, std::fmin(1.0f, t));
+    VECTOR closest = VAdd(cPos1, VScale(ab, t));
+
+    VECTOR diff = VSub(sPos, closest);
+    float dist = MagnitudeF(diff);
+
+    float rSum = sRadius + cRadius;
+
+    if (dist <= rSum)
+    {
+        VECTOR dir = dist > 0 ? VNorm(diff) : VECTOR(0, 1, 0);  //方向
+        hitPos = VSub(sPos, VScale(dir, sRadius));              //球の表面上の接触点
+        return true;
+    }
+    return false;
+}
+
+bool Utility::IsColSphere2Triangle(VECTOR sPos, float radius, VECTOR tPos1, VECTOR tPos2, VECTOR tPos3, VECTOR& hitPos)
+{
+    VECTOR n = VCross(VSub(tPos2, tPos1), VSub(tPos3, tPos1));
+    float len = MagnitudeF(n);
+    if (len < EPSILON)
+    {
+        return false;
+    }
+    n = VScale(n, 1.0f / len);
+
+    float dist = VDot(n, VSub(sPos, tPos1));
+    if (fabs(dist) > radius)
+    {
+        //平面から遠い
+        return false;
+    }
+
+    VECTOR p = VSub(sPos, VScale(n, dist));
+
+    VECTOR c0 = VCross(VSub(tPos2, tPos1), VSub(p, tPos1));
+    VECTOR c1 = VCross(VSub(tPos3, tPos2), VSub(p, tPos2));
+    VECTOR c2 = VCross(VSub(tPos1, tPos3), VSub(p, tPos3));
+    if (VDot(c0, n) >= 0 && VDot(c1, n) >= 0 && VDot(c2, n) >= 0)
+    {
+        hitPos = p;
+        return true;
+    }
+
+    // 各辺との最近点を確認
+    VECTOR cp1 = ClosestPointOnSegment(sPos, tPos1, tPos2);
+    VECTOR cp2 = ClosestPointOnSegment(sPos, tPos2, tPos3);
+    VECTOR cp3 = ClosestPointOnSegment(sPos, tPos3, tPos1);
+
+    float d1 = MagnitudeF(VSub(sPos, cp1));
+    float d2 = MagnitudeF(VSub(sPos, cp2));
+    float d3 = MagnitudeF(VSub(sPos, cp3));
+
+    hitPos = cp1;
+    float minD = d1;
+    if (d2 < minD) 
+    {
+        hitPos = cp2; minD = d2;
+    }
+    if (d3 < minD)
+    {
+        hitPos = cp3; minD = d3;
+    }
+
+    return minD <= radius;
+}
+
+bool Utility::IsColSphere2Sphere(VECTOR s1Pos, float radius1, VECTOR s2Pos, float radius2, VECTOR& hitPos)
+{
+    VECTOR dir = VNorm(VSub(s1Pos, s2Pos));
+    float distance =static_cast<float>( Distance(s1Pos, s2Pos));
+    if (distance > radius1 + radius2)
+    {
+        return false;
+    }
+    hitPos = VAdd(s1Pos, VScale(dir, radius1 - (radius1 + radius2 - distance) / 2));
+    return true;
+}
+
+bool Utility::IsColCylinder2Cylinder(VECTOR c1Pos, float radius1, VECTOR c2Pos, float radius2, VECTOR& hitPos)
+{
+    VECTOR dir = VNorm(VSub(c1Pos, c2Pos));
+    c1Pos.y = 0.0f;
+    c2Pos.y = 0.0f;
+    float distance = static_cast<float>(Distance(c1Pos, c2Pos));
+    if (distance > radius1 + radius2)
+    {
+        return false;
+    }
+    hitPos = VAdd(c1Pos, VScale(dir, radius1 - (radius1 + radius2 - distance) / 2));
+    return true;
+}
+
+bool Utility::IsColCircumference2Circle(VECTOR pos1, float radius1, VECTOR pos2, float radius2, VECTOR& hitPos)
+{
+    VECTOR dir = VNorm(VSub(pos2, pos1));
+	pos1.y = 0.0f;
+	pos2.y = 0.0f;
+    float dis = static_cast<float>(Distance(pos1, pos2));
+    bool ret = abs(dis - radius1) < radius2;
+    if (!ret)
+    {
+        return ret;
+    }
+	hitPos = VAdd(pos1, VScale(dir, radius1));
+    return ret;
+}
+
+VECTOR Utility::ClosestPointOnSegment(VECTOR p, VECTOR a, VECTOR b)
+{
+    VECTOR ab = VSub(b, a);
+    float t = VDot(VSub(p, a), ab) / VDot(ab, ab);
+    if (t < 0)
+    {
+        t = 0;
+    }
+    else if (t > 1)
+    {
+        t = 1;
+    }
+    return VAdd(a, VScale(ab, t));
+}
+
+void Utility::DrawCircle3DXZ(VECTOR center, float radius, int vertexNum,int color, bool fillFlag)
+{
+    float angleDeg = 360.0f / vertexNum;
+    float angleRad = Utility::Deg2RadF(angleDeg);
+    for (int i = 0; i < vertexNum; i++)
+    {
+        VECTOR vec1 = { cos(angleRad * (i - 1)),0.0f,sin(angleRad * (i - 1)) };
+        VECTOR vec2 = { cos(angleRad * i),0.0f,sin(angleRad * i) };
+        VECTOR pos1 = VAdd(center, VScale(vec1, radius));
+        VECTOR pos2 = VAdd(center, VScale(vec2, radius));
+        if (fillFlag)
+        {
+            //裏表両方描画
+			DrawTriangle3D(center, pos1, pos2, color,true);
+			DrawTriangle3D(center, pos2, pos1, color,true);
+        }
+        else
+        {
+            DrawLine3D(pos1, pos2, color);
+        }
+    }
+}
+
+std::string Utility::GetBtnName(KeyConfig::JOYPAD_BTN btn)
+{
+    std::string name = "";
+    switch (btn)
+    {
+    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT:
+        name = "Bボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_DOWN:
+        name = "Aボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_LEFT:
+        name = "Xボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_TOP:
+        name = "Yボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::R_TRIGGER:
+        name = "Rトリガー";
+        break;
+    case KeyConfig::JOYPAD_BTN::L_TRIGGER:
+        name = "Lトリガー";
+        break;
+    case KeyConfig::JOYPAD_BTN::R_BUTTON:
+        name = "Rボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::L_BUTTON:
+        name = "Lボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::START_BUTTON:
+        name = "スタートボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::SELECT_BUTTON:
+        name = "セレクトボタン";
+        break;
+    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_TOP:
+        name = "十字キー上";
+        break;
+    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_DOWN:
+        name = "十字キー下";
+        break;
+    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_LEFT:
+        name = "十字キー左";
+        break;
+    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_RIGHT:
+        name = "十字キー右";
+        break;
+    case KeyConfig::JOYPAD_BTN::LEFT_STICK:
+        name = "左スティック押し込み";
+        break;
+    case KeyConfig::JOYPAD_BTN::RIGHT_STICK:
+        name = "右スティック押し込み";
+        break;
+    case KeyConfig::JOYPAD_BTN::MAX:
+        name = "割り当てたいボタンを2回押してください";
+        break;
+    }
+    return name;
+}
+
+//int Utility::GetBtnImage(KeyConfig::JOYPAD_BTN btn)
+//{
+//    int img = -1;
+//    auto& res = ResourceManager::GetInstance();
+//    switch (btn)
+//    {
+//    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_LEFT:
+//        img = res.Load(ResourceManager::SRC::BUTTON_X).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_RIGHT:
+//        img = res.Load(ResourceManager::SRC::BUTTON_B).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_TOP:
+//        img = res.Load(ResourceManager::SRC::BUTTON_Y).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::RIGHTBUTTON_DOWN:
+//        img = res.Load(ResourceManager::SRC::BUTTON_A).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::R_TRIGGER:
+//        img = res.Load(ResourceManager::SRC::BUTTON_RT).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::L_TRIGGER:
+//        img = res.Load(ResourceManager::SRC::BUTTON_LT).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::R_BUTTON:
+//        img = res.Load(ResourceManager::SRC::BUTTON_RB).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::L_BUTTON:
+//        img = res.Load(ResourceManager::SRC::BUTTON_LB).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::START_BUTTON:
+//        img = res.Load(ResourceManager::SRC::BUTTON_START).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::SELECT_BUTTON:
+//        img = res.Load(ResourceManager::SRC::BUTTON_SELECT).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_TOP:
+//        img = res.Load(ResourceManager::SRC::BUTTON_UP).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_DOWN:
+//        img = res.Load(ResourceManager::SRC::BUTTON_DOWN).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_LEFT:
+//        img = res.Load(ResourceManager::SRC::BUTTON_LEFT).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::LEFTBUTTON_RIGHT:
+//        img = res.Load(ResourceManager::SRC::BUTTON_RIGHT).handleId_;
+//        break;
+//    case KeyConfig::JOYPAD_BTN::LEFT_STICK:
+//        break;
+//    case KeyConfig::JOYPAD_BTN::RIGHT_STICK:
+//        break;
+//    case KeyConfig::JOYPAD_BTN::MAX:
+//        break;
+//    default:
+//        break;
+//    }
+//    return img;
+//}
+
+FLOAT4 Utility::COLOR_F2FLOAT4(const COLOR_F& color)
+{
+    return FLOAT4{ color.r, color.g, color.b, color.a };
+}
+
+void Utility::GetModelFlameBox(int modelId, VECTOR& minPos, VECTOR& maxPos, std::vector<int>outFlameNum)
+{
+	bool isFirst = true;
+    for (int i = 0; i < MV1GetFrameNum(modelId); i++)
+    {
+        if (std::find(outFlameNum.begin(), outFlameNum.end(), i) != outFlameNum.end())
+        {
+            continue;
+        }
+        VECTOR pos = MV1GetFramePosition(modelId, i);
+		if (isFirst)
+		{
+			minPos = pos;
+			maxPos = pos;
+			isFirst = false;
+		}
+		else
+		{
+			minPos.x = std::min(minPos.x, pos.x);
+			minPos.y = std::min(minPos.y, pos.y);
+			minPos.z = std::min(minPos.z, pos.z);
+			maxPos.x = std::max(maxPos.x, pos.x);
+			maxPos.y = std::max(maxPos.y, pos.y);
+			maxPos.z = std::max(maxPos.z, pos.z);
+		}
+    }
+}
+
+void Utility::GetModelMeshLocalBox(int modelId, VECTOR& minPos, VECTOR& maxPos)
+{
+    bool isFirst = true;
+    for (int i = 0; i < MV1GetMeshNum(modelId); i++)
+    {
+        VECTOR meshMaxPos = MV1GetMeshMaxPosition(modelId, i);
+        VECTOR meshMinPos = MV1GetMeshMinPosition(modelId, i);
+        if (isFirst)
+        {
+            minPos = meshMinPos;
+            maxPos = meshMaxPos;
+            isFirst = false;
+        }
+        else
+        {
+            minPos.x = std::min(minPos.x, meshMinPos.x);
+            minPos.y = std::min(minPos.y, meshMinPos.y);
+            minPos.z = std::min(minPos.z, meshMinPos.z);
+            maxPos.x = std::max(maxPos.x, meshMaxPos.x);
+            maxPos.y = std::max(maxPos.y, meshMaxPos.y);
+            maxPos.z = std::max(maxPos.z, meshMaxPos.z);
+        }
+    }
+}
+
+VECTOR Utility::CalcNormal(const VECTOR& a, const VECTOR& b, const VECTOR& c)
+{
+    VECTOR AB;
+    AB.x = b.x - a.x;
+    AB.y = b.y - a.y;
+    AB.z = b.z - a.z;
+
+    VECTOR AC;
+    AC.x = c.x - a.x;
+    AC.y = c.y - a.y;
+    AC.z = c.z - a.z;
+
+    // 外積
+    VECTOR N;
+    N.x = AB.y * AC.z - AB.z * AC.y;
+    N.y = AB.z * AC.x - AB.x * AC.z;
+    N.z = AB.x * AC.y - AB.y * AC.x;
+
+    // 正規化
+    float len = sqrtf(N.x * N.x + N.y * N.y + N.z * N.z);
+    if (len == 0.0f) return VGet(0, 0, 0);
+
+    return VGet(N.x / len, N.y / len, N.z / len);
+}
+
+VECTOR Utility::CalcCenter(const VECTOR& a, const VECTOR& b, const VECTOR& c, const VECTOR& d)
+{
+    VECTOR center;
+    center.x = (a.x + b.x + c.x + d.x) * 0.25f;
+    center.y = (a.y + b.y + c.y + d.y) * 0.25f;
+    center.z = (a.z + b.z + c.z + d.z) * 0.25f;
+    return center;
+}
+
+FLOAT2 Utility::CalcSphericalUV(const VECTOR& normal)
+{
+    // --- 正規化（半径を除去） ---
+// 球面マッピングは方向ベクトルのみを使用する
+    float length = MagnitudeF(normal);
+
+    // ゼロ割り防止（理論上不要だが安全のため）
+    if (length == 0.0f)
+    {
+        return { 0.0f, 0.0f };
+    }
+
+    float nx = normal.x / length;
+    float ny = normal.y / length;
+    float nz = normal.z / length;
+
+    // --- U座標（経度） ---
+    // XZ平面での角度を取得
+    // atan2の戻り値範囲 : -PI ～ +PI
+    float u = (std::atan2(nz, nx) + DX_PI) / (2.0f * DX_PI);
+
+    // --- V座標（緯度） ---
+    // Y成分から上下角を取得
+    // asinの戻り値範囲 : -PI/2 ～ +PI/2
+    float v = (std::asin(ny) + DX_PI * 0.5f) / DX_PI;
+
+    // --- テクスチャ座標系補正 ---
+    // 画像の上をV=0に合わせる
+    v = 1.0f - v;
+
+    return { u, v };
 }

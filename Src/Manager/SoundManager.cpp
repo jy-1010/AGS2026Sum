@@ -30,13 +30,19 @@ void SoundManager::Init(void)
 		maxPlayNum.emplace(static_cast<SRC>(i), 1);
 		playMap_.emplace(static_cast<SRC>(i), std::vector<std::shared_ptr<Sound>>{});
 	}
-
+	volume_[SOUND_TYPE::BGM] = 0.8f;
+	volume_[SOUND_TYPE::SE] = 0.8f;
 
 	std::shared_ptr<Sound> res;
 
 	res = std::make_unique<Sound>(Sound::TYPE::SOUND_2D, Application::PATH_SOUND_BGM + "TitleBGM.mp3");
-	res->ChengeMaxVolume(1.0f);
+	res->ChengeMaxVolume(0.7f);
 	loadMap_.emplace(SRC::TITLE_BGM, std::move(res));
+	res = std::make_unique<Sound>(Sound::TYPE::SOUND_2D, Application::PATH_SOUND_SE + "Enter.mp3");
+	res->ChengeMaxVolume(1.0f);
+	loadMap_.emplace(SRC::ENTER_SOUND, std::move(res));
+	ChangeVolume(SOUND_TYPE::BGM, volume_[SOUND_TYPE::BGM]);
+	ChangeVolume(SOUND_TYPE::SE, volume_[SOUND_TYPE::SE]);
 }
 
 void SoundManager::Release(void)
@@ -75,6 +81,18 @@ bool SoundManager::Play(SRC src, Sound::TIMES times)
 			//sound = lPair->second;
 			sound->DuplicateSound();
 			bool isPlay = sound->Play(times);
+			for(auto& typePair : soundType_)
+			{
+				for (auto typeSrc : typePair.second)
+				{
+					if (typeSrc != src)
+					{
+						continue;
+					}
+					sound->ChengeVolume(volume_[typePair.first]);
+					break;
+				}
+			}
 			playMap_[src].push_back(sound);
 
 			return isPlay;
@@ -89,6 +107,18 @@ bool SoundManager::Play(SRC src, Sound::TIMES times)
 				}
 				if (plays->Play(times))
 				{
+					for (auto& typePair : soundType_)
+					{
+						for (auto typeSrc : typePair.second)
+						{
+							if (typeSrc != src)
+							{
+								continue;
+							}
+							plays->ChengeVolume(volume_[typePair.first]);
+							break;
+						}
+					}
 					return true;
 				}
 			}
@@ -168,7 +198,7 @@ bool SoundManager::CheckMove(SRC src)
 
 }
 
-void SoundManager::ChengeVolume(SRC src, float per)
+void SoundManager::ChangeVolume(SRC src, float per)
 {
 	const auto& lPair = playMap_.find(src);
 	if (lPair != playMap_.end())
@@ -180,7 +210,48 @@ void SoundManager::ChengeVolume(SRC src, float per)
 	}
 }
 
+void SoundManager::ChangeVolume(SOUND_TYPE type, float per)
+{
+	volume_[type] = per;
+	for (auto& srcPair : soundType_)
+	{
+		if (srcPair.first != type)
+		{
+			continue;
+		}
+		for (auto src : srcPair.second)
+		{
+			ChangeVolume(src, per);
+		}
+	}
+}
+
 void SoundManager::Set3DListenPosAndFrontPos(VECTOR pos, VECTOR frontPos)
 {
 	Set3DSoundListenerPosAndFrontPos_UpVecY(pos, frontPos);
+}
+
+LONGLONG SoundManager::GetTotalTime(SRC src)
+{
+	const auto& lPair = playMap_.find(src);
+	if (lPair != playMap_.end())
+	{
+		for (auto& sound : lPair->second)
+		{
+			return sound->GetTotalTime();
+		}
+	}
+	return -1;
+}
+
+void SoundManager::Load(SRC src)
+{
+	const auto& lPair = loadMap_.find(src);
+	if (lPair != loadMap_.end())
+	{
+		if (!lPair->second->CheckLoad())
+		{
+			lPair->second->Load();
+		}
+	}
 }

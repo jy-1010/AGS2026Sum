@@ -1,5 +1,10 @@
 #include<DxLib.h>
+#include <EffekseerForDXLib.h>
+#include "DrawTranslucentManager.h"
 #include"SceneManager.h"
+#include"../Application.h"
+#include "Camera.h"
+#include "CollisionManager.h"
 #include"../Scene/SceneBase.h"
 #include"../Common/Fader.h"
 #include"../Scene/SceneTitle.h"
@@ -11,14 +16,17 @@ SceneManager* SceneManager::instance_ = nullptr;
 //初期化処理(初回の1度のみ実行される)
 SceneManager::SceneManager(void)
 {
+	mainScreen_ = -1;
 	sceneID_ = SCENE_ID::NONE;
 	nextSceneID_ = SCENE_ID::NONE;
 	nowPushSpace = 0;
 	oldPushSpace = 0;
 	isSceneChanging_ = false;
 	fader_ = nullptr;
-	scene_ = nullptr;
 	deltaTime_ = 0.0f;
+	DrawTranslucentManager::CreateInstance();
+	//当たり判定管理の初期化(各シーンで追加の可能性があるため)
+	CollisionManager::CreateInstance();
 }
 
 SceneManager::~SceneManager(void)
@@ -26,8 +34,28 @@ SceneManager::~SceneManager(void)
 
 }
 
+std::unique_ptr<SceneBase> SceneManager::MakeScene(SCENE_ID id)
+{
+	std::unique_ptr<SceneBase> scene;
+	switch (id)
+	{
+	case SCENE_ID::TITLE:
+		scene = std::make_unique<SceneTitle>();
+		break;
+	case SCENE_ID::GAME:
+		scene = std::make_unique<SceneGame>();
+		break;
+	}
+	SetUseASyncLoadFlag(true);
+	scene->Load();
+	SetUseASyncLoadFlag(false);
+	scene->Init();
+	return std::move(scene);
+}
+
 bool SceneManager::Init(void)
 {
+	camera_ = std::make_unique<Camera>(0);
 	sceneID_ = SCENE_ID::NONE;
 	nextSceneID_ = SCENE_ID::TITLE;
 	oldPushSpace = nowPushSpace;
@@ -37,10 +65,15 @@ bool SceneManager::Init(void)
 	fader_->SetFade(Fader::STATE::FADE_IN);
 	isSceneChanging_ = true;
 	//インスタンス生成
-	DoChangeScene();
+	ChangeScene(SCENE_ID::TITLE,true);
 	// デルタタイム
 	deltaTime_ = 1.0f / 60.0f;
+	// メインスクリーン
+	mainScreen_ = MakeScreen(
+		Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, true);
+
 	Init3D();
+
 	return true;
 }
 
@@ -57,7 +90,7 @@ void SceneManager::Init3D(void)
 	SetUseBackCulling(true);
 
 	// ライトの設定
-	SetUseLighting(false);
+	SetUseLighting(true);
 }
 
 //更新処理
@@ -78,10 +111,7 @@ void SceneManager::Update(void)
 	//フェード終了
 	else
 	{
-		scene_->Update();
-		if (sceneID_ == SCENE_ID::TITLE)
-		{
-		}
+		scenes_.back()->Update();
 	}
 
 }
@@ -89,19 +119,33 @@ void SceneManager::Update(void)
 //描画処理
 void SceneManager::Draw(void)
 {
-	scene_->Draw();
+	SetDrawScreen(mainScreen_);
+	ClearDrawScreen(); // 画面クリア
+	camera_->SetBeforeDraw();
+	// Effekseerにより再生中のエフェクトを更新する。
+	UpdateEffekseer3D();
+	// Effekseerにより再生中のエフェクトを描画する。
+	for (auto& scene : scenes_) {
+		scene->Draw();
+	}
 	fader_->Draw();
-
+	SetDrawScreen(DX_SCREEN_BACK);
+	ClearDrawScreen(); // 画面クリア
+	DrawGraph(0, 0, mainScreen_, true);
 }
 
 //解放処理(終了時の１度のみ実行)
 void SceneManager::Destroy(void)
 {
-	ReleaseScene();
+	// 明示的に子リソースを解放しておく（安全性向上）
+	scenes_.clear();
+	camera_ = nullptr;
 	fader_ = nullptr;
 
-	delete instance_;               //インスタンスを削除
-	instance_ = nullptr;            //インスタンス格納領域を初期化
+	DrawTranslucentManager::GetInstance().Destroy();
+	CollisionManager::GetInstance().Destroy();
+	delete instance_;
+	instance_ = nullptr;
 }
 
 float SceneManager::GetDeltaTime(void) const
@@ -122,31 +166,28 @@ void SceneManager::ChangeScene(SCENE_ID nextID, bool isToFade)
 	}
 	else
 	{
-		DoChangeScene();
+		std::unique_ptr<SceneBase>scene = std::move(MakeScene(nextID));
+		if (scenes_.empty()) {
+			scenes_.push_back(std::move(scene));
+		}
+		else {
+			scenes_.back() = std::move(scene);
+		}
 	}
+}
+
+void SceneManager::PushScene(SCENE_ID pushId)
+{
+	scenes_.push_back(std::move(MakeScene(pushId)));
+}
+
+void SceneManager::PopScene()
+{
+	scenes_.pop_back();
 }
 
 
 //シーンを切り替える
-void SceneManager::DoChangeScene(void)
-{
-	//現在のシーンの解放
-	ReleaseScene();
-
-	sceneID_ = nextSceneID_;
-
-	switch (sceneID_)
-	{
-	case SCENE_ID::TITLE:
-		scene_ = std::make_unique<SceneTitle>();
-		break;
-	case SCENE_ID::GAME:
-		scene_ = std::make_unique<SceneGame>();
-		break;
-	}
-	nextSceneID_ = SCENE_ID::NONE;
-	scene_->Init();
-}
 
 void SceneManager::Fade(void)
 {
@@ -159,7 +200,13 @@ void SceneManager::Fade(void)
 		if (fader_->IsEnd() == true)
 		{
 			//シーン切り替え
-			DoChangeScene();
+			std::unique_ptr<SceneBase>scene = std::move(MakeScene(nextSceneID_));
+			if (scenes_.empty()) {
+				scenes_.push_back(std::move(scene));
+			}
+			else {
+				scenes_.back() = std::move(scene);
+			}
 
 			//フェードで明るくしていく
 			fader_->SetFade(Fader::STATE::FADE_IN);
@@ -181,13 +228,12 @@ void SceneManager::Fade(void)
 		break;
 	}
 }
-//指定したシーンの解放
-void SceneManager::ReleaseScene(void)
+
+void SceneManager::JumpScene(SCENE_ID id)
 {
-	if (scene_ != nullptr)
-	{
-		scene_ = nullptr;
-	}
+	std::unique_ptr<SceneBase>scene = std::move(MakeScene(id));
+	scenes_.clear();
+	scenes_.push_back(std::move(scene));
 }
 
 void SceneManager::CreateInstance(void)

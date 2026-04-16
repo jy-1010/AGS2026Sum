@@ -2,6 +2,8 @@
 #include <string>
 #include <memory>
 
+class FpsController;
+
 class Application
 {
 
@@ -19,14 +21,14 @@ public:
 	//-------------------------------------------
 	static const std::string PATH_IMAGE;
 	static const std::string PATH_MODEL;
-	//static const std::string PATH_EFFECT;
+	static const std::string PATH_EFFECT;
 	static const std::string PATH_SOUND_BGM;
 	static const std::string PATH_SOUND_SE;
 	//static const std::string PATH_FONT;
 	//static const std::string PATH_TEXT;
 	//static const std::string PATH_JSON;
 	//static const std::string PATH_CSV;
-	//static const std::string PATH_SHADER;
+	static const std::string PATH_SHADER;
 	//-------------------------------------------
 
 	// 明示的にインステンスを生成する
@@ -55,6 +57,8 @@ private:
 	// 静的インスタンス
 	static Application* instance_;
 
+	std::unique_ptr<FpsController> fpsController_;
+
 	// 初期化失敗
 	bool isInitFail_;
 
@@ -66,5 +70,7 @@ private:
 	Application(void);
 	Application(const Application& manager) = default;
 	~Application(void);
+
+	void InitEffekseer(void);
 
 };

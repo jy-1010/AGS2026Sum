@@ -37,6 +37,7 @@ Transform::Transform(int model)
 
 Transform::~Transform(void)
 {
+	MV1DeleteModel(modelId);
 }
 
 void Transform::Update(void)
@@ -50,7 +51,7 @@ void Transform::Update(void)
 	matRot = quaRot.ToMatrix();
 
 	// à íu
-	matPos = MGetTranslate(pos);
+	matPos = MGetTranslate(VAdd(pos ,localPos));
 
 	// çsóÒÇÃçáê¨
 	MATRIX mat = MGetIdent();

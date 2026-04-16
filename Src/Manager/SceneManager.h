@@ -1,9 +1,11 @@
-//#pragma once
+#pragma once
 #include<memory>
+#include<list>
 #include"../Utility/Utility.h"
 
 class SceneBase;
 class Fader;
+class Camera;
 
 class SceneManager
 {
@@ -14,8 +16,13 @@ public:
 	{
 		NONE
 		,TITLE
-		,RULE
+		,SELECT
 		,GAME
+		,GAMEOVER
+		,GAMECLEAR
+		,MENU
+		,SETTING
+		, CHACK_PAD
 	};
 	//メンバー関数
 	//-----------------------------------------------------------
@@ -37,6 +44,22 @@ public:
 	//シーン切り替え用
 	void ChangeScene(SCENE_ID nextID,bool isToFade);
 
+	/// <summary>
+	/// シーンを新しく「積む」
+	/// </summary>
+	/// <param name="scene"></param>
+	void PushScene(SCENE_ID pushId);
+
+	/// <summary>
+	/// 最後に追加したシーンを削除する
+	/// </summary>
+	void PopScene();
+
+	/// <summary>
+	/// 強制的に特定のシーンに飛ぶ。積んでてもリセットされる
+	/// </summary>
+	/// <param name="scene">ジャンプ先シーン</param>
+	void JumpScene(SCENE_ID id);
 	//シングルトン化
 	//------------------------------------------------
 
@@ -45,7 +68,9 @@ public:
 	//外部でインスタンスを利用するため
 	static SceneManager& GetInstance(void);
 
+	Camera& GetCamera(void) { return *camera_; }
 
+	int GetMainScreen(void) const { return mainScreen_; }
 private:
 	//メンバー変数
 	int nowPushSpace;           //今スペースを押しているか
@@ -56,15 +81,19 @@ private:
 
 	bool isSceneChanging_;             //シーン遷移中かの判断用フラグ(true:遷移中)
 
+	int mainScreen_;
+
 	//フェード
 	std::unique_ptr<Fader> fader_;                   //フェードのインスタンス
 
-	std::unique_ptr<SceneBase> scene_;
+	std::list<std::unique_ptr<SceneBase>> scenes_;
+
+	std::unique_ptr<Camera> camera_; //カメラインスタンス
 
 	//メンバー関数
-	void DoChangeScene(void); //シーンを切り替える
+	//void DoChangeScene(void); //シーンを切り替える
 	void Fade(void);          //フェード実行用関数
-	void ReleaseScene(void);  //シーン解放関数
+	//void ReleaseScene(void);  //シーン解放関数
 
 	//コピーコンストラクタを利用できなくする
 	SceneManager(const SceneManager& ins);
@@ -80,4 +109,5 @@ private:
 
 	float deltaTime_;
 
+	std::unique_ptr<SceneBase> MakeScene(SCENE_ID id);
 };

@@ -10,6 +10,7 @@ Sound::Sound(void)
 	radius_ = 0.0f;
 	pitch_ = 0.0f;
 	maxVolume_ = 255;
+	totalTime_ = -1;
 }
 
 Sound::Sound(std::shared_ptr<Sound> sound)
@@ -22,6 +23,7 @@ Sound::Sound(std::shared_ptr<Sound> sound)
 	radius_ = 0.0f;
 	pitch_ = 0.0f;
 	maxVolume_ = 255;
+	totalTime_ = -1;
 }
 
 Sound::Sound(TYPE type, const std::string& path)
@@ -34,6 +36,7 @@ Sound::Sound(TYPE type, const std::string& path)
 	radius_ = 0.0f;
 	pitch_ = 0.0f;
 	maxVolume_ = 255;
+	totalTime_ = -1;
 }
 
 void Sound::Copy(std::shared_ptr<Sound> sound)
@@ -45,6 +48,7 @@ void Sound::Copy(std::shared_ptr<Sound> sound)
 	radius_ = 0.0f;
 	pitch_ = 0.0f;
 	maxVolume_ = 255;
+	totalTime_ = -1;
 }
 
 Sound::~Sound(void)
@@ -195,12 +199,12 @@ void Sound::ChengeVolume(float per)
 	{
 		per = 0.0f;
 	}
-	ChangeVolumeSoundMem(per * maxVolume_, handleId_);
+	ChangeVolumeSoundMem(static_cast<int>(per * maxVolume_), handleId_);
 }
 
 void Sound::ChengeMaxVolume(float per)
 {
-	maxVolume_ = 255 * per;
+	maxVolume_ =static_cast<int>(255 * per);
 }
 
 void Sound::DuplicateSound(void)
@@ -210,6 +214,11 @@ void Sound::DuplicateSound(void)
 		return;
 	}
 	//SetCreateSoundPitchRate(pitch_);
+	if (GetTotalTime() > THREE_MINIT_MILI_TIME)
+	{
+		Load();
+		return;
+	}
 	handleId_ = DuplicateSoundMem(handleId_);
 	//SetCreateSoundPitchRate(0.0f);
 }
@@ -223,4 +232,14 @@ void Sound::DuplicateSound(int currentHandle)
 	SetCreateSoundPitchRate(pitch_);
 	handleId_ = DuplicateSoundMem(currentHandle);
 	SetCreateSoundPitchRate(0.0f);
+}
+
+LONGLONG Sound::GetTotalTime(void)
+{
+	if (totalTime_ > 0)
+	{
+		return totalTime_;
+	}
+	totalTime_ = GetSoundTotalTime(handleId_);
+	return totalTime_;
 }

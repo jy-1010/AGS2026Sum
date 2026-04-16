@@ -8,7 +8,9 @@
 #include "../Common/Vector2.h"
 #include "../Common/IntVector3.h"
 #include "../Common/Quaternion.h"
+#include "../Manager/KeyConfig.h"
 #include "../Object/Common/Transform.h"
+
 class Utility
 {
 
@@ -27,6 +29,8 @@ public:
 
 	static constexpr VECTOR VECTOR_ZERO = { 0.0f, 0.0f, 0.0f };
 	static constexpr VECTOR VECTOR_ONE = { 1.0f, 1.0f, 1.0f };
+
+	static constexpr float ONE_TRACK_DEG = 360.0f; //1周分の角度
 
 	// 回転軸
 	static constexpr VECTOR AXIS_X = { 1.0f, 0.0f, 0.0f };
@@ -67,6 +71,8 @@ public:
 
 	//アルファ最大値
 	static constexpr int ALPHA_MAX = 255;
+
+	static constexpr float EPSILON = 1e-6f;    //浮動小数誤差対策の極小値
 
 	// 四捨五入
 	static int Round(float v);
@@ -321,4 +327,211 @@ public:
 	/// <param name="_dir">増加方向（参照）1なら増加中、-1なら減少中</param>
 	/// <returns>処理後の値</returns>
 	static float PingPongUpdate(const float _value, const float _step, const float _max, const float _min, int& _dir);
+
+	/// <summary>
+	/// 球と球の当たり判定
+	/// </summary>
+	/// <param name="pos1">1つ目の球の中心座標</param>
+	/// <param name="radius1">１つ目の球の半径</param>
+	/// <param name="pos2">2つ目の球の中心座標</param>
+	/// <param name="radius2">２つ目の球の半径</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColSphere2Sphere(VECTOR pos1, float radius1, VECTOR pos2, float radius2);
+
+	/// <summary>
+	/// 球とモデルの当たり判定
+	/// </summary>
+	/// <param name="pos">球の中心座標</param>
+	/// <param name="radius">球の半径</param>
+	/// <param name="modelId">モデルのハンドル</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColSphere2Model(VECTOR pos, float radius, int modelId);
+
+	/// <summary>
+	/// 円周と円の当たり判定
+	/// </summary>
+	/// <param name="pos1">円周の中心座標</param>
+	/// <param name="radius1">円周の半径</param>
+	/// <param name="pos2">円の中心座標</param>
+	/// <param name="radius2">円の半径</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCircumference2Circle(VECTOR pos1, float radius1, VECTOR pos2, float radius2);
+
+	/// <summary>
+	/// 線と三角形の当たり判定(AI産のため理論は不明)
+	/// </summary>
+	/// <param name="tPos1">三角形の座標1</param>
+	/// <param name="tPos2">三角形の座標2</param>
+	/// <param name="tPos3">三角形の座標3</param>
+	/// <param name="lPos1">線の座標1</param>
+	/// <param name="lPos2">線の座標2</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColTriangle2Line(VECTOR tPos1, VECTOR tPos2, VECTOR tPos3, VECTOR lPos1, VECTOR lPos2,VECTOR& hitPos);
+
+	/// <summary>
+	/// 線とカプセルの当たり判定(AI産のため理論は不明)
+	/// </summary>
+	/// <param name="cPos1">カプセルの座標１</param>
+	/// <param name="cPos2">カプセルの座標２</param>
+	/// <param name="cRadius">カプセルの半径</param>
+	/// <param name="lPos1">線の座標１</param>
+	/// <param name="lPos2">線の座標２</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCapsule2Line(VECTOR cPos1, VECTOR cPos2, float cRadius, VECTOR lPos1, VECTOR lPos2, VECTOR& hitPos);
+
+	/// <summary>
+	/// カプセルと球の当たり判定(Ai)
+	/// </summary>
+	/// <param name="cPos1">カプセル座標１</param>
+	/// <param name="cPos2">カプセル座標２</param>
+	/// <param name="cRadius">カプセルの半径</param>
+	/// <param name="sPos">球の座標</param>
+	/// <param name="sRadius">球の半径</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCapsule2Sphere(VECTOR cPos1, VECTOR cPos2, float cRadius, VECTOR sPos, float sRadius, VECTOR& hitPos);
+
+	/// <summary>
+	/// 球と三角形の当たり判定
+	/// </summary>
+	/// <param name="sPos">球の座標</param>
+	/// <param name="radius">球の半径</param>
+	/// <param name="tPos1">三角形の座標１</param>
+	/// <param name="tPos2">三角形の座標２</param>
+	/// <param name="tPos3">三角形の座標３</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColSphere2Triangle(VECTOR sPos, float radius, VECTOR tPos1, VECTOR tPos2, VECTOR tPos3, VECTOR& hitPos);
+
+	/// <summary>
+	/// 球と球の当たり判定
+	/// </summary>
+	/// <param name="s1Pos">球１の座標</param>
+	/// <param name="radius1">球１の半径</param>
+	/// <param name="s2Pos">球２の座標</param>
+	/// <param name="radius2">球２の半径</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColSphere2Sphere(VECTOR s1Pos, float radius1, VECTOR s2Pos, float radius2, VECTOR& hitPos);
+
+	/// <summary>
+	/// 円柱と円柱の当たり判定
+	/// </summary>
+	/// <param name="c1Pos">円柱１の座標</param>
+	/// <param name="radius1">円柱１の半径</param>
+	/// <param name="c2Pos">円柱２の座標</param>
+	/// <param name="radius2">円柱２の半径</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCylinder2Cylinder(VECTOR c1Pos, float radius1, VECTOR c2Pos, float radius2, VECTOR& hitPos);
+
+	/// <summary>
+	/// 円周と円の当たり判定
+	/// </summary>
+	/// <param name="pos1">円周の中心座標</param>
+	/// <param name="radius1">円周の半径</param>
+	/// <param name="pos2">円の中心座標</param>
+	/// <param name="radius2">円の半径</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCircumference2Circle(VECTOR pos1, float radius1, VECTOR pos2, float radius2,VECTOR& hitPos);
+
+	/// <summary>
+	/// 点pから線分abへの最近点を求める
+	/// </summary>
+	/// <param name="p"></param>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <returns>最近点の座標</returns>
+	static VECTOR ClosestPointOnSegment(VECTOR p, VECTOR a, VECTOR b);
+
+	/// <summary>
+	/// XZ平面に円を描画する
+	/// </summary>
+	/// <param name="center">円の中心座標</param>
+	/// <param name="radius">円の半径</param>
+	/// <param name="vertexNum">円の頂点数</param>
+	/// <param name="fillFlag">塗りつぶすかどうか</param>
+	static void DrawCircle3DXZ(VECTOR center, float radius, int vertexNum,int color, bool fillFlag);
+
+	/// <summary>
+	/// ボタンの名前の文字列を取得
+	/// </summary>
+	/// <param name="btn">ボタンの種類</param>
+	/// <returns>ボタンの文字列</returns>
+	static std::string GetBtnName(KeyConfig::JOYPAD_BTN btn);
+
+	/// <summary>
+	/// ボタンの画像を取得
+	/// </summary>
+	/// <param name="btn">ボタンの種類</param>
+	/// <returns>画像のハンドルID</returns>
+	static int GetBtnImage(KeyConfig::JOYPAD_BTN btn);
+
+	/// <summary>
+	/// COLOR_FからFLOAT4に変換
+	/// </summary>
+	/// <param name="color"></param>
+	/// <returns></returns>
+	static FLOAT4 COLOR_F2FLOAT4(const COLOR_F& color);
+
+	/// <summary>
+	/// モデルのフレームの最小最大座標を取得
+	/// </summary>
+	/// <param name="modelId">求めるモデルのハンドルID</param>
+	/// <param name="minPos">最小座標(参照型)</param>
+	/// <param name="maxPos">最大座標(参照型)</param>
+	/// <param name="outFlameNum">計算に含めないフレーム番号</param>
+	static void GetModelFlameBox(int modelId, VECTOR& minPos, VECTOR& maxPos,std::vector<int>outFlameNum ={});
+
+	/// <summary>
+	/// モデルのメッシュの最小最大座標を取得
+	/// </summary>
+	/// <param name="modelId">モデルのハンドルID</param>
+	/// <param name="minPos">最小座標(参照型)</param>
+	/// <param name="maxPos">最大座標(参照型)</param>
+	static void GetModelMeshLocalBox(int modelId, VECTOR& minPos, VECTOR& maxPos);
+
+	/// <summary>
+	/// 3点から法線方向を求める
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <param name="c"></param>
+	/// <returns></returns>
+	static VECTOR CalcNormal(const VECTOR& a, const VECTOR& b, const VECTOR& c);
+
+	/// <summary>
+	/// 4天の中心を求める
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <param name="c"></param>
+	/// <param name="d"></param>
+	/// <returns></returns>
+	static VECTOR CalcCenter(const VECTOR& a, const VECTOR& b, const VECTOR& c ,const VECTOR& d);
+
+	/// <summary>
+	/// 球面マッピングのUV座標を計算する
+	/// </summary>
+	/// <param name="normal">中心からの正規化された座標</param>
+	/// <returns>uv値</returns>
+	static FLOAT2 CalcSphericalUV(const VECTOR& normal);
+
+	/// <summary>
+	/// vector配列の中のnullptrを削除する
+	/// </summary>
+	/// <typeparam name="T">型名</typeparam>
+	/// <param name="allay">配列の参照型</param>
+	/// <returns>削除した要素数</returns>
+	template<typename T>
+	static int EraseVectorAllay(std::vector<T>& allay);
 };
+template<typename T>
+inline int Utility::EraseVectorAllay(std::vector<T>& allay)
+{
+	int ret = static_cast<int>(std::erase_if(allay, [](auto& a) {return a == nullptr;}));
+	return ret;
+}
