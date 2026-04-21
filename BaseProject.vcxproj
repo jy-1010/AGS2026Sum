@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Item\Block\BlockBase.cpp" />
     <ClCompile Include="Src\Common\FpsController.cpp" />
     <ClCompile Include="Src\Common\IntVector3.cpp" />
     <ClCompile Include="Src\Manager\Camera.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Src\Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Item\Block\BlockBase.h" />
     <ClInclude Include="Src\Common\FpsController.h" />
     <ClInclude Include="Src\Lib\DxLib\DxCompileConfig.h" />
     <ClInclude Include="Src\Lib\DxLib\DxDataType.h" />
@@ -214,7 +216,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./Src/Lib/DxLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./Src/Lib/DxLib;$(ProjectDir)Src/Lib</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -222,7 +224,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>./Src/Lib/DxLib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./Src/Lib/DxLib;$(ProjectDir)Src/Lib</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ObjectFileOutput>$(ProjectDir)/Data/Shader/%(Filename).cso</ObjectFileOutput>
