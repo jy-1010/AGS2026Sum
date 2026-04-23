@@ -3,18 +3,21 @@
     "Hardness": 3.0,
     "Luminous": 0.0,
     "Tool": "Pickaxe",
-    "ToolLevel": ["Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold"]
+    "ToolLevel": [ "Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold" ],
+    "IsCorrectAnotherTool": false
   },
   "Obsidian": {
     "Hardness": 50.0,
     "Luminous": 0.0,
     "Tool": "Pickaxe",
-    "ToolLevel": [ "Diamond", "Netherite" ]
+    "ToolLevel": [ "Diamond", "Netherite" ],
+    "IsCorrectAnotherTool": false
   },
   "Bedrock": {
     "Hardness": -1.0,
     "Luminous": 0.0,
     "Tool": "None",
-    "ToolLevel": [""]
+    "ToolLevel": [ "" ],
+    "IsCorrectAnotherTool": false
   }
 }

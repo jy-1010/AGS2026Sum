@@ -2,6 +2,7 @@
   "Default": 1.0,
   "Wood": 2.0,
   "Stone": 4.0,
+  "Copper": 5.0,
   "Iron": 6.0,
   "Diamond": 8.0,
   "Netherite": 9.0,
