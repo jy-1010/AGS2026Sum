@@ -1,0 +1,20 @@
+{
+  "EndStone": {
+    "Hardness": 3.0,
+    "Luminous": 0.0,
+    "Tool": "Pickaxe",
+    "ToolLevel": ["Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold"]
+  },
+  "Obsidian": {
+    "Hardness": 50.0,
+    "Luminous": 0.0,
+    "Tool": "Pickaxe",
+    "ToolLevel": [ "Diamond", "Netherite" ]
+  },
+  "Bedrock": {
+    "Hardness": -1.0,
+    "Luminous": 0.0,
+    "Tool": "None",
+    "ToolLevel": [""]
+  }
+}

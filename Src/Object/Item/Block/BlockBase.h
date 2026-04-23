@@ -12,7 +12,7 @@ public:
 	virtual void Draw(void) override;
 	virtual void UIDraw(void) override;
 protected:
-
+	nlohmann::json json_;
 private:
 };
 
