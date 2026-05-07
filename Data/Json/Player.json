@@ -1,0 +1,54 @@
+{
+  "Collision": {
+    "Width": 0.6,
+    "Height": 1.8
+  },
+
+  "Status": {
+    "Health": 20.0,
+    "MaxHealth": 20.0
+  },
+
+  "Reach": {
+    "Block": 4.5,
+    "Entity": 3.0
+  },
+
+  "Move": {
+    "WalkSpeed": 4.3,
+    "SprintSpeed": 5.6,
+    "JumpPower": 8.0
+  },
+
+  "Model": {
+    "Parts": [
+      {
+        "Name": "Head",
+        "Parent": "",
+        "Size": [ 8, 8, 8 ],
+        "Offset": [ 0, 24, 0 ]
+      },
+
+      {
+        "Name": "Body",
+        "Parent": "",
+        "Size": [ 8, 12, 4 ],
+        "Offset": [ 0, 12, 0 ]
+      },
+
+      {
+        "Name": "RightLeg",
+        "Parent": "Body",
+        "Size": [ 4, 12, 4 ],
+        "Offset": [ -2, 0, 0 ]
+      },
+
+      {
+        "Name": "LeftLeg",
+        "Parent": "Body",
+        "Size": [ 4, 12, 4 ],
+        "Offset": [ 2, 0, 0 ]
+      }
+    ]
+  }
+}

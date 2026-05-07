@@ -14,6 +14,8 @@ public:
 	void UIDraw() override;
 	
 private:
+
+	IntVector3 spawnPoint_;
 	//ステージデータ (座標とブロックの種類(ID))
 	std::map<IntVector3, unsigned short> stageData_;
 

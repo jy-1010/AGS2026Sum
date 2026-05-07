@@ -39,5 +39,10 @@ std::string Stage::SelectStageFilePath(void)
 
 void Stage::LoadStageData(const std::string filePath)
 {
-	//ロードの処理	
+	std::ifstream stage(Application::PATH_JSON + "Stage/" + filePath);
+	nlohmann::json stageData;
+	stage >> stageData;
+	spawnPoint_.x = stageData["Spown"]["x"].get<int>();
+	spawnPoint_.y = stageData["Spown"]["y"].get<int>();
+	spawnPoint_.z = stageData["Spown"]["z"].get<int>();
 }
