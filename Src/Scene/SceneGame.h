@@ -3,6 +3,7 @@
 #include"../Common/Vector2.h"
 
 class Stage;
+class BlockInfo;
 
 class SceneGame :public SceneBase
 {
@@ -25,4 +26,5 @@ public:
 	void DebugDraw(void);
 protected:
 	std::unique_ptr<Stage> stage_;
+	std::unique_ptr<BlockInfo> blockInfo_;
 };

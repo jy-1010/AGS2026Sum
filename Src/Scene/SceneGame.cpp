@@ -6,12 +6,14 @@
 #include"../Manager/InputManager.h"
 #include"../Manager/KeyConfig.h"
 #include "../Object/Stage/Stage.h"
+#include "../Object/Item/Block/BlockInfo.h"
 #include"SceneGame.h"
 #include "../Utility/Utility.h"
 
 SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
+	blockInfo_ = std::make_unique<BlockInfo>();
 }
 
 SceneGame::~SceneGame(void)

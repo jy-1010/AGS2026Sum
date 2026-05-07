@@ -46,7 +46,7 @@
     <ClCompile Include="Src\Renderer\Polygon3DMaterial.cpp" />
     <ClCompile Include="Src\Renderer\Polygon3DRenderer.cpp" />
     <ClCompile Include="Src\Object\ObjectBase.cpp" />
-    <ClCompile Include="Src\Object\Item\Block\BlockBase.cpp" />
+    <ClCompile Include="Src\Object\Item\Block\BlockInfo.cpp" />
     <ClCompile Include="Src\Object\Stage\Stage.cpp" />
     <ClCompile Include="Src\Object\Item\Tool\ToolBase.cpp" />
   </ItemGroup>
@@ -107,7 +107,7 @@
     <ClInclude Include="Src\Renderer\Polygon3DMaterial.h" />
     <ClInclude Include="Src\Renderer\Polygon3DRenderer.h" />
     <ClInclude Include="Src\Object\ObjectBase.h" />
-    <ClInclude Include="Src\Object\Item\Block\BlockBase.h" />
+    <ClInclude Include="Src\Object\Item\Block\BlockInfo.h" />
     <ClInclude Include="Src\Object\Stage\Stage.h" />
     <ClInclude Include="Src\Object\Item\Tool\ToolBase.h" />
   </ItemGroup>

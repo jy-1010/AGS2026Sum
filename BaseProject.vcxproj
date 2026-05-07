@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Object\Item\Block\BlockBase.cpp" />
+    <ClCompile Include="Src\Object\Item\Block\BlockInfo.cpp" />
     <ClCompile Include="Src\Common\FpsController.cpp" />
     <ClCompile Include="Src\Common\IntVector3.cpp" />
     <ClCompile Include="Src\Manager\Camera.cpp" />
@@ -69,7 +69,7 @@
     <ClCompile Include="Src\Object\Item\Tool\ToolBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Object\Item\Block\BlockBase.h" />
+    <ClInclude Include="Src\Object\Item\Block\BlockInfo.h" />
     <ClInclude Include="Src\Common\FpsController.h" />
     <ClInclude Include="Src\Lib\DxLib\DxCompileConfig.h" />
     <ClInclude Include="Src\Lib\DxLib\DxDataType.h" />

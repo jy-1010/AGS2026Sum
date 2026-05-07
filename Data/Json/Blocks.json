@@ -4,7 +4,7 @@
     "ID": 121,
     "Hardness": 3.0,
     "Luminous": 0.0,
-    "Tool": "Pickaxe",
+    "ToolType": "Pickaxe",
     "ToolLevel": [ "Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold" ],
     "IsCorrectAnotherTool": false,
     "FileName": "EndStone.png"
@@ -13,7 +13,7 @@
     "ID": 49,
     "Hardness": 50.0,
     "Luminous": 0.0,
-    "Tool": "Pickaxe",
+    "ToolType": "Pickaxe",
     "ToolLevel": [ "Diamond", "Netherite" ],
     "IsCorrectAnotherTool": false,
     "FileName": "Obsidian.png"
@@ -22,7 +22,7 @@
     "ID": 7,
     "Hardness": -1.0,
     "Luminous": 0.0,
-    "Tool": "None",
+    "ToolType": "None",
     "ToolLevel": [ "" ],
     "IsCorrectAnotherTool": false,
     "FileName": "Bedrock.png"
