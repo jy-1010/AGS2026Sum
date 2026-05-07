@@ -5,11 +5,13 @@
 #include"../Manager/SoundManager.h"
 #include"../Manager/InputManager.h"
 #include"../Manager/KeyConfig.h"
+#include "../Object/Stage/Stage.h"
 #include"SceneGame.h"
 #include "../Utility/Utility.h"
 
 SceneGame::SceneGame(void)
 {
+	stage_ = std::make_unique<Stage>();
 }
 
 SceneGame::~SceneGame(void)
@@ -29,9 +31,8 @@ bool SceneGame::Init(void)
 //XVˆ—
 void SceneGame::Update(void)
 {
-	//InputManager& ins = InputManager::GetInstance();
 	KeyConfig& ins = KeyConfig::GetInstance();
-
+	
 }
 
 //•`‰æˆ—

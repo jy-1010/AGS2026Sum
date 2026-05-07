@@ -3,7 +3,6 @@
 #include"../Application.h"
 #include"../Manager/Scenemanager.h"
 #include"../Manager/SoundManager.h"
-#include "../Manager/InputManager.h"
 #include "../Manager/KeyConfig.h"
 #include "../Manager/Camera.h"
 #include "../Manager/ResourceManager.h"
@@ -28,11 +27,15 @@ bool SceneTitle::Init(void)
 //XVˆ—
 void SceneTitle::Update(void)
 {
-	
+	auto& keyConfig = KeyConfig::GetInstance();
+	if (keyConfig.IsNew(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::KEY_PAD1))
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME, true);
+	}
 	
 }
 //•`‰æˆ—
 void SceneTitle::Draw(void)
 {
-
+	DrawString(100, 100, "Title Scene", GetColor(255, 255, 255));
 }

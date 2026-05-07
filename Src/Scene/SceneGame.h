@@ -2,6 +2,8 @@
 #include"SceneBase.h"
 #include"../Common/Vector2.h"
 
+class Stage;
+
 class SceneGame :public SceneBase
 {
 public:
@@ -22,5 +24,5 @@ public:
 
 	void DebugDraw(void);
 protected:
-
+	std::unique_ptr<Stage> stage_;
 };

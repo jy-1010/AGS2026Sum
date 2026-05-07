@@ -1,23 +1,30 @@
 {
+  "Names": [ "EndStone", "Obsidian", "Bedrock" ],
   "EndStone": {
+    "ID": 121,
     "Hardness": 3.0,
     "Luminous": 0.0,
     "Tool": "Pickaxe",
     "ToolLevel": [ "Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold" ],
-    "IsCorrectAnotherTool": false
+    "IsCorrectAnotherTool": false,
+    "FileName": "EndStone.png"
   },
   "Obsidian": {
+    "ID": 49,
     "Hardness": 50.0,
     "Luminous": 0.0,
     "Tool": "Pickaxe",
     "ToolLevel": [ "Diamond", "Netherite" ],
-    "IsCorrectAnotherTool": false
+    "IsCorrectAnotherTool": false,
+    "FileName": "Obsidian.png"
   },
   "Bedrock": {
+    "ID": 7,
     "Hardness": -1.0,
     "Luminous": 0.0,
     "Tool": "None",
     "ToolLevel": [ "" ],
-    "IsCorrectAnotherTool": false
+    "IsCorrectAnotherTool": false,
+    "FileName": "Bedrock.png"
   }
 }

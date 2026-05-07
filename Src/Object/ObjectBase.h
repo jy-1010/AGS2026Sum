@@ -15,8 +15,8 @@ public:
 		std::shared_ptr<Collider> collider_;	//‘S‘Ì‚Ì“–‚½‚è”»’èî•ñ
 	};
 
-	ObjectBase() = default;
-	virtual ~ObjectBase();
+	ObjectBase(void) = default;
+	virtual ~ObjectBase(void);
 	virtual void Init(void) = 0;
 	virtual void Update(void) = 0;
 	virtual void Draw(void) = 0;

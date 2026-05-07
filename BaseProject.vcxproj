@@ -65,6 +65,8 @@
     <ClCompile Include="Src\Scene\SceneGame.cpp" />
     <ClCompile Include="Src\Scene\SceneTitle.cpp" />
     <ClCompile Include="Src\Utility\Utility.cpp" />
+    <ClCompile Include="Src\Object\Stage\Stage.cpp" />
+    <ClCompile Include="Src\Object\Item\Tool\ToolBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Item\Block\BlockBase.h" />
@@ -124,6 +126,8 @@
     <ClInclude Include="Src\Scene\SceneGame.h" />
     <ClInclude Include="Src\Scene\SceneTitle.h" />
     <ClInclude Include="Src\Utility\Utility.h" />
+    <ClInclude Include="Src\Object\Stage\Stage.h" />
+    <ClInclude Include="Src\Object\Item\Tool\ToolBase.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

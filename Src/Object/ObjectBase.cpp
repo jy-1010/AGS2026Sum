@@ -2,7 +2,7 @@
 #include "Common/Collider.h"
 #include "ObjectBase.h"
 
-ObjectBase::~ObjectBase()
+ObjectBase::~ObjectBase(void)
 {
 	for (auto& colParam : colParam_)
 	{

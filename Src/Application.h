@@ -26,7 +26,7 @@ public:
 	static const std::string PATH_SOUND_SE;
 	//static const std::string PATH_FONT;
 	//static const std::string PATH_TEXT;
-	//static const std::string PATH_JSON;
+	static const std::string PATH_JSON;
 	//static const std::string PATH_CSV;
 	static const std::string PATH_SHADER;
 	//-------------------------------------------
