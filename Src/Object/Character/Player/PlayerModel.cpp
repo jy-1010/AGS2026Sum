@@ -32,6 +32,7 @@ void PlayerModel::UIDraw(void)
 
 void PlayerModel::LoadModelInfo(void)
 {
+	pixelNum_ = params_["PixelNum"];
 	auto& textureSize = params_["Model"]["TextureSize"];
 	textureSize_ = FLOAT2(textureSize[0], textureSize[1]);
 	for (auto& param : params_["Model"]["Parts"])
@@ -39,15 +40,17 @@ void PlayerModel::LoadModelInfo(void)
 		Model_Part part;
 		part.name = param["Name"];
 		part.parentName = param["Parent"];
+		part.affectParent.isRot = param["Affect"]["IsRot"];
+		part.affectParent.isPos = param["Affect"]["IsPos"];
 		auto& pivot = param["Pivot"];
-		part.pivot = Int3{ pivot[0], pivot[1], pivot[2] };
+		part.pivot = IntVector3{ pivot[0], pivot[1], pivot[2] };
 		for (auto& cubes : param["Cubes"])
 		{
 			Cube cube;
 			auto& offset = cubes["Offset"];
-			cube.offset = Int3{ offset[0], offset[1], offset[2] };
+			cube.offset = IntVector3{ offset[0], offset[1], offset[2] };
 			auto& pixelSize = cubes["PixelSize"];
-			cube.pixelSize = Int3{ pixelSize[0], pixelSize[1], pixelSize[2] };
+			cube.pixelSize = IntVector3{ pixelSize[0], pixelSize[1], pixelSize[2] };
 			auto& uvOffset = cubes["UV"];
 			cube.uvOffset = FLOAT2(uvOffset[0] / textureSize_.u, uvOffset[1] / textureSize_.v);
 			part.cubes.push_back(cube);
@@ -62,5 +65,12 @@ void PlayerModel::LoadSkin(std::string skinName)
 
 void PlayerModel::MakePokygonInfo(void)
 {
-
+	polygonInfo_.clear();
+	for (auto& part : modelParts_)
+	{
+		for (auto& cube : part.cubes)
+		{
+			const IntVector3 center = part.pivot + cube.offset;
+		}
+	}
 }

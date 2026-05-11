@@ -4,22 +4,23 @@
 #include <vector>
 #include "../../../Lib/nlohmann/json.hpp"
 #include "../../../Renderer/Polygon3DRenderer.h"
+#include "../../../Common/IntVector3.h"
 
 class PlayerModel
 {
 public:
 
-	struct Int3
+	struct AffectParent
 	{
-		int x;
-		int y;
-		int z;
+		bool isRot = false;
+		bool isPos = false;
+		const bool IsAffect(void)const { return isRot || isPos; }
 	};
 
 	struct Cube
 	{
-		Int3 offset;
-		Int3 pixelSize;
+		IntVector3 offset;	//キューブの中心からのオフセット
+		IntVector3 pixelSize;
 		FLOAT2 uvOffset;
 	};
 
@@ -27,7 +28,8 @@ public:
 	{
 		std::string name;
 		std::string parentName;
-		Int3 pivot;
+		AffectParent affectParent;
+		IntVector3 pivot;	//回転中心
 		std::vector<Cube> cubes;
 	};
 
@@ -38,6 +40,7 @@ public:
 	void Draw(void);
 	void UIDraw(void);
 private:
+	int pixelNum_;
 	int skinHandle_;
 	nlohmann::json& params_;
 	FLOAT2 textureSize_;

@@ -1,4 +1,6 @@
 {
+  "PixelNum": 16,
+
   "Collision": {
     "Width": 0.6,
     "Height": 1.8,
@@ -23,14 +25,19 @@
 
   "Model": {
     "TextureSize": [ 64, 64 ],
+
     "Parts": [
       {
         "Name": "Head",
-        "Parent": "",
+        "Parent": "Body",
+        "Affect": {
+          "IsRot": false,
+          "IsPos": true
+        },
         "Pivot": [ 0, 24, 0 ],
         "Cubes": [
           {
-            "Offset": [ -4, -4, -4 ],
+            "Offset": [ 0, 4, 0 ],
             "PixelSize": [ 8, 8, 8 ],
             "UV": [ 0, 0 ]
           }
@@ -40,10 +47,14 @@
       {
         "Name": "Body",
         "Parent": "",
+        "Affect": {
+          "IsRot": false,
+          "IsPos": false
+        },
         "Pivot": [ 0, 12, 0 ],
         "Cubes": [
           {
-            "Offset": [ -4, 0, -2 ],
+            "Offset": [ 0, 6, 0 ],
             "PixelSize": [ 8, 12, 4 ],
             "UV": [ 16, 0 ]
           }
@@ -53,10 +64,14 @@
       {
         "Name": "RightArm",
         "Parent": "Body",
-        "Pivot": [ -6, 22, 0 ],
+        "Affect": {
+          "IsRot": true,
+          "IsPos": true
+        },
+        "Pivot": [ 4, 24, 0 ],
         "Cubes": [
           {
-            "Offset": [ -2, -12, -2 ],
+            "Offset": [ 2, -6, 0 ],
             "PixelSize": [ 4, 12, 4 ],
             "UV": [ 32, 0 ]
           }
@@ -66,10 +81,14 @@
       {
         "Name": "LeftArm",
         "Parent": "Body",
-        "Pivot": [ 6, 22, 0 ],
+        "Affect": {
+          "IsRot": true,
+          "IsPos": true
+        },
+        "Pivot": [ -4, 24, 0 ],
         "Cubes": [
           {
-            "Offset": [ -2, -12, -2 ],
+            "Offset": [ -2, -6, 0 ],
             "PixelSize": [ 4, 12, 4 ],
             "UV": [ 40, 0 ]
           }
@@ -79,10 +98,14 @@
       {
         "Name": "RightLeg",
         "Parent": "Body",
-        "Pivot": [ -2, 12, 0 ],
+        "Affect": {
+          "IsRot": false,
+          "IsPos": false
+        },
+        "Pivot": [ 0, 12, 0 ],
         "Cubes": [
           {
-            "Offset": [ -2, -12, -2 ],
+            "Offset": [ 2, -6, 0 ],
             "PixelSize": [ 4, 12, 4 ],
             "UV": [ 48, 0 ]
           }
@@ -92,10 +115,14 @@
       {
         "Name": "LeftLeg",
         "Parent": "Body",
-        "Pivot": [ 2, 12, 0 ],
+        "Affect": {
+          "IsRot": false,
+          "IsPos": false
+        },
+        "Pivot": [ 0, 12, 0 ],
         "Cubes": [
           {
-            "Offset": [ -2, -12, -2 ],
+            "Offset": [ -2, -6, 0 ],
             "PixelSize": [ 4, 12, 4 ],
             "UV": [ 56, 0 ]
           }
