@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Character\Player\PlayerModel.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Item\Block\BlockInfo.cpp" />
     <ClCompile Include="Src\Common\FpsController.cpp" />
     <ClCompile Include="Src\Common\IntVector3.cpp" />
@@ -69,6 +71,8 @@
     <ClCompile Include="Src\Object\Item\Tool\ToolBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Character\Player\PlayerModel.h" />
+    <ClInclude Include="Src\Object\Character\Player\Player.h" />
     <ClInclude Include="Src\Object\Item\Block\BlockInfo.h" />
     <ClInclude Include="Src\Common\FpsController.h" />
     <ClInclude Include="Src\Lib\DxLib\DxCompileConfig.h" />

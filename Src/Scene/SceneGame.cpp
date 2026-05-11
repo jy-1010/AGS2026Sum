@@ -1,19 +1,21 @@
 #include<DxLib.h>
 #include"../Application.h"
+#include "../Utility/Utility.h"
 #include"../Manager/SceneManager.h"
 #include"../Manager/ResourceManager.h"
 #include"../Manager/SoundManager.h"
 #include"../Manager/InputManager.h"
 #include"../Manager/KeyConfig.h"
 #include "../Object/Stage/Stage.h"
+#include "../Object/Character/Player/Player.h"
 #include "../Object/Item/Block/BlockInfo.h"
 #include"SceneGame.h"
-#include "../Utility/Utility.h"
 
 SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
 	blockInfo_ = std::make_unique<BlockInfo>();
+	player_ = std::make_unique<Player>("");
 }
 
 SceneGame::~SceneGame(void)

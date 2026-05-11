@@ -4,6 +4,7 @@
 
 class Stage;
 class BlockInfo;
+class Player;
 
 class SceneGame :public SceneBase
 {
@@ -27,4 +28,5 @@ public:
 protected:
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<BlockInfo> blockInfo_;
+	std::unique_ptr<Player> player_;
 };

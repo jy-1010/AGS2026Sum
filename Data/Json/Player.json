@@ -1,7 +1,8 @@
 {
   "Collision": {
     "Width": 0.6,
-    "Height": 1.8
+    "Height": 1.8,
+    "Depth": 0.6
   },
 
   "Status": {
@@ -17,37 +18,88 @@
   "Move": {
     "WalkSpeed": 4.3,
     "SprintSpeed": 5.6,
-    "JumpPower": 8.0
+    "JumpVelocity": 0.42
   },
 
   "Model": {
+    "TextureSize": [ 64, 64 ],
     "Parts": [
       {
         "Name": "Head",
         "Parent": "",
-        "Size": [ 8, 8, 8 ],
-        "Offset": [ 0, 24, 0 ]
+        "Pivot": [ 0, 24, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -4, -4, -4 ],
+            "PixelSize": [ 8, 8, 8 ],
+            "UV": [ 0, 0 ]
+          }
+        ]
       },
 
       {
         "Name": "Body",
         "Parent": "",
-        "Size": [ 8, 12, 4 ],
-        "Offset": [ 0, 12, 0 ]
+        "Pivot": [ 0, 12, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -4, 0, -2 ],
+            "PixelSize": [ 8, 12, 4 ],
+            "UV": [ 16, 0 ]
+          }
+        ]
+      },
+
+      {
+        "Name": "RightArm",
+        "Parent": "Body",
+        "Pivot": [ -6, 22, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -2, -12, -2 ],
+            "PixelSize": [ 4, 12, 4 ],
+            "UV": [ 32, 0 ]
+          }
+        ]
+      },
+
+      {
+        "Name": "LeftArm",
+        "Parent": "Body",
+        "Pivot": [ 6, 22, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -2, -12, -2 ],
+            "PixelSize": [ 4, 12, 4 ],
+            "UV": [ 40, 0 ]
+          }
+        ]
       },
 
       {
         "Name": "RightLeg",
         "Parent": "Body",
-        "Size": [ 4, 12, 4 ],
-        "Offset": [ -2, 0, 0 ]
+        "Pivot": [ -2, 12, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -2, -12, -2 ],
+            "PixelSize": [ 4, 12, 4 ],
+            "UV": [ 48, 0 ]
+          }
+        ]
       },
 
       {
         "Name": "LeftLeg",
         "Parent": "Body",
-        "Size": [ 4, 12, 4 ],
-        "Offset": [ 2, 0, 0 ]
+        "Pivot": [ 2, 12, 0 ],
+        "Cubes": [
+          {
+            "Offset": [ -2, -12, -2 ],
+            "PixelSize": [ 4, 12, 4 ],
+            "UV": [ 56, 0 ]
+          }
+        ]
       }
     ]
   }
