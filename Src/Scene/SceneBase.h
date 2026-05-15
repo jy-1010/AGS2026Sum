@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 #include "../Utility/Utility.h"
 
 class SceneBase

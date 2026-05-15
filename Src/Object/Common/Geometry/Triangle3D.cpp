@@ -3,7 +3,6 @@
 #include "Capsule.h"
 #include "Line3D.h"
 #include "Cylinder.h"
-#include "Circumference.h"
 #include "Triangle3D.h"
 
 Triangle3D::Triangle3D(VECTOR& pos1, VECTOR& pos2, VECTOR& pos3) :pos1_(pos1), pos2_(pos2), pos3_(pos3)
@@ -58,11 +57,6 @@ const bool Triangle3D::IsHit(Triangle3D& _triangle, VECTOR& _hitPos)
 }
 
 const bool Triangle3D::IsHit(Cylinder& _circle, VECTOR& _hitPos)
-{
-	return false;
-}
-
-const bool Triangle3D::IsHit(Circumference& _circle, VECTOR& _hitPos)
 {
 	return false;
 }

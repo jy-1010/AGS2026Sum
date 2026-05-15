@@ -1,6 +1,6 @@
 #pragma once
 #include <DxLib.h>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 #include "../Renderer/PixelMaterial.h"
 #include "../Renderer/BaseRenderer.h"
 
@@ -25,14 +25,13 @@ public:
 	~PixelRenderer(void)override;
 
 	// 描画矩形の生成
-	void MakeSquereVertex(Vector2 pos, Vector2 size);
+	void MakeSquereVertex(Vector2I pos, Vector2I size);
 	void MakeSquereVertex(void);
 
 	// 座標設定
-	void SetPos(Vector2 pos);
-
+	void SetPos(Vector2I pos);
 	// 画像サイズ設定
-	void SetSize(Vector2 size);
+	void SetSize(Vector2I size);
 
 	// 描画
 	void Draw(void)override;
@@ -41,10 +40,10 @@ public:
 private:
 
 	// 座標
-	Vector2 pos_;
+	Vector2I pos_;
 
 	// 描画サイズ
-	Vector2 size_;
+	Vector2I size_;
 
 	// 頂点
 	VERTEX2DSHADER vertexs_[NUM_VERTEX];

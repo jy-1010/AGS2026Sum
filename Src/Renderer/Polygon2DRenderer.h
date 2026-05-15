@@ -1,6 +1,6 @@
 #pragma once
 #include <DxLib.h>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 #include "Polygon2DMaterial.h"
 #include "BaseRenderer.h"
 class Polygon2DRenderer :  public BaseRenderer

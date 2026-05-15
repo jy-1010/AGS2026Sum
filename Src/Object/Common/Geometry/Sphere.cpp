@@ -3,7 +3,6 @@
 #include "Capsule.h"
 #include "Line3D.h"
 #include "Cylinder.h"
-#include "Circumference.h"
 #include "Sphere.h"
 
 Sphere::Sphere(VECTOR& pos, float radius) : pos_(pos), radius_(radius)
@@ -62,13 +61,5 @@ const bool Sphere::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 	VECTOR pos = _circle.GetPos();
 	float radius = _circle.GetRadius();
 	bool ret = Utility::IsColCylinder2Cylinder(pos_, radius_, pos, radius, _hitPos);
-	return ret;
-}
-
-const bool Sphere::IsHit(Circumference& _circle, VECTOR& _hitPos)
-{
-	VECTOR pos = _circle.GetPos();
-	float radius = _circle.GetRadius();
-	bool ret = Utility::IsColCircumference2Circle(pos, radius, pos_, radius_, _hitPos);
 	return ret;
 }

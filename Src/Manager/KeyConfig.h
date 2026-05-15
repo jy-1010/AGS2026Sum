@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 
 class InputManager;
 
@@ -136,20 +136,20 @@ public:
 	void Clear(CONTROL_TYPE type);
 
 	// マウス座標の取得
-	Vector2 GetMousePos(void) const;
+	Vector2I GetMousePos(void) const;
 	//マウスの移動量を取得
-	Vector2 GetMouseMove(void) const;
+	Vector2I GetMouseMove(void) const;
 
 	//マウスの座標を設定
 	void SetMousePosScreen(void);
 
-	void SetMousePos(const Vector2& pos);
+	void SetMousePos(const Vector2I& pos);
 	float GetLStickDeg(KeyConfig::JOYPAD_NO no) const;
 
 	float GetRStickDeg(KeyConfig::JOYPAD_NO no) const;
 	//上を0.0度として角度を渡す
-	Vector2 GetKnockLStickSize(KeyConfig::JOYPAD_NO no) const;
-	Vector2 GetKnockRStickSize(KeyConfig::JOYPAD_NO no) const;
+	Vector2I GetKnockLStickSize(KeyConfig::JOYPAD_NO no) const;
+	Vector2I GetKnockRStickSize(KeyConfig::JOYPAD_NO no) const;
 	//指定の方向に倒れた度合い0から1000
 	int PadStickOverSize(KeyConfig::JOYPAD_NO no, KeyConfig::JOYPAD_STICK stick)const;
 	// リソースの破棄

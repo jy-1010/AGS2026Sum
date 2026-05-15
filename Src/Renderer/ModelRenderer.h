@@ -1,6 +1,6 @@
 #pragma once
 #include <DxLib.h>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 #include "../Renderer/ModelMaterial.h"
 #include "../Renderer/BaseRenderer.h"
 

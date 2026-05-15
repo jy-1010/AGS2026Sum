@@ -621,12 +621,12 @@ void KeyConfig::AddFixed(CONTROL_TYPE type, MOUSE key)
 }
 
 
-Vector2 KeyConfig::GetMousePos(void) const
+Vector2I KeyConfig::GetMousePos(void) const
 {
 	return inputManager_->GetMousePos();
 }
 
-Vector2 KeyConfig::GetMouseMove(void) const
+Vector2I KeyConfig::GetMouseMove(void) const
 {
 	return inputManager_->GetMousePosDistance();
 }
@@ -636,7 +636,7 @@ void KeyConfig::SetMousePosScreen(void)
 	//inputManager_->SetMousePosScreen();
 }
 
-void KeyConfig::SetMousePos(const Vector2& pos)
+void KeyConfig::SetMousePos(const Vector2I& pos)
 {
 	inputManager_->SetMousePos(pos);
 }
@@ -644,8 +644,8 @@ void KeyConfig::SetMousePos(const Vector2& pos)
 float KeyConfig::GetLStickDeg(KeyConfig::JOYPAD_NO no) const
 {
 	float deg = 0.0f;
-	Vector2 knockSize = GetKnockLStickSize(no);
-	if (knockSize.x == 0.0f && knockSize.y == 0.0f)
+	Vector2I knockSize = GetKnockLStickSize(no);
+	if (knockSize.x == 0 && knockSize.y == 0)
 	{
 		return deg;
 	}
@@ -659,8 +659,8 @@ float KeyConfig::GetLStickDeg(KeyConfig::JOYPAD_NO no) const
 float KeyConfig::GetRStickDeg(KeyConfig::JOYPAD_NO no) const
 {
 	float deg = 0.0f;
-	Vector2 knockSize = GetKnockRStickSize(no);
-	if (knockSize.x == 0.0f && knockSize.y == 0.0f)
+	Vector2I knockSize = GetKnockRStickSize(no);
+	if (knockSize.x == 0 && knockSize.y == 0)
 	{
 		return deg;
 	}
@@ -671,18 +671,18 @@ float KeyConfig::GetRStickDeg(KeyConfig::JOYPAD_NO no) const
 	return deg;
 }
 
-Vector2 KeyConfig::GetKnockLStickSize(KeyConfig::JOYPAD_NO no) const
+Vector2I KeyConfig::GetKnockLStickSize(KeyConfig::JOYPAD_NO no) const
 {
 	//auto padInfo = padInfos_[static_cast<int>(no)];
 	auto padInfo = inputManager_->GetJPadInputState(no);
-	return Vector2(padInfo.AKeyLX, padInfo.AKeyLY);
+	return Vector2I(padInfo.AKeyLX, padInfo.AKeyLY);
 }
 
-Vector2 KeyConfig::GetKnockRStickSize(KeyConfig::JOYPAD_NO no) const
+Vector2I KeyConfig::GetKnockRStickSize(KeyConfig::JOYPAD_NO no) const
 {
 	//auto padInfo = padInfos_[static_cast<int>(no)];
 	auto padInfo = inputManager_->GetJPadInputState(no);
-	return Vector2(padInfo.AKeyRX, padInfo.AKeyRY);
+	return Vector2I(padInfo.AKeyRX, padInfo.AKeyRY);
 }
 int KeyConfig::PadStickOverSize(KeyConfig::JOYPAD_NO no, KeyConfig::JOYPAD_STICK stick) const
 {

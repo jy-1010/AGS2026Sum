@@ -3,7 +3,6 @@
 #include "Capsule.h"
 #include "Line3D.h"
 #include "Triangle3D.h"
-#include "Circumference.h"
 #include "Cylinder.h"
 
 Cylinder::Cylinder(VECTOR& pos, float radius) : pos_(pos), radius_(radius)
@@ -58,13 +57,5 @@ const bool Cylinder::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 	VECTOR pos = _circle.GetPos();
 	float radius = _circle.GetRadius();
 	bool ret =Utility::IsColCylinder2Cylinder(pos_, radius_, pos, radius, _hitPos);
-	return ret;
-}
-
-const bool Cylinder::IsHit(Circumference& _circle, VECTOR& _hitPos)
-{
-	VECTOR pos = _circle.GetPos();
-	float radius = _circle.GetRadius();
-	bool ret = Utility::IsColCircumference2Circle(pos_, radius_, pos, radius, _hitPos);
 	return ret;
 }

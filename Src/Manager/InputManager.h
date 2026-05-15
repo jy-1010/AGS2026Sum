@@ -2,7 +2,7 @@
 #include <map>
 #include <vector>
 #include <Dxlib.h>
-#include "../Common/Vector2.h"
+#include "../Common/Vector.h"
 #include "KeyConfig.h"
 
 class InputManager
@@ -64,15 +64,15 @@ public:
 	bool IsTrgUp(int key) const;
 
 	// マウス座標の取得
-	Vector2 GetMousePos(void) const;
+	Vector2I GetMousePos(void) const;
 
 	//マウスの移動距離を取得
-	Vector2 GetMousePosDistance(void)const;
+	Vector2I GetMousePosDistance(void)const;
 
 	//マウスの座標を設定
 	void SetMousePosScreen(void);
 
-	void SetMousePos(const Vector2& pos);
+	void SetMousePos(const Vector2I& pos);
 
 	// マウスのクリック状態を取得(MOUSE_INPUT_LEFT、RIGHT)
 	int GetMouse(void) const;
@@ -141,8 +141,8 @@ private:
 	std::map<KeyConfig::JOYPAD_NO, std::vector<InputManager::StickInfo>> stickInfos_;
 
 	// マウスカーソルの位置
-	Vector2 mousePrePos_;
-	Vector2 mousePos_;
+	Vector2I mousePrePos_;
+	Vector2I mousePos_;
 	
 	//マウスホイール回転量
 	int wheelRot_;

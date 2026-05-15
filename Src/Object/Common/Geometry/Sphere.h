@@ -70,12 +70,6 @@ public:
 	/// <returns>“–‚½‚è”»’è(true:“–‚½‚Á‚½)</returns>
 	const bool IsHit(Cylinder& _circle, VECTOR& _hitPos)override;
 
-	/// <summary>
-	/// ‰~ü‚Æ‚Ì“–‚½‚è”»’è
-	/// </summary>
-	/// <param name="_circle">‰~üî•ñ</param>
-	/// <returns>“–‚½‚è”»’è(true:“–‚½‚Á‚½)</returns>
-	const bool IsHit(Circumference& _circle, VECTOR& _hitPos)override;
 private:
 	static constexpr int DRAW_VERTEX_NUM = 16;
 

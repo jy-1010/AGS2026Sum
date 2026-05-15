@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include "../ObjectBase.h"
-#include "../../Common/IntVector3.h"
+#include "../../Common/vector.h"
 
 class Stage : public ObjectBase
 {

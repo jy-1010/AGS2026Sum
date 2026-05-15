@@ -5,8 +5,7 @@
 #include <vector>
 #include <math.h>
 #include <DxLib.h>
-#include "../Common/Vector2.h"
-#include "../Common/IntVector3.h"
+#include "../Common/Vector.h"
 #include "../Common/Quaternion.h"
 #include "../Manager/KeyConfig.h"
 #include "../Object/Common/Transform.h"
@@ -106,7 +105,7 @@ public:
 	static int Lerp(int start, int end, float t);
 	static float Lerp(float start, float end, float t);
 	static double Lerp(double start, double end, double t);
-	static Vector2 Lerp(const Vector2& start, const Vector2& end, float t);
+	static Vector2I Lerp(const Vector2I& start, const Vector2I& end, float t);
 	static VECTOR Lerp(const VECTOR& start, const VECTOR& end, float t);
 
 	// 角度の線形補間
@@ -116,21 +115,21 @@ public:
 	static COLOR_F Lerp(const COLOR_F& start, const COLOR_F& end, float t);
 
 	// ベジェ曲線
-	static Vector2 Bezier(const Vector2& p1, const Vector2& p2, const Vector2& p3, float t);
+	static Vector2I Bezier(const Vector2I& p1, const Vector2I& p2, const Vector2I& p3, float t);
 	static VECTOR Bezier(const VECTOR& p1, const VECTOR& p2, const VECTOR& p3, float t);
 	
 	// Y軸回転
 	static VECTOR RotXZPos(const VECTOR& centerPos, const VECTOR& radiusPos, float rad);
 
 	// ベクトルの長さ
-	static double Magnitude(const Vector2& v);
+	static double Magnitude(const Vector2I& v);
 	static double Magnitude(const VECTOR& v);
 	static float MagnitudeF(const VECTOR& v);
-	static int SqrMagnitude(const Vector2& v);
+	static int SqrMagnitude(const Vector2I& v);
 	static float SqrMagnitudeF(const VECTOR& v);
 	static double SqrMagnitude(const VECTOR& v);
 	static double SqrMagnitude(const VECTOR& v1, const VECTOR& v2);
-	static double Distance(const Vector2& v1, const Vector2& v2);
+	static double Distance(const Vector2I& v1, const Vector2I& v2);
 	static double Distance(const VECTOR& v1, const VECTOR& v2);
 
 	// 球体同士の衝突判定
@@ -147,7 +146,7 @@ public:
 	static bool EqualsVZero(const VECTOR& v1);
 
 	// 正規化
-	static VECTOR Normalize(const Vector2& v);
+	static VECTOR Normalize(const Vector2I& v);
 	static VECTOR VNormalize(const VECTOR& v);
 
 	// 2つのベクトルの間の角度
@@ -205,7 +204,7 @@ public:
 	/// <param name="leftTop">範囲左上</param>
 	/// <param name="rightBotm">範囲右下</param>
 	/// <returns>判定結果を返す</returns>
-	static bool IsPointInRect(const Vector2 _pos, const Vector2 _leftTop, const Vector2 _rightBotm);
+	static bool IsPointInRect(const Vector2I& _pos, const Vector2I& _leftTop, const Vector2I& _rightBotm);
 
 	/// <summary>
 	/// 特定の円の範囲内に座標が含まれてるか調べる
@@ -214,9 +213,9 @@ public:
 	/// <param name="_circlePos"></param>
 	/// <param name="_radius"></param>
 	/// <returns></returns>
-	static bool IsPointInRectCircle(const Vector2 _pos, const Vector2 _circlePos, const float _radius);
+	static bool IsPointInRectCircle(const Vector2I& _pos, const Vector2I& _circlePos, const float _radius);
 
-	static VECTOR GetWorldPosAtScreen(const Vector2 screenPos, const float distance, const VECTOR cameraPos, const VECTOR cameraDir);
+	static VECTOR GetWorldPosAtScreen(const Vector2I screenPos, const float distance, const VECTOR cameraPos, const VECTOR cameraDir);
 
 	//符号を返す
 	static int GetSign(float f);
@@ -518,7 +517,7 @@ public:
 	/// </summary>
 	/// <param name="normal">中心からの正規化された座標</param>
 	/// <returns>uv値</returns>
-	static FLOAT2 CalcSphericalUV(const VECTOR& normal);
+	static Vector2F CalcSphericalUV(const VECTOR& normal);
 
 	/// <summary>
 	/// vector配列の中のnullptrを削除する

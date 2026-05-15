@@ -4,7 +4,7 @@
 #include <vector>
 #include "../../../Lib/nlohmann/json.hpp"
 #include "../../../Renderer/Polygon3DRenderer.h"
-#include "../../../Common/IntVector3.h"
+#include "../../../Common/Vector.h"
 
 class PlayerModel
 {
@@ -21,7 +21,7 @@ public:
 	{
 		IntVector3 offset;	//キューブの中心からのオフセット
 		IntVector3 pixelSize;
-		FLOAT2 uvOffset;
+		Vector2F uvOffset;
 	};
 
 	struct Model_Part
@@ -43,7 +43,8 @@ private:
 	int pixelNum_;
 	int skinHandle_;
 	nlohmann::json& params_;
-	FLOAT2 textureSize_;
+	nlohmann::json modelInfo_;
+	Vector2F textureSize_;
 	std::vector <Model_Part> modelParts_;
 	Polygon3DRenderer::PolygonInfo polygonInfo_;
 	std::unique_ptr<Polygon3DMaterial> material_;

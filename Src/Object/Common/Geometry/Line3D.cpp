@@ -3,7 +3,6 @@
 #include "Sphere.h"
 #include "Capsule.h"
 #include "Cylinder.h"
-#include "Circumference.h"
 #include "Line3D.h"
 
 Line3D::Line3D(VECTOR& pos1, VECTOR& pos2):pos1_(pos1),pos2_(pos2)
@@ -53,11 +52,6 @@ const bool Line3D::IsHit(Triangle3D& _triangle, VECTOR& _hitPos)
 }
 
 const bool Line3D::IsHit(Cylinder& _circle, VECTOR& _hitPos)
-{
-	return false;
-}
-
-const bool Line3D::IsHit(Circumference& _circle, VECTOR& _hitPos)
 {
 	return false;
 }

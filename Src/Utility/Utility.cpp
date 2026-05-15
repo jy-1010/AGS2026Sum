@@ -203,7 +203,7 @@ double Utility::Lerp(double start, double end, double t)
     return ret;
 }
 
-Vector2 Utility::Lerp(const Vector2& start, const Vector2& end, float t)
+Vector2I Utility::Lerp(const Vector2I& start, const Vector2I& end, float t)
 {
     // 線形補間
     if (t >= 1.0f)
@@ -211,7 +211,7 @@ Vector2 Utility::Lerp(const Vector2& start, const Vector2& end, float t)
         return end;
     }
 
-    Vector2 ret = start;
+    Vector2I ret = start;
     ret.x += Round(t * static_cast<float>((end.x - start.x)));
     ret.y += Round(t * static_cast<float>((end.y - start.y)));
     return ret;
@@ -282,10 +282,10 @@ COLOR_F Utility::Lerp(const COLOR_F& start, const COLOR_F& end, float t)
     return ret;
 }
 
-Vector2 Utility::Bezier(const Vector2& p1, const Vector2& p2, const Vector2& p3, float t)
+Vector2I Utility::Bezier(const Vector2I& p1, const Vector2I& p2, const Vector2I& p3, float t)
 {
-    Vector2 a = Lerp(p1, p2, t);
-    Vector2 b = Lerp(p2, p3, t);
+    Vector2I a = Lerp(p1, p2, t);
+    Vector2I b = Lerp(p2, p3, t);
     return Lerp(a, b, t);
 }
 
@@ -303,7 +303,7 @@ VECTOR Utility::RotXZPos(const VECTOR& centerPos, const VECTOR& radiusPos, float
     return VGet(centerPos.x + x, radiusPos.y, centerPos.z + z);
 }
 
-double Utility::Magnitude(const Vector2& v)
+double Utility::Magnitude(const Vector2I& v)
 {
     return sqrt((v.x * v.x) + (v.y * v.y));
 }
@@ -318,7 +318,7 @@ float Utility::MagnitudeF(const VECTOR& v)
     return sqrtf((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
 }
 
-int Utility::SqrMagnitude(const Vector2& v)
+int Utility::SqrMagnitude(const Vector2I& v)
 {
     return v.x * v.x + v.y * v.y;
 }
@@ -338,7 +338,7 @@ double Utility::SqrMagnitude(const VECTOR& v1, const VECTOR& v2)
     return pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2) + pow(v2.z - v1.z, 2);
 }
 
-double Utility::Distance(const Vector2& v1, const Vector2& v2)
+double Utility::Distance(const Vector2I& v1, const Vector2I& v2)
 {
     return sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2));
 }
@@ -451,7 +451,7 @@ bool Utility::EqualsVZero(const VECTOR& v1)
     return false;
 }
 
-VECTOR Utility::Normalize(const Vector2& v)
+VECTOR Utility::Normalize(const Vector2I& v)
 {
     VECTOR ret = VGet(
         static_cast<float>(v.x),
@@ -659,14 +659,14 @@ void Utility::LookAtTarget(Transform& _trans, const VECTOR _toTargetAxis, const 
     _trans.Update();
 }
 
-bool Utility::IsPointInRect(const Vector2 _pos, const Vector2 _leftTop, const Vector2 _rightBotm)
+bool Utility::IsPointInRect(const Vector2I& _pos, const Vector2I& _leftTop, const Vector2I& _rightBotm)
 {
     //指定の範囲内に座標があるか調べる
     return _pos.x > _leftTop.x && _pos.x < _rightBotm.x &&
         _pos.y > _leftTop.y && _pos.y < _rightBotm.y;
 }
 
-bool Utility::IsPointInRectCircle(const Vector2 _pos, const Vector2 _circlePos, const float _radius)
+bool Utility::IsPointInRectCircle(const Vector2I& _pos, const Vector2I& _circlePos, const float _radius)
 {
     //座標が円の範囲内か調べる(距離と円の半径を比べる)
     return Distance(_pos, _circlePos) <= _radius;
@@ -1402,7 +1402,7 @@ VECTOR Utility::CalcCenter(const VECTOR& a, const VECTOR& b, const VECTOR& c, co
     return center;
 }
 
-FLOAT2 Utility::CalcSphericalUV(const VECTOR& normal)
+Vector2F Utility::CalcSphericalUV(const VECTOR& normal)
 {
     // --- 正規化（半径を除去） ---
 // 球面マッピングは方向ベクトルのみを使用する

@@ -1,4 +1,7 @@
-
+#include <fstream>
+#include "../../../Application.h"
+#include "../../../Utility/Utility.h"
+#include "../../Vertex/VertexInfo.h"
 #include "PlayerModel.h"
 
 PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : params_(params)
@@ -33,9 +36,11 @@ void PlayerModel::UIDraw(void)
 void PlayerModel::LoadModelInfo(void)
 {
 	pixelNum_ = params_["PixelNum"];
-	auto& textureSize = params_["Model"]["TextureSize"];
-	textureSize_ = FLOAT2(textureSize[0], textureSize[1]);
-	for (auto& param : params_["Model"]["Parts"])
+	std::ifstream modelInfo(Application::PATH_JSON + params_["Model"].get<std::string>());
+	modelInfo >> modelInfo_;
+	auto& textureSize = modelInfo_["TextureSize"];
+	textureSize_ = Vector2F(textureSize["x"], textureSize["y"]);
+	for (auto& param : modelInfo_["Parts"])
 	{
 		Model_Part part;
 		part.name = param["Name"];
@@ -43,16 +48,16 @@ void PlayerModel::LoadModelInfo(void)
 		part.affectParent.isRot = param["Affect"]["IsRot"];
 		part.affectParent.isPos = param["Affect"]["IsPos"];
 		auto& pivot = param["Pivot"];
-		part.pivot = IntVector3{ pivot[0], pivot[1], pivot[2] };
+		part.pivot = IntVector3{ pivot["x"], pivot["y"], pivot["z"] };
 		for (auto& cubes : param["Cubes"])
 		{
 			Cube cube;
 			auto& offset = cubes["Offset"];
-			cube.offset = IntVector3{ offset[0], offset[1], offset[2] };
+			cube.offset = IntVector3{ offset["x"], offset["y"], offset["z"] };
 			auto& pixelSize = cubes["PixelSize"];
-			cube.pixelSize = IntVector3{ pixelSize[0], pixelSize[1], pixelSize[2] };
+			cube.pixelSize = IntVector3{ pixelSize["x"], pixelSize["y"], pixelSize["z"] };
 			auto& uvOffset = cubes["UV"];
-			cube.uvOffset = FLOAT2(uvOffset[0] / textureSize_.u, uvOffset[1] / textureSize_.v);
+			cube.uvOffset = Vector2F(uvOffset["x"] / textureSize_.u, uvOffset["y"] / textureSize_.v);
 			part.cubes.push_back(cube);
 		}
 		modelParts_.push_back(part);
@@ -70,7 +75,14 @@ void PlayerModel::MakePokygonInfo(void)
 	{
 		for (auto& cube : part.cubes)
 		{
-			const IntVector3 center = part.pivot + cube.offset;
+			VertexInfo::Cube_Param param;
+			param.filePath = Application::PATH_JSON + modelInfo_["RenderTemplate"].get<std::string>();
+			param.center = (part.pivot + cube.offset).ToVECTOR();
+			param.cubeSize = cube.pixelSize.ToVECTOR();
+			param.TextureSize = textureSize_;
+			param.startUV = cube.uvOffset;
+			auto cubePolygonInfo = VertexInfo::LoadFromFile(param);
+			polygonInfo_.vertex.insert(polygonInfo_.vertex.end(), cubePolygonInfo.vertex.begin(), cubePolygonInfo.vertex.end());
 		}
 	}
 }
