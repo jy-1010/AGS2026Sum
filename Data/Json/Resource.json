@@ -1,0 +1,97 @@
+{
+  "Infos": {
+    "BlocksImage": {
+      "Type": "Image",
+      "Path": "Item/Blocks.png",
+      "Preload": true
+    },
+
+    "BreathAttackImage": {
+      "Type": "Image",
+      "Path": "Effect/Breath.png",
+      "Preload": true
+    },
+
+    "BlocksJson": {
+      "Type": "Json",
+      "Path": "Json/Blocks.json",
+      "Preload": true
+    },
+
+    "CubeTemplateJson": {
+      "Type": "Json",
+      "Path": "Json/CubeTemplate.json",
+      "Preload": true
+    },
+
+    "PlayerJson": {
+      "Type": "Json",
+      "Path": "Json/Player.json",
+      "Preload": true
+    },
+
+    "PlayerModelJson": {
+      "Type": "Json",
+      "Path": "Json/PlayerModel.json",
+      "Preload": true
+    },
+
+    "StageFileListJson": {
+      "Type": "Json",
+      "Path": "Json/StageFileList.json",
+      "Preload": true
+    },
+
+    "ToolsJson": {
+      "Type": "Json",
+      "Path": "Json/Tools.json",
+      "Preload": true
+    },
+
+    "Stage1Json": {
+      "Type": "Json",
+      "Path": "Json/Stage/Stage1.json",
+      "Preload": false
+    },
+
+    "Stage2Json": {
+      "Type": "Json",
+      "Path": "Json/Stage/Stage2.json",
+      "Preload": false
+    },
+
+    "Stage3Json": {
+      "Type": "Json",
+      "Path": "Json/Stage/Stage3.json",
+      "Preload": false
+    },
+
+    "TitleBGM": {
+      "Type": "Sound2D",
+      "Path": "Sound/TitleBGM.mp3",
+
+      "Preload": true,
+      "Loop": true,
+
+      "SoundType": "BGM",
+
+      "MaxVolume": 0.5,
+      "MaxPlayNum": 1,
+      "Pitch": 0.0
+    },
+
+    "GameBGM": {
+      "Type": "Sound2D",
+      "Path": "Sound/GameBGM.mp3",
+
+      "Preload": true,
+      "Loop": true,
+
+      "SoundType": "BGM",
+
+      "MaxVolume": 0.5,
+      "MaxPlayNum": 1,
+      "Pitch": 0.0
+    }
+  }
+}

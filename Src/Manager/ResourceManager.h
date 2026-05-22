@@ -1,59 +1,34 @@
 #pragma once
-#include <map>
-#include <string>
-#include "Resource.h"
+#include<string>
+#include<map>
+#include<memory>
+
+#include "Resource/Resource.h"
 
 class ResourceManager
-{
-
+{	
 public:
-
-	// ƒŠƒ\[ƒX–¼
-	enum class SRC
-	{
-	};
-
-	// –¾¦“I‚ÉƒCƒ“ƒXƒeƒ“ƒX‚ğ¶¬‚·‚é
+	// æ˜ç¤ºçš„ã«ã‚¤ãƒ³ã‚¹ãƒ†ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	static void CreateInstance(void);
 
-	// Ã“IƒCƒ“ƒXƒ^ƒ“ƒX‚Ìæ“¾
+	// é™çš„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®å–å¾—
 	static ResourceManager& GetInstance(void);
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Init(void);
 
-	// ‰ğ•ú(ƒV[ƒ“Ø‘Ö‚Éˆê’U‰ğ•ú)
+	// è§£æ”¾(ã‚·ãƒ¼ãƒ³åˆ‡æ›¿æ™‚ã«ä¸€æ—¦è§£æ”¾)
 	void Release(void);
 
-	// ƒŠƒ\[ƒX‚ÌŠ®‘S”jŠü
+	// ãƒªã‚½ãƒ¼ã‚¹ã®å®Œå…¨ç ´æ£„
 	void Destroy(void);
-
-	// ƒŠƒ\[ƒX‚Ìƒ[ƒh
-	Resource Load(SRC src);
-
-	// ƒŠƒ\[ƒX‚Ì•¡»ƒ[ƒh(ƒ‚ƒfƒ‹—p)
-	int LoadModelDuplicate(SRC src);
-
 private:
-
-	// Ã“IƒCƒ“ƒXƒ^ƒ“ƒX
+	// é™çš„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	static ResourceManager* instance_;
+	std::map<std::string, std::shared_ptr<Resource>> resourcesMap_;
+	std::map<std::string, std::vector<std::shared_ptr<Resource>>> loadedMap_;
 
-	// ƒŠƒ\[ƒXŠÇ—‚Ì‘ÎÛ
-	std::map<SRC, Resource> resourcesMap_;
-
-	// “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX
-	std::map<SRC, Resource*> loadedMap_;
-
-	// ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğprivate‚É‚µ‚ÄA
-	// ŠO•”‚©‚ç¶¬‚Å‚«‚È‚¢—l‚É‚·‚é
-	ResourceManager(void);
-
-	// ƒfƒXƒgƒ‰ƒNƒ^‚à“¯—l
-	~ResourceManager(void) = default;
-
-	// “à•”ƒ[ƒh
-	Resource* _Load(SRC src);
-
+	Resource::TYPE GetResourceTypeFromString(const std::string&	str);
+	std::shared_ptr<Resource> CreateResource( const nlohmann::json& json, Resource::TYPE type);
 };
 

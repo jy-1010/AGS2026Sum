@@ -2,7 +2,6 @@
 #include<cmath>
 #include"../Application.h"
 #include"../Manager/Scenemanager.h"
-#include"../Manager/SoundManager.h"
 #include "../Manager/KeyConfig.h"
 #include "../Manager/Camera.h"
 #include "../Manager/ResourceManager.h"

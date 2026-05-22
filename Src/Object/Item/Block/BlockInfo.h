@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include "../../../Lib/nlohmann/json.hpp"
+#include "../../../Common/Vector.h"
 
 class BlockInfo
 {
@@ -10,13 +11,13 @@ public:
 	struct Param
 	{
 		std::string name = "";	//ブロックの名前
-		std::string fileName = "";	//ブロックの画像ファイル名
 		unsigned short id = -1;	//ブロックのID
 		float hardness = -1.0f;	//ブロックの硬さ
 		float luminous = 0.0f;	//ブロックの発光度
 		std::string toolType = "";	//ブロックを破壊するのに適性なツールの種類
 		std::vector<std::string> toolLevel;	//ブロックを破壊するのに適性なツールのレベル
 		bool isCorrectAnotherTool = false;	//別のツールでも獲得可能かどうか
+		Vector2F uvOffset = Vector2F(0.0f, 0.0f);	//ブロックのテクスチャのUVオフセット
 	};
 
 	BlockInfo(void);

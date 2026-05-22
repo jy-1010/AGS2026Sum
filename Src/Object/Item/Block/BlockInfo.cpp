@@ -37,12 +37,13 @@ void BlockInfo::LoadBlockInfo(const std::string blockName)
 {
 	Param param;
 	param.name = blockName;
-	param.fileName = blocks[blockName]["FileName"].get<std::string>();
 	param.id = blocks[blockName]["ID"].get<unsigned short>();
 	param.hardness = blocks[blockName]["Hardness"].get<float>();
 	param.luminous = blocks[blockName]["Luminous"].get<float>();
 	param.toolType = blocks[blockName]["ToolType"].get<std::string>();
 	param.toolLevel = blocks[blockName]["ToolLevel"].get<std::vector<std::string>>();
 	param.isCorrectAnotherTool = blocks[blockName]["IsCorrectAnotherTool"].get<bool>();
+	param.uvOffset.u = blocks[blockName]["UVOffset"]["u"].get<float>();
+	param.uvOffset.v = blocks[blockName]["UVOffset"]["v"].get<float>();
 	params_.emplace(param.id, param);
 }

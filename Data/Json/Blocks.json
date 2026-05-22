@@ -1,5 +1,10 @@
 {
+  "ImagePath": "Item/Blocks.png",
   "Names": [ "EndStone", "Obsidian", "Bedrock" ],
+  "1SquareSize": {
+    "X": 32,
+    "Y": 32
+  },
   "EndStone": {
     "ID": 121,
     "Hardness": 3.0,
@@ -7,7 +12,10 @@
     "ToolType": "Pickaxe",
     "ToolLevel": [ "Wood", "Stone", "Iron", "Diamond", "Netherite", "Gold" ],
     "IsCorrectAnotherTool": false,
-    "FileName": "EndStone.png"
+    "UVOffset": {
+      "u" : 96,
+      "v" : 0
+    }
   },
   "Obsidian": {
     "ID": 49,
@@ -16,7 +24,10 @@
     "ToolType": "Pickaxe",
     "ToolLevel": [ "Diamond", "Netherite" ],
     "IsCorrectAnotherTool": false,
-    "FileName": "Obsidian.png"
+    "UVOffset": {
+      "u": 0,
+      "v": 0
+    }
   },
   "Bedrock": {
     "ID": 7,
@@ -25,6 +36,9 @@
     "ToolType": "None",
     "ToolLevel": [ "" ],
     "IsCorrectAnotherTool": false,
-    "FileName": "Bedrock.png"
+    "UVOffset": {
+      "u": 0,
+      "v": 64
+    }
   }
 }

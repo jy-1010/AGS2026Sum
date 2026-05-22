@@ -4,7 +4,6 @@
 #include "Manager/KeyConfig.h"
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
-#include "Manager/SoundManager.h"
 #include "Manager/KeyMap.h"
 #include "Common/FpsController.h"
 #include "Application.h"
@@ -66,9 +65,6 @@ void Application::Init(void)
 	//入力管理の初期化
 	KeyConfig::CreateInstance();
 
-	//サウンド関係の初期化
-	SoundManager::CreateInstance();
-
 	// シーン管理初期化
 	SceneManager::CreateInstance();
 
@@ -101,8 +97,7 @@ void Application::Run(void)
 
 void Application::Destroy(void)
 {
-	SceneManager::GetInstance().Destroy();
-	SoundManager::GetInstance().Destroy();	
+	SceneManager::GetInstance().Destroy();;	
 	KeyConfig::GetInstance().Destroy();
 	ResourceManager::GetInstance().Destroy();
 	KeyMap::GetInstance().Destroy();
