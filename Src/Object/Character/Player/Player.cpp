@@ -1,4 +1,6 @@
 #include <fstream>
+#include "../../../Manager/ResourceManager.h"
+#include "../../../Manager/Resource/JsonResource.h"
 #include "../../../Application.h"
 #include "PlayerModel.h"
 #include "Player.h"
@@ -6,6 +8,11 @@
 Player::Player(std::string skinName)
 {
 	LoadPlayerInfo();
+	if (skinName == "")
+	{
+		skinName = "Alex";
+	}
+	transform_ = std::make_shared<Transform>();
 	model_ = std::make_unique<PlayerModel>(skinName, paramsJson_);
 }
 
@@ -33,15 +40,16 @@ void Player::UIDraw(void)
 	model_->UIDraw();
 }
 
+void Player::SetSkinHandle(int handle)
+{
+	model_->SetSkinHandle(handle);
+}
+
 void Player::LoadPlayerInfo(void)
 {
-	std::ifstream ifs(Application::PATH_JSON + "Player.json");
-	if (!ifs)
-	{
-		std::cerr << "Failed to open PlayerInfo.json" << std::endl;
-		return;
-	}
-	ifs >> paramsJson_;
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource("PlayerJson").lock();
+	paramsJson_ = jsonResource->GetData();
 	params_.COLLISION_SIZE = FLOAT3(paramsJson_["Collision"]["Width"], paramsJson_["Collision"]["Height"], paramsJson_["Collision"]["Depth"]);
 	params_.MAX_HEALTH = paramsJson_["Status"]["MaxHealth"];
 	params_.BLOCK_REACH = paramsJson_["Reach"]["Block"];

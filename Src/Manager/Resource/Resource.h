@@ -3,14 +3,17 @@
 #include<DxLib.h>
 #include "../Lib/nlohmann/json.hpp"
 
+class JsonResource;
+class ImageResource;
+class ImageArrayResource;
+class ModelResource;
+class Sound2DResource;
+class Sound3DResource;
+class ShaderResource;
+
 class Resource
 {
 public:
-
-	//３分間のミリ秒
-	static constexpr int THREE_MINIT_MILI_TIME = 180000;
-	//音量の最大値
-	static constexpr int MAX_VOLUME = 255;
 
 	// リソースタイプ
 	enum class TYPE
@@ -28,7 +31,7 @@ public:
 
 
 	// コンストラクタ
-	Resource(void);
+	Resource(void) = delete;
 	Resource(nlohmann::json json);
 
 	//デストラクタ
@@ -36,6 +39,28 @@ public:
 
 	//ロード
 	virtual bool Load(void) = 0;
+
+	//ロードされているか
+	virtual bool IsLoaded(void) const = 0;
+
+	//リソースタイプを取得する
+	TYPE GetResourceType(void) const { return resourceType_; }
+
+	//ファイルのパスを取得する
+	const std::string& GetPath(void) const { return path_; }
+
+	//json情報を取得する
+	const nlohmann::json& GetJson(void) const { return json_; }
+
+	//リソースをキャストする
+	static std::shared_ptr<JsonResource> CastToJsonResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<ImageResource> CastToImageResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<ImageArrayResource> CastToImageArrayResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<ModelResource> CastToModelResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<Sound2DResource> CastToSound2DResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<Sound3DResource> CastToSound3DResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<ShaderResource> CastToShaderResource(std::shared_ptr<Resource> resource);
+protected:
 
 	//タイプ
 	TYPE resourceType_;
@@ -46,6 +71,10 @@ public:
 	//ファイルのパス
 	std::string path_;
 
-protected:
+	//リソースの情報をロード
 	virtual void LoadResourceInfo(void);
+	//プリロードを行うか
+	bool IsPreLoad(void)const;
+	//リソースの完全初期化
+	virtual void Init(void) = 0;
 };

@@ -23,6 +23,6 @@
     "JumpVelocity": 0.42
   },
 
-  "Model": "PlayerModel.json"
+  "Model": "PlayerModelJson"
 
 }

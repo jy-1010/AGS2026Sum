@@ -35,6 +35,17 @@ Polygon3DMaterial::Polygon3DMaterial(
 
 }
 
+Polygon3DMaterial::Polygon3DMaterial(int shaderHandleVS, int constBufFloat4SizeVS, int shaderHandlePS, int constBufFloat4SizePS)
+{
+	shaderVS_ = shaderHandleVS;
+	constBufFloat4SizeVS_ = constBufFloat4SizeVS;
+	constBufVS_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * constBufFloat4SizeVS);
+	shaderPS_ = shaderHandlePS;
+	constBufFloat4SizePS_ = constBufFloat4SizePS;
+	constBufPS_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * constBufFloat4SizePS);
+	texAddress_ = TEXADDRESS::CLAMP;
+}
+
 void Polygon3DMaterial::AddConstBufVS(const FLOAT4& contBuf)
 {
 

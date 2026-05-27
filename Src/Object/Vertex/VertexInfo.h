@@ -15,7 +15,7 @@ public:
 
 	struct Cube_Param
 	{
-		std::string filePath;
+		std::string key;
 		VECTOR center;
 		VECTOR cubeSize;
 		Vector2F TextureSize;
@@ -28,13 +28,12 @@ public:
 		Vector2F localUV;
 		VECTOR normal;
 	};
-
 	static Polygon3DRenderer::PolygonInfo LoadFromFile(const Cube_Param& param);
 private:
 	static UVOffset GetUVOffset(const nlohmann::json offset,VECTOR size);
 	static Vector2F GetUVOffset(const nlohmann::json offset,const std::string key,VECTOR size);
 	static float CalcUVOffset(const std::string offset, const VECTOR size);
 	static std::vector<InputVerticesParam> GetInputVertices(const nlohmann::json vertices);
-	static VERTEX3DSHADER CreateVertex(const InputVerticesParam& inputParam, const Cube_Param& cubeParam,const UVOffset& uvoffset);
+	static VERTEX3DSHADER CreateVertex(const InputVerticesParam& inputParam, const Cube_Param& cubeParam,const UVOffset& uvoffset,float size);
 };
 

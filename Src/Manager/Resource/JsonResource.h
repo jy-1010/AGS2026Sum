@@ -4,16 +4,26 @@ class JsonResource : public Resource
 {
 public:
 	// コンストラクタ
-	JsonResource(void);
+	JsonResource(void) = delete;
 	JsonResource(nlohmann::json json);
-	
 	// デストラクタ
 	~JsonResource(void)override;
 
 	// ロード
 	bool Load(void)override;
+
+	// ロードされているか
+	bool IsLoaded(void) const override;
+
+	// JSONの内容を取得する
+	const nlohmann::json& GetData(void) const { return data_; }
 protected:
-	nlohmann::json data; // JSONの内容
+	bool isLoaded_; // ロードされているか
+
+	nlohmann::json data_; // JSONの内容
 	// JSONの情報をロード
 	void LoadResourceInfo(void) override;
+	// JSONの完全初期化
+	void Init(void) override;
+
 };

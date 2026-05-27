@@ -1,21 +1,24 @@
 #include <fstream>
 #include <vector>
+#include "../../Manager/ResourceManager.h"
+#include "../../Manager/Resource/JsonResource.h"
 #include "VertexInfo.h"
 
 Polygon3DRenderer::PolygonInfo VertexInfo::LoadFromFile(const Cube_Param& param)
 {
 	Polygon3DRenderer::PolygonInfo polygonInfo;
 	polygonInfo.clear();
-	// ファイルからjsonを読み込む
-	std::ifstream file(param.filePath);
 	nlohmann::json jsonfile;
-	file >> jsonfile;
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource(param.key).lock();
+	jsonfile = jsonResource->GetData();
 	// どの面から作るかを読み込み
 	std::vector<std::string> Order;
 	for (auto& param : jsonfile["Order"])
 	{
 		Order.push_back(param);
 	}
+	float size = jsonfile["Size"];
 	//頂点情報を面ごとに読み込む
 	auto& Vertices = jsonfile["Vertices"];
 	for (int i = 0; i < Order.size(); i++)
@@ -27,7 +30,7 @@ Polygon3DRenderer::PolygonInfo VertexInfo::LoadFromFile(const Cube_Param& param)
 		//頂点情報を作成
 		for (int j = 0;j < inputVertices.size();j++)
 		{
-			polygonInfo.vertex.push_back(CreateVertex(inputVertices[j], param, uvOffset));
+			polygonInfo.vertex.push_back(CreateVertex(inputVertices[j], param, uvOffset,size));
 		}
 		polygonInfo.Indices.push_back(i * 4);
 		polygonInfo.Indices.push_back(i * 4 + 1);
@@ -94,22 +97,23 @@ std::vector<VertexInfo::InputVerticesParam> VertexInfo::GetInputVertices(const n
 	return inputVertices;
 }
 
-VERTEX3DSHADER VertexInfo::CreateVertex(const InputVerticesParam& inputParam, const Cube_Param& cubeParam, const UVOffset& uvoffset)
+VERTEX3DSHADER VertexInfo::CreateVertex(const InputVerticesParam& inputParam, const Cube_Param& cubeParam, const UVOffset& uvoffset,float size)
 {
 	const VECTOR center = cubeParam.center;
+	const VECTOR cubeSize = cubeParam.cubeSize;
 	VERTEX3DSHADER ret;
-	VECTOR posOffset = VECTOR(center.x * inputParam.pos.x, center.y * inputParam.pos.y, center.z * inputParam.pos.z);
-	ret.pos =VAdd(cubeParam.center, posOffset);
+	VECTOR posOffset = VECTOR(cubeSize.x * inputParam.pos.x, cubeSize.y * inputParam.pos.y, cubeSize.z * inputParam.pos.z);
+	ret.pos =VScale(VAdd(center, posOffset),size);
 	ret.spos = FLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	ret.norm = inputParam.normal;
 	ret.tan = VECTOR(0.0f, 0.0f, 0.0f);
 	ret.binorm = VECTOR(0.0f, 0.0f, 0.0f);
 	ret.dif = COLOR_U8(255, 255, 255, 255);
 	ret.spc = COLOR_U8(0, 0, 0, 255);
-	float u = cubeParam.startUV.u + ((uvoffset.rightDown.u - uvoffset.leftUp.u) * inputParam.localUV.u + uvoffset.leftUp.u);
-	float v = cubeParam.startUV.v + ((uvoffset.rightDown.v - uvoffset.leftUp.v) * inputParam.localUV.v + uvoffset.leftUp.v);
-	ret.u = u / cubeParam.TextureSize.u;
-	ret.v = v / cubeParam.TextureSize.v;
+	float u = ((uvoffset.rightDown.u - uvoffset.leftUp.u) * inputParam.localUV.u + uvoffset.leftUp.u);
+	float v = ((uvoffset.rightDown.v - uvoffset.leftUp.v) * inputParam.localUV.v + uvoffset.leftUp.v);
+	ret.u = cubeParam.startUV.u + u / cubeParam.TextureSize.u;
+	ret.v = cubeParam.startUV.v + v / cubeParam.TextureSize.v;
 	ret.su = ret.u;
 	ret.sv = ret.v;
 	return ret;

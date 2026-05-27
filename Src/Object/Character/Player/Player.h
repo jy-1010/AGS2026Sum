@@ -26,6 +26,7 @@ public:
 	void Draw(void) override;
 	void UIDraw(void) override;
 
+	void SetSkinHandle(int handle);
 private:
 
 	std::unique_ptr<PlayerModel> model_;

@@ -20,6 +20,7 @@ const std::string Application::PATH_SOUND_SE = "Data/Sound/SE/";
 const std::string Application::PATH_JSON = "Data/Json/";
 //const std::string Application::PATH_CSV = "Data/CSV/";
 const std::string Application::PATH_SHADER = "Data/Shader/";
+const std::string Application::PATH_DATA = "Data/";
 
 void Application::CreateInstance(void)
 {

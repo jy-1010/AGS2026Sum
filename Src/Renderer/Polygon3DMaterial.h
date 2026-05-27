@@ -29,6 +29,11 @@ public:
 		std::string shaderFileNamePS, int constBufFloat4SizePS
 	);
 
+	Polygon3DMaterial(
+		int shaderHandleVS, int constBufFloat4SizeVS,
+		int shaderHandlePS, int constBufFloat4SizePS
+	);
+
 	// デストラクタ
 	~Polygon3DMaterial(void);
 

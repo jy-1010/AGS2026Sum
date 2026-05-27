@@ -66,6 +66,12 @@
       "Preload": false
     },
 
+    "PlayerSkinJson": {
+      "Type": "Json",
+      "Path": "Json/PlayerSkin.json",
+      "Preload": true
+    },
+
     "TitleBGM": {
       "Type": "Sound2D",
       "Path": "Sound/TitleBGM.mp3",
@@ -92,6 +98,20 @@
       "MaxVolume": 0.5,
       "MaxPlayNum": 1,
       "Pitch": 0.0
+    },
+
+    "PlayerVS": {
+      "Type": "Shader",
+      "Path": "Shader/PlayerVS.cso",
+      "ShaderType": "Vertex",
+      "Preload": true
+    },
+    "PlayerPS": {
+      "Type": "Shader",
+      "Path": "Shader/PlayerPS.cso",
+      "ShaderType": "Pixel",
+      "Preload": true
     }
+
   }
 }

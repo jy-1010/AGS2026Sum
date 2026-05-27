@@ -22,13 +22,23 @@ public:
 
 	// リソースの完全破棄
 	void Destroy(void);
+
+	// 種類ごとのリソースの取得
+	std::weak_ptr<JsonResource> GetJsonResource(const std::string& key);
+	std::weak_ptr<ImageResource> GetImageResource(const std::string& key);
+	std::weak_ptr<ImageArrayResource> GetImageArrayResource(const std::string& key);
+	std::weak_ptr<ModelResource> GetModelResource(const std::string& key);
+	std::weak_ptr<Sound2DResource> GetSound2DResource(const std::string& key);
+	std::weak_ptr<Sound3DResource> GetSound3DResource(const std::string& key);
+	std::weak_ptr<ShaderResource> GetShaderResource(const std::string& key);
+
 private:
 	// 静的インスタンス
 	static ResourceManager* instance_;
-	std::map<std::string, std::shared_ptr<Resource>> resourcesMap_;
-	std::map<std::string, std::vector<std::shared_ptr<Resource>>> loadedMap_;
+	std::map<std::string, std::shared_ptr<Resource>> resourcesMap_;	// 全てのリソース
 
 	Resource::TYPE GetResourceTypeFromString(const std::string&	str);
 	std::shared_ptr<Resource> CreateResource( const nlohmann::json& json, Resource::TYPE type);
+	std::shared_ptr<Resource> GetResource(const std::string& key);
 };
 

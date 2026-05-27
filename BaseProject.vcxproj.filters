@@ -53,9 +53,13 @@
     <ClCompile Include="Src\Manager\Resource\ImageResource.cpp" />
     <ClCompile Include="Src\Manager\Resource\ImageArrayResource.cpp" />
     <ClCompile Include="Src\Manager\Resource\ModelResource.cpp" />
-    <ClCompile Include="Src\Manager\Resource\Sound2DResource.cpp" />
-    <ClCompile Include="Src\Manager\Resource\Sound3DResource.cpp" />
+    <ClCompile Include="Src\Manager\Resource\Sound\Sound2DResource.cpp" />
+    <ClCompile Include="Src\Manager\Resource\Sound\Sound3DResource.cpp" />
     <ClCompile Include="Src\Manager\Resource\ShaderResource.cpp" />
+    <ClCompile Include="Src\Manager\Resource\Sound\SoundResource.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Skin\SkinManager.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Skin\Skin.cpp" />
+    <ClCompile Include="Src\Scene\SceneMakeSkin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -121,8 +125,17 @@
     <ClInclude Include="Src\Manager\Resource\ImageResource.h" />
     <ClInclude Include="Src\Manager\Resource\ImageArrayResource.h" />
     <ClInclude Include="Src\Manager\Resource\ModelResource.h" />
-    <ClInclude Include="Src\Manager\Resource\Sound2DResource.h" />
-    <ClInclude Include="Src\Manager\Resource\Sound3DResource.h" />
+    <ClInclude Include="Src\Manager\Resource\Sound\Sound2DResource.h" />
+    <ClInclude Include="Src\Manager\Resource\Sound\Sound3DResource.h" />
     <ClInclude Include="Src\Manager\Resource\ShaderResource.h" />
+    <ClInclude Include="Src\Manager\Resource\Sound\SoundResource.h" />
+    <ClInclude Include="Src\Object\Character\Player\Skin\SkinManager.h" />
+    <ClInclude Include="Src\Object\Character\Player\Skin\Skin.h" />
+    <ClInclude Include="SceneMakeSkin.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />
+    <FxCompile Include="Src\Shader\Polygon\PlayerPS.hlsl" />
+    <FxCompile Include="Src\Shader\Polygon\PlayerVS.hlsl" />
   </ItemGroup>
 </Project>

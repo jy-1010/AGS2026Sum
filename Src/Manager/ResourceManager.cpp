@@ -4,8 +4,8 @@
 #include "Resource/ImageResource.h"
 #include "Resource/ImageArrayResource.h"
 #include "Resource/ModelResource.h"
-#include "Resource/Sound2DResource.h"
-#include "Resource/Sound3DResource.h"
+#include "Resource/Sound/Sound2DResource.h"
+#include "Resource/Sound/Sound3DResource.h"
 #include "Resource/ShaderResource.h"
 #include "ResourceManager.h"
 
@@ -43,7 +43,6 @@ void ResourceManager::Init(void)
 
 void ResourceManager::Release(void)
 {
-	loadedMap_.clear();
 }
 
 void ResourceManager::Destroy(void)
@@ -52,6 +51,76 @@ void ResourceManager::Destroy(void)
 	resourcesMap_.clear();
 	delete instance_;
 	instance_ = nullptr;
+}
+
+std::weak_ptr<JsonResource> ResourceManager::GetJsonResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::JSON)
+	{
+		return std::weak_ptr<JsonResource>();
+	}
+	return std::static_pointer_cast<JsonResource>(resource);
+}
+
+std::weak_ptr<ImageResource> ResourceManager::GetImageResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::IMAGE)
+	{
+		return std::weak_ptr<ImageResource>();
+	}
+	return std::static_pointer_cast<ImageResource>(resource);
+}
+
+std::weak_ptr<ImageArrayResource> ResourceManager::GetImageArrayResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::IMAGEARRAY)
+	{
+		return std::weak_ptr<ImageArrayResource>();
+	}
+	return std::static_pointer_cast<ImageArrayResource>(resource);
+}
+
+std::weak_ptr<ModelResource> ResourceManager::GetModelResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::MODEL)
+	{
+		return std::weak_ptr<ModelResource>();
+	}
+	return std::static_pointer_cast<ModelResource>(resource);
+}
+
+std::weak_ptr<Sound2DResource> ResourceManager::GetSound2DResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::SOUND_2D)
+	{
+		return std::weak_ptr<Sound2DResource>();
+	}
+	return std::static_pointer_cast<Sound2DResource>(resource);
+}
+
+std::weak_ptr<Sound3DResource> ResourceManager::GetSound3DResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::SOUND_3D)
+	{
+		return std::weak_ptr<Sound3DResource>();
+	}
+	return std::static_pointer_cast<Sound3DResource>(resource);
+}
+
+std::weak_ptr<ShaderResource> ResourceManager::GetShaderResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::SHADER)
+	{
+		return std::weak_ptr<ShaderResource>();
+	}
+	return std::static_pointer_cast<ShaderResource>(resource);
 }
 
 Resource::TYPE ResourceManager::GetResourceTypeFromString(const std::string& str)
@@ -105,6 +174,21 @@ std::shared_ptr<Resource> ResourceManager::CreateResource( const nlohmann::json&
 		return std::make_shared<Sound3DResource>(json);
 	case Resource::TYPE::SHADER:
 		return std::make_shared<ShaderResource>(json);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Resource> ResourceManager::GetResource(const std::string& key)
+{
+	auto it = resourcesMap_.find(key);
+	if (it != resourcesMap_.end())
+	{
+		auto& resource = it->second;
+		if (!resource->IsLoaded())
+		{
+			resource->Load();
+		}
+		return resource;
 	}
 	return nullptr;
 }

@@ -29,6 +29,7 @@ public:
 	static const std::string PATH_JSON;
 	//static const std::string PATH_CSV;
 	static const std::string PATH_SHADER;
+	static const std::string PATH_DATA;
 	//-------------------------------------------
 
 	// 明示的にインステンスを生成する

@@ -1,6 +1,6 @@
 {
   "Order": [ "Front", "Left", "Back", "Bottom", "Right", "Top" ],
-
+  "Size": 10.0,
   "Vertices": {
     "Front": {
       "UVOffset": {
@@ -341,7 +341,7 @@
             "z": -0.5
           },
           "LocalUV": {
-            "u": 0,
+            "u": 1,
             "v": 0
           },
           "Normal": {
@@ -358,7 +358,7 @@
           },
           "LocalUV": {
             "u": 1,
-            "v": 0
+            "v": 1
           },
           "Normal": {
             "x": 1,
@@ -373,7 +373,7 @@
             "z": 0.5
           },
           "LocalUV": {
-            "u": 1,
+            "u": 0,
             "v": 1
           },
           "Normal": {
@@ -390,7 +390,7 @@
           },
           "LocalUV": {
             "u": 0,
-            "v": 1
+            "v": 0
           },
           "Normal": {
             "x": 1,

@@ -1,0 +1,15 @@
+{
+  "Type": "Image",
+  "lootPath": "Image/PlayerSkin/",
+  "Preload": true,
+  "Info": [
+    {
+      "Name": "Steve",
+      "Path": "Steve.png"
+    },
+    {
+      "Name": "Alex",
+      "Path": "Alex.png"
+    }
+  ]
+}

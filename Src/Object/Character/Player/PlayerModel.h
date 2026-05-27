@@ -17,6 +17,12 @@ public:
 		const bool IsAffect(void)const { return isRot || isPos; }
 	};
 
+	struct ShaderInfo
+	{
+		std::string VSKey;	// 頂点シェーダーのリソースキー
+		std::string PSKey;	// ピクセルシェーダーのリソースキー
+	};
+
 	struct Cube
 	{
 		IntVector3 offset;	//キューブの中心からのオフセット
@@ -39,6 +45,8 @@ public:
 	void Update(void);
 	void Draw(void);
 	void UIDraw(void);
+
+	void SetSkinHandle(int handle);
 private:
 	int pixelNum_;
 	int skinHandle_;
@@ -49,9 +57,10 @@ private:
 	Polygon3DRenderer::PolygonInfo polygonInfo_;
 	std::unique_ptr<Polygon3DMaterial> material_;
 	std::shared_ptr<Polygon3DRenderer> renderer_;
-
+	ShaderInfo shaderInfo_;
 	void LoadModelInfo(void);
 	void LoadSkin(std::string skinName);
 	void MakePokygonInfo(void);
+	void SetRendererInfo(void);
 };
 

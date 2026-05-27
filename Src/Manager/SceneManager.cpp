@@ -9,6 +9,7 @@
 #include"../Common/Fader.h"
 #include"../Scene/SceneTitle.h"
 #include"../Scene/SceneGame.h"
+#include "../Object/Character/Player/Skin/SkinManager.h"
 
 SceneManager* SceneManager::instance_ = nullptr;
 
@@ -27,6 +28,8 @@ SceneManager::SceneManager(void)
 	DrawTranslucentManager::CreateInstance();
 	//当たり判定管理の初期化(各シーンで追加の可能性があるため)
 	CollisionManager::CreateInstance();
+	//スキンマネージャー
+	SkinManager::CreateInstance();
 }
 
 SceneManager::~SceneManager(void)
