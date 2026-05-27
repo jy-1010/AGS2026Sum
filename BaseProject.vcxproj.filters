@@ -131,7 +131,7 @@
     <ClInclude Include="Src\Manager\Resource\Sound\SoundResource.h" />
     <ClInclude Include="Src\Object\Character\Player\Skin\SkinManager.h" />
     <ClInclude Include="Src\Object\Character\Player\Skin\Skin.h" />
-    <ClInclude Include="SceneMakeSkin.h" />
+    <ClInclude Include="Src\Scene\SceneMakeSkin.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />
