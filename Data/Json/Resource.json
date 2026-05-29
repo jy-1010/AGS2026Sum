@@ -26,13 +26,25 @@
 
     "PlayerJson": {
       "Type": "Json",
-      "Path": "Json/Player.json",
+      "Path": "Json/Player/Player.json",
       "Preload": true
     },
 
     "PlayerModelJson": {
       "Type": "Json",
-      "Path": "Json/PlayerModel.json",
+      "Path": "Json/Player/PlayerModel.json",
+      "Preload": true
+    },
+
+    "PlayerSkinJson": {
+      "Type": "Json",
+      "Path": "Json/Player/PlayerSkin.json",
+      "Preload": true
+    },
+
+    "PlayerAnimationJson": {
+      "Type": "Json",
+      "Path": "Json/Player/PlayerAnimation.json",
       "Preload": true
     },
 
@@ -64,12 +76,6 @@
       "Type": "Json",
       "Path": "Json/Stage/Stage3.json",
       "Preload": false
-    },
-
-    "PlayerSkinJson": {
-      "Type": "Json",
-      "Path": "Json/PlayerSkin.json",
-      "Preload": true
     },
 
     "TitleBGM": {

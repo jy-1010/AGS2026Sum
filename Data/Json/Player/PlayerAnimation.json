@@ -1,0 +1,15 @@
+{
+  "Type": "Json",
+  "LootPath": "Json/Player/Animation",
+  "Preload": "false",
+  "Animations": [
+    {
+      "Name": "Idle",
+      "Idle": "Idle.json"
+    },
+    {
+      "Name": "TPose",
+      "Path": "TPose.json"
+    }
+  ]
+}
