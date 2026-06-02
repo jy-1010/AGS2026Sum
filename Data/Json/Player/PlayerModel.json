@@ -1,5 +1,6 @@
 {
   "RenderTemplate": "CubeTemplateJson",
+  "AnimationTemplate": "PlayerAnimationJson",
   "TextureSize": {
     "x": 64,
     "y": 64
@@ -9,6 +10,8 @@
     "VS": "PlayerVS",
     "PS": "PlayerPS"
   },
+
+  "RootPart": "Body",
 
   "Parts": [
     {

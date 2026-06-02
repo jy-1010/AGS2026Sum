@@ -1434,3 +1434,38 @@ Vector2F Utility::CalcSphericalUV(const VECTOR& normal)
 
     return { u, v };
 }
+
+VECTOR Utility::ApplyRotation(const VECTOR& point, const VECTOR& center, const VECTOR& rot)
+{
+    VECTOR pos;
+	//中心を原点に移動
+    VECTOR translated = VSub(point, center);
+	//回転を適用
+	VECTOR rotatedX = RotateX(translated, Deg2RadF(rot.x));
+	VECTOR rotatedY = RotateY(rotatedX, Deg2RadF(rot.y));
+	VECTOR rotatedZ = RotateZ(rotatedY, Deg2RadF(rot.z));
+	//中心を元に戻す
+	pos = VAdd(rotatedZ, center);
+	return pos;
+}
+
+VECTOR Utility::RotateX(VECTOR localPos, float rad)
+{
+    float y = localPos.y * cos(rad) - localPos.z * sin(rad);
+    float z = localPos.y * sin(rad) + localPos.z * cos(rad);
+	return VGet(localPos.x, y, z);
+}
+
+VECTOR Utility::RotateY(VECTOR localPos, float rad)
+{
+    float x = localPos.x * cos(rad) + localPos.z * sin(rad);
+    float z = -localPos.x * sin(rad) + localPos.z * cos(rad);
+    return VGet(x, localPos.y, z);
+}
+
+VECTOR Utility::RotateZ(VECTOR localPos, float rad)
+{
+	float x = localPos.x * cos(rad) - localPos.y * sin(rad);
+	float y = localPos.x * sin(rad) + localPos.y * cos(rad);
+	return VGet(x, y, localPos.z);
+}

@@ -1,6 +1,6 @@
 {
   "Type": "Image",
-  "lootPath": "Image/PlayerSkin/",
+  "RootPath": "Image/PlayerSkin/",
   "Preload": true,
   "Info": [
     {

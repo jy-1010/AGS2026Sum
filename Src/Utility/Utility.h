@@ -520,6 +520,37 @@ public:
 	static Vector2F CalcSphericalUV(const VECTOR& normal);
 
 	/// <summary>
+	/// 点を中心を基準に回転させる
+	/// </summary>
+	/// <param name="point">回転させる点の座標</param>
+	/// <param name="center">回転の中心座標</param>
+	/// <param name="rot">回転角度（度数法）</param>
+	/// <returns>回転後の座標</returns>
+	static VECTOR ApplyRotation(const VECTOR& point, const VECTOR& center, const VECTOR& rot);
+
+	/// <summary>
+	/// X軸を中心に回転させる
+	/// </summary>
+	/// <param name="localPos">回転させる中心からの座標</param>
+	/// <param name="rad">回転角度（ラジアン）</param>
+	/// <returns>回転後の座標</returns>
+	static VECTOR RotateX(VECTOR localPos, float rad);
+	/// <summary>
+	/// Y軸を中心に回転させる
+	/// </summary>
+	/// <param name="localPos">回転させる中心からの座標</param>
+	/// <param name="rad">回転角度（ラジアン）</param>
+	/// <returns>回転後の座標</returns>
+	static VECTOR RotateY(VECTOR localPos, float rad);
+	/// <summary>
+	/// Z軸を中心に回転させる
+	/// </summary>
+	/// <param name="localPos">回転させる中心からの座標</param>
+	/// <param name="rad">回転角度（ラジアン）</param>
+	/// <returns>回転後の座標</returns>
+	static VECTOR RotateZ(VECTOR localPos, float rad);
+
+	/// <summary>
 	/// vector配列の中のnullptrを削除する
 	/// </summary>
 	/// <typeparam name="T">型名</typeparam>

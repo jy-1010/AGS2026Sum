@@ -29,12 +29,12 @@ void SkinManager::Init(void)
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();
 	skinJson_ = jsonResource->GetData();
-	std::string lootPath = Application::PATH_DATA + skinJson_["lootPath"].get<std::string>();
+	std::string RootPath = Application::PATH_DATA + skinJson_["RootPath"].get<std::string>();
 	bool isPreload = skinJson_["Preload"];
 	for (auto& skinInfo : skinJson_["Info"])
 	{
 		std::string name = skinInfo["Name"].get<std::string>();
-		std::string path = lootPath + skinInfo["Path"].get<std::string>();
+		std::string path = RootPath + skinInfo["Path"].get<std::string>();
 		skinResources_[name] = std::make_shared<Skin>(name, path, isPreload);
 	}
 }

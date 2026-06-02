@@ -1,15 +1,25 @@
 {
-  "Type": "Json",
-  "LootPath": "Json/Player/Animation",
-  "Preload": "false",
+  "RootPath": "Json/Player/Animation/",
+  "Preload": true,
+
+  "DefaultAnimation": "Walk",
+
   "Animations": [
     {
       "Name": "Idle",
-      "Idle": "Idle.json"
+      "Path": "Idle.json"
     },
     {
       "Name": "TPose",
       "Path": "TPose.json"
+    },
+    {
+      "Name": "Walk",
+      "Path": "Walk.json"
+    },
+    {
+      "Name": "Swing",
+      "Path": "Swing.json"
     }
   ]
 }

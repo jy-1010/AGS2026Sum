@@ -29,6 +29,7 @@ public:
 		VECTOR normal;
 	};
 	static Polygon3DRenderer::PolygonInfo LoadFromFile(const Cube_Param& param);
+	static float GetPixelSize(std::string key);
 private:
 	static UVOffset GetUVOffset(const nlohmann::json offset,VECTOR size);
 	static Vector2F GetUVOffset(const nlohmann::json offset,const std::string key,VECTOR size);

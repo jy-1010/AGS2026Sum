@@ -39,7 +39,7 @@ bool SceneGame::Init(void)
 void SceneGame::Update(void)
 {
 	KeyConfig& ins = KeyConfig::GetInstance();
-	
+	player_->Update();
 }
 
 //•`‰æˆ—

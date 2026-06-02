@@ -60,6 +60,8 @@
     <ClCompile Include="Src\Object\Character\Player\Skin\SkinManager.cpp" />
     <ClCompile Include="Src\Object\Character\Player\Skin\Skin.cpp" />
     <ClCompile Include="Src\Scene\SceneMakeSkin.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Animation\PlayerAnimation.cpp" />
+    <ClCompile Include="Src\Object\Character\Player\Animation\PlayerAnimationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -132,6 +134,8 @@
     <ClInclude Include="Src\Object\Character\Player\Skin\SkinManager.h" />
     <ClInclude Include="Src\Object\Character\Player\Skin\Skin.h" />
     <ClInclude Include="Src\Scene\SceneMakeSkin.h" />
+    <ClInclude Include="Src\Object\Character\Player\Animation\PlayerAnimation.h" />
+    <ClInclude Include="Src\Object\Character\Player\Animation\PlayerAnimationManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

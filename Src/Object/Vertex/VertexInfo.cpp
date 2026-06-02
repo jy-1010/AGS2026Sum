@@ -42,6 +42,16 @@ Polygon3DRenderer::PolygonInfo VertexInfo::LoadFromFile(const Cube_Param& param)
 	return  polygonInfo;
 }
 
+float VertexInfo::GetPixelSize(std::string key)
+{
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource(key).lock();
+	nlohmann::json jsonfile;
+	jsonfile = jsonResource->GetData();
+
+	return jsonfile["Size"];
+}
+
 VertexInfo::UVOffset VertexInfo::GetUVOffset(const nlohmann::json offset, VECTOR size)
 {
 	UVOffset uvOffset;

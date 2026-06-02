@@ -5,6 +5,7 @@
 #include "../../../Manager/Resource/JsonResource.h"
 #include "../../../Manager/Resource/ShaderResource.h"
 #include "../../Vertex/VertexInfo.h"
+#include "Animation/PlayerAnimationManager.h"
 #include "Skin/SkinManager.h"
 #include "Skin/Skin.h"
 #include "PlayerModel.h"
@@ -15,6 +16,7 @@ PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : params_
 	SetRendererInfo();
 	MakePokygonInfo();
 	LoadSkin(skinName);
+	animationManager_ = std::make_unique<PlayerAnimationManager>(modelInfos_,animationKey_, rootPartName_);
 }
 
 PlayerModel::~PlayerModel(void)
@@ -27,10 +29,13 @@ void PlayerModel::Init(void)
 
 void PlayerModel::Update(void)
 {
+	animationManager_->Update();
 }
 
 void PlayerModel::Draw(void)
 {
+	animationManager_->ApplyAnimation();
+	polygonInfo_ = animationManager_->GetPolygonInfo();
 	renderer_->Draw();
 	//DrawGraph(0, 0, skinHandle_, true);
 }
@@ -51,9 +56,11 @@ void PlayerModel::LoadModelInfo(void)
 	auto jsonResource = resourceManager.GetJsonResource(params_["Model"].get<std::string>()).lock();
 	modelInfo_ = jsonResource->GetData();
 	auto& textureSize = modelInfo_["TextureSize"];
+	animationKey_ = modelInfo_["AnimationTemplate"].get<std::string>();
 	textureSize_ = Vector2F(textureSize["x"], textureSize["y"]);
 	shaderInfo_.VSKey = modelInfo_["Shader"]["VS"];
 	shaderInfo_.PSKey = modelInfo_["Shader"]["PS"];
+	rootPartName_ = modelInfo_["RootPart"];
 	for (auto& param : modelInfo_["Parts"])
 	{
 		Model_Part part;
@@ -103,12 +110,17 @@ void PlayerModel::MakePokygonInfo(void)
 			param.TextureSize = textureSize_;
 			param.startUV = cube.uvOffset;
 			auto cubePolygonInfo = VertexInfo::LoadFromFile(param);
-			int indexOffset = static_cast<int>(polygonInfo_.vertex.size());
-			polygonInfo_.vertex.insert(polygonInfo_.vertex.end(), cubePolygonInfo.vertex.begin(), cubePolygonInfo.vertex.end());
-			for (auto& index : cubePolygonInfo.Indices)
-			{
-				polygonInfo_.Indices.push_back(index + indexOffset);
-			}
+			part.pivot *= VertexInfo::GetPixelSize(param.key);
+			//int indexOffset = static_cast<int>(polygonInfo_.vertex.size());
+			ModelInfo modelInfo;
+			modelInfo.part = part;
+			modelInfo.polygonInfo = cubePolygonInfo;
+			modelInfos_.push_back(modelInfo);
+			//polygonInfo_.vertex.insert(polygonInfo_.vertex.end(), cubePolygonInfo.vertex.begin(), cubePolygonInfo.vertex.end());
+			//for (auto& index : cubePolygonInfo.Indices)
+			//{
+			//	polygonInfo_.Indices.push_back(index + indexOffset);
+			//}
 		}
 	}
 }
