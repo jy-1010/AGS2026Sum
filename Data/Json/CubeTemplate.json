@@ -1,6 +1,6 @@
 {
   "Order": [ "Front", "Left", "Back", "Bottom", "Right", "Top" ],
-  "Size": 10.0,
+  "Size": 5.0,
   "Vertices": {
     "Front": {
       "UVOffset": {

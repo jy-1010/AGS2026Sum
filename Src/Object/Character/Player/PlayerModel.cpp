@@ -49,6 +49,15 @@ void PlayerModel::SetSkinHandle(int handle)
 	skinHandle_ = handle;
 }
 
+void PlayerModel::SetAnimation(std::string animName, bool isCompulsion)
+{
+	if (isCompulsion)
+	{
+		animationManager_->Init();
+	}
+	animationManager_->SetAnimation(animName);
+}
+
 void PlayerModel::LoadModelInfo(void)
 {
 	pixelNum_ = params_["PixelNum"];
@@ -111,16 +120,10 @@ void PlayerModel::MakePokygonInfo(void)
 			param.startUV = cube.uvOffset;
 			auto cubePolygonInfo = VertexInfo::LoadFromFile(param);
 			part.pivot *= VertexInfo::GetPixelSize(param.key);
-			//int indexOffset = static_cast<int>(polygonInfo_.vertex.size());
 			ModelInfo modelInfo;
 			modelInfo.part = part;
 			modelInfo.polygonInfo = cubePolygonInfo;
 			modelInfos_.push_back(modelInfo);
-			//polygonInfo_.vertex.insert(polygonInfo_.vertex.end(), cubePolygonInfo.vertex.begin(), cubePolygonInfo.vertex.end());
-			//for (auto& index : cubePolygonInfo.Indices)
-			//{
-			//	polygonInfo_.Indices.push_back(index + indexOffset);
-			//}
 		}
 	}
 }

@@ -9,30 +9,75 @@ public:
 
 	struct Param
 	{
-		FLOAT3 COLLISION_SIZE;
-		float MAX_HEALTH;
-		float BLOCK_REACH;
-		float ENTITY_REACH;
-		float WALK_SPEED;
-		float SPRINT_SPEED;
-		float JUMP_POWER;
-		float health;
+		FLOAT3 COLLISION_SIZE;	//当たり判定の大きさ
+		float MAX_HEALTH;	//最大体力
+		float BLOCK_REACH;	//ブロックに対するリーチ
+		float ENTITY_REACH;	//エンティティに対するリーチ
+		float WALK_SPEED;	//歩くスピード
+		float SPRINT_SPEED;	//ダッシュスピード
+		float JUMP_POWER;	//ジャンプスピード
+		float health;		//体力
 	};
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="skinName">スキンの名前</param>
 	Player(std::string skinName);
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	/// <param name=""></param>
 	~Player(void);
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name=""></param>
 	void Init(void) override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name=""></param>
 	void Update(void) override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name=""></param>
 	void Draw(void) override;
+
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	/// <param name=""></param>
 	void UIDraw(void) override;
 
+	/// <summary>
+	/// スキンのハンドルIDを反映する
+	/// </summary>
+	/// <param name="handle">画像ハンドルID</param>
 	void SetSkinHandle(int handle);
+
+	/// <summary>
+	/// アニメーションを割り当てる
+	/// </summary>
+	/// <param name="animName">アニメーションの名前</param>
+	/// <param name="isCompulsion">強制的に変えるか</param>
+	void SetAnimation(std::string animName,bool isCompulsion);
+
 private:
 
+	//モデル管理
 	std::unique_ptr<PlayerModel> model_;
+	//プレイヤーの情報json 
 	nlohmann::json paramsJson_;
+	//パラメーター
 	Param params_;
 
+	//プレイヤー情報の読み込み
 	void LoadPlayerInfo(void);
 };
 

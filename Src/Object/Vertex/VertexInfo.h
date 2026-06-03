@@ -7,19 +7,22 @@
 class VertexInfo
 {
 public:
+
+	//UV
 	struct UVOffset
 	{
-		Vector2F leftUp;
-		Vector2F rightDown;
+		Vector2F leftUp;	//左上
+		Vector2F rightDown;	//右下
 	};
 
+	//キューブの情報
 	struct Cube_Param
 	{
-		std::string key;
-		VECTOR center;
-		VECTOR cubeSize;
-		Vector2F TextureSize;
-		Vector2F startUV;
+		std::string key;	//キー
+		VECTOR center;		//中央
+		VECTOR cubeSize;	//キューブの大きさ
+		Vector2F TextureSize;	//テクスチャの大きさ
+		Vector2F startUV;	//UV展開を始める位置
 	};
 
 	struct InputVerticesParam

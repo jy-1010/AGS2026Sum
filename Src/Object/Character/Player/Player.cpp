@@ -45,6 +45,11 @@ void Player::SetSkinHandle(int handle)
 	model_->SetSkinHandle(handle);
 }
 
+void Player::SetAnimation(std::string animName, bool isCompulsion)
+{
+	model_->SetAnimation(animName, isCompulsion);
+}
+
 void Player::LoadPlayerInfo(void)
 {
 	auto& resourceManager = ResourceManager::GetInstance();

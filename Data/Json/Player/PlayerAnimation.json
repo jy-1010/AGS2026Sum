@@ -2,7 +2,7 @@
   "RootPath": "Json/Player/Animation/",
   "Preload": true,
 
-  "DefaultAnimation": "Idle",
+  "DefaultAnimation": "Walk",
 
   "Animations": [
     {
