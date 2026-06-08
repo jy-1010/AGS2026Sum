@@ -29,7 +29,7 @@ void SceneTitle::Update(void)
 	auto& keyConfig = KeyConfig::GetInstance();
 	if (keyConfig.IsNew(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::KEY_PAD1))
 	{
-		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME, true);
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::MAKE_SKIN, true);
 	}
 	
 }

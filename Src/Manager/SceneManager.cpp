@@ -9,6 +9,7 @@
 #include"../Common/Fader.h"
 #include"../Scene/SceneTitle.h"
 #include"../Scene/SceneGame.h"
+#include"../Scene/SceneMakeSkin.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
 
 SceneManager* SceneManager::instance_ = nullptr;
@@ -44,6 +45,9 @@ std::unique_ptr<SceneBase> SceneManager::MakeScene(SCENE_ID id)
 	{
 	case SCENE_ID::TITLE:
 		scene = std::make_unique<SceneTitle>();
+		break;
+	case SCENE_ID::MAKE_SKIN:
+		scene = std::make_unique<SceneMakeSkin>();
 		break;
 	case SCENE_ID::GAME:
 		scene = std::make_unique<SceneGame>();
