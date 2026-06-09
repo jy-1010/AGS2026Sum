@@ -152,6 +152,7 @@ void Camera::ChangeMode(MODE mode)
 		break;
 	case Camera::MODE::FOLLOW:
 	case Camera::MODE::TWO_TARGET_FOLLOW:
+	case Camera::MODE::FOLLOW_ROTATION:
 		localPos_ = LOCAL_F2C_POS;
 		break;
 	}

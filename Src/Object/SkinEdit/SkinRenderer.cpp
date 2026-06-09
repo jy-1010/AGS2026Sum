@@ -4,9 +4,7 @@
 #include "SkinRenderer.h"
 
 void SkinRenderer::Draw(
-    const SkinCanvas& canvas,
-    int offsetX,
-    int offsetY)
+    const SkinCanvas& canvas)
 {
     for (int y = 0; y < SkinCanvas::SIZE; y++)
     {
@@ -16,10 +14,10 @@ void SkinRenderer::Draw(
                 canvas.GetPixel(x, y);
 
             DrawBox(
-                offsetX + x * PIXEL_SIZE,
-                offsetY + y * PIXEL_SIZE,
-                offsetX + (x + 1) * PIXEL_SIZE,
-                offsetY + (y + 1) * PIXEL_SIZE,
+                x * PIXEL_SIZE,
+                y * PIXEL_SIZE,
+                (x + 1) * PIXEL_SIZE,
+                (y + 1) * PIXEL_SIZE,
                 GetColor(
                     color.r,
                     color.g,
@@ -30,26 +28,24 @@ void SkinRenderer::Draw(
 }
 
 void SkinRenderer::DrawGrid(
-    int offsetX,
-    int offsetY,
     int pixelSize,
     int gridColor)
 {
     for (int i = 0; i <= SkinCanvas::SIZE; i++)
     {
         DrawLine(
-            offsetX + i * pixelSize,
-            offsetY,
-            offsetX + i * pixelSize,
-            offsetY + SkinCanvas::SIZE * pixelSize,
+            i * pixelSize,
+            0,
+            i * pixelSize,
+            SkinCanvas::SIZE * pixelSize,
             gridColor
         );
 
         DrawLine(
-            offsetX,
-            offsetY + i * pixelSize,
-            offsetX + SkinCanvas::SIZE * pixelSize,
-            offsetY + i * pixelSize,
+            0,
+            i * pixelSize,
+            SkinCanvas::SIZE * pixelSize,
+            i * pixelSize,
             gridColor
         );
     }

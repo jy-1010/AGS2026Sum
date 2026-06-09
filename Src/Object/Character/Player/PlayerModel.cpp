@@ -47,6 +47,7 @@ void PlayerModel::UIDraw(void)
 void PlayerModel::SetSkinHandle(int handle)
 {
 	skinHandle_ = handle;
+	material_->SetTextureBuf(0, skinHandle_);
 }
 
 void PlayerModel::SetAnimation(std::string animName, bool isCompulsion)

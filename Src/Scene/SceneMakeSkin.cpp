@@ -19,19 +19,17 @@ SceneMakeSkin::SceneMakeSkin(void)
 {
 	previewPlayer_ = std::make_unique<Player>("");
 	previewScreen_ = MakeScreen(Application::SCREEN_HALF_X / 2, Application::SCREEN_SIZE_Y, true);
+	canvasScreen_ = MakeScreen(SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE, SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
 	auto& camera = SceneManager::GetInstance().GetCamera();
-	camera.ChangeMode(Camera::MODE::FIXED_POINT);
-	camera.SetPos(VGet(0.0f, 300.0f, 100.0f));
+	camera.ChangeMode(Camera::MODE::FOLLOW_ROTATION);
+	//camera.SetPos(VGet(0.0f, 300.0f, 100.0f));
 	camera.SetTargetPos(VGet(0.0f, 100.0f, 0.0f));
-
+	camera.SetFollow(previewPlayer_->GetTransform().lock());
 	colorPicker_ = std::make_shared<ColorPicker>();
 	skinCanvas_ = std::make_shared<SkinCanvas>();
-	skinRenderer_ = std::make_shared<SkinRenderer>();
 	undo_ = std::make_shared<Undo>();
 	paintTool_ = std::make_shared<PaintTool>();
 	quickPalette_ = std::make_shared<QuickPalette>();
-	hsvRing_ = std::make_shared<HSVRing>();
-	svArea_ = std::make_shared<SVArea>();
 }
 
 SceneMakeSkin::~SceneMakeSkin(void)
@@ -223,22 +221,26 @@ void SceneMakeSkin::Update(void)
 
 void SceneMakeSkin::Draw(void)
 {
-	//SetDrawScreen(previewScreen_);
-	//ClearDrawScreen();
-	//auto& sceneManager = SceneManager::GetInstance();
-	//sceneManager.GetCamera().CameraSetting();
-	//previewPlayer_->Draw();
-
 	colorPicker_->Draw();
+	SetDrawScreen(canvasScreen_);
+	SkinRenderer::Draw(*skinCanvas_);
 
-	skinRenderer_->Draw(*skinCanvas_, offset_.x, offset_.y);
-
-	skinRenderer_->DrawGrid(offset_.x, offset_.y, SkinRenderer::PIXEL_SIZE, SkinRenderer::GRID_COLOR);
+	SkinRenderer::DrawGrid(SkinRenderer::PIXEL_SIZE, SkinRenderer::GRID_COLOR);
 
 	quickPalette_->Draw();
 
 	//hsvRing_.Draw();
 	//svArea_.Draw();
+
+	SetDrawScreen(previewScreen_);
+	ClearDrawScreen();
+	auto& sceneManager = SceneManager::GetInstance();
+	sceneManager.GetCamera().CameraSetting();
+	previewPlayer_->SetSkinHandle(canvasScreen_);
+	previewPlayer_->Draw();
+	SetDrawScreen(sceneManager.GetMainScreen());
+	DrawGraph(0, 0, previewScreen_,true);
+	DrawGraph(offset_.x, offset_.y, canvasScreen_,true);
 }
 
 void SceneMakeSkin::Load(void)
