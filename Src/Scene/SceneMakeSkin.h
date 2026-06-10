@@ -10,6 +10,7 @@ class PaintTool;
 class QuickPalette;
 class HSVRing;
 class SVArea;
+class InputName;
 
 class SceneMakeSkin : public SceneBase
 {
@@ -31,6 +32,7 @@ private:
 	std::shared_ptr<Undo> undo_;
 	std::shared_ptr<PaintTool> paintTool_;
 	std::shared_ptr<QuickPalette> quickPalette_;
+	std::shared_ptr<InputName> inputName_;
 	//std::shared_ptr<HSVRing> hsvRing_;
 	//std::shared_ptr<SVArea> svArea_;
 
@@ -41,8 +43,14 @@ private:
 	//キャンバス用スクリーン
 	int canvasScreen_;
 
+	//保存用スクリーン
+	int saveScreen_;
+
 	//描画位置
 	Vector2I offset_;
 
-	void SaveSkin(void);
+	//保存したか
+	bool isSave_;
+
+	void SaveSkin(std::string skinName) const;
 };

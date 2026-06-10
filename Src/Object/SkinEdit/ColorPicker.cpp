@@ -2,7 +2,7 @@
 #include "../../Common/Vector.h"
 #include "ColorPicker.h"
 #include "../../Utility/Utility.h"
-#include "ColorUtility.h"
+#include "../../Utility/ColorUtility.h"
 
 ColorPicker::ColorPicker()
 {
@@ -44,21 +44,21 @@ void ColorPicker::Draw()
     DrawBox(previewPos_.x, previewPos_.y, previewPos_.x + SLIDER_WIDTH, previewPos_.y + PREVIEW_HEIGHT
         , GetColor(currentColor_.r, currentColor_.g, currentColor_.b), TRUE);
 
-    DrawBox(previewPos_.x, previewPos_.y, previewPos_.x + SLIDER_WIDTH, previewPos_.y + PREVIEW_HEIGHT, Utility::WHITE, FALSE);
+    DrawBox(previewPos_.x, previewPos_.y, previewPos_.x + SLIDER_WIDTH, previewPos_.y + PREVIEW_HEIGHT, ColorUtility::WHITE, FALSE);
 
     // RED
     DrawString(
         rgbPos_.x,
         rgbPos_.y - LABEL_OFFSET_Y,
         "R",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         rgbPos_.x,
         rgbPos_.y,
         rgbPos_.x + (int)(rgb_.r / ColorUtility::COLOR_MAX_F * SLIDER_WIDTH),
         rgbPos_.y + BAR_HEIGHT,
-        Utility::RED,
+        ColorUtility::RED,
         TRUE);
 
     DrawBox(
@@ -66,7 +66,7 @@ void ColorPicker::Draw()
         rgbPos_.y,
         rgbPos_.x + SLIDER_WIDTH,
         rgbPos_.y + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 
     // GREEN
@@ -74,14 +74,14 @@ void ColorPicker::Draw()
         rgbPos_.x,
         rgbPos_.y + BAR_SPACING - LABEL_OFFSET_Y,
         "G",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         rgbPos_.x,
         rgbPos_.y + BAR_SPACING,
         rgbPos_.x + (int)(rgb_.g / ColorUtility::COLOR_MAX_F * SLIDER_WIDTH),
         rgbPos_.y + BAR_SPACING + BAR_HEIGHT,
-        Utility::GREEN,
+        ColorUtility::GREEN,
         TRUE);
 
     DrawBox(
@@ -89,7 +89,7 @@ void ColorPicker::Draw()
         rgbPos_.y + BAR_SPACING,
         rgbPos_.x + SLIDER_WIDTH,
         rgbPos_.y + BAR_SPACING + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 
     // BLUE
@@ -97,14 +97,14 @@ void ColorPicker::Draw()
         rgbPos_.x,
         rgbPos_.y + BAR_SPACING * 2 - LABEL_OFFSET_Y,
         "B",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         rgbPos_.x,
         rgbPos_.y + BAR_SPACING * 2,
         rgbPos_.x + (int)(rgb_.b / ColorUtility::COLOR_MAX_F * SLIDER_WIDTH),
         rgbPos_.y + BAR_SPACING * 2 + BAR_HEIGHT,
-        Utility::BLUE,
+        ColorUtility::BLUE,
         TRUE);
 
     DrawBox(
@@ -112,7 +112,7 @@ void ColorPicker::Draw()
         rgbPos_.y + BAR_SPACING * 2,
         rgbPos_.x + SLIDER_WIDTH,
         rgbPos_.y + BAR_SPACING * 2 + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 
     // h
@@ -120,14 +120,14 @@ void ColorPicker::Draw()
         hsvPos_.x,
         hsvPos_.y - LABEL_OFFSET_Y,
         "H",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         hsvPos_.x,
         hsvPos_.y,
         hsvPos_.x + (int)((hsv_.x / ColorUtility::HSV_MAX_HUE) * SLIDER_WIDTH),
         hsvPos_.y + BAR_HEIGHT,
-        Utility::RED,
+        ColorUtility::RED,
         TRUE);
 
     DrawBox(
@@ -135,7 +135,7 @@ void ColorPicker::Draw()
         hsvPos_.y,
         hsvPos_.x + SLIDER_WIDTH,
         hsvPos_.y + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 
     // s
@@ -143,14 +143,14 @@ void ColorPicker::Draw()
         hsvPos_.x,
         hsvPos_.y + BAR_SPACING - LABEL_OFFSET_Y,
         "S",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         hsvPos_.x,
         hsvPos_.y + BAR_SPACING,
         hsvPos_.x + (int)(hsv_.y * SLIDER_WIDTH),
         hsvPos_.y + BAR_SPACING + BAR_HEIGHT,
-        Utility::GREEN,
+        ColorUtility::GREEN,
         TRUE);
 
     DrawBox(
@@ -158,7 +158,7 @@ void ColorPicker::Draw()
         hsvPos_.y + BAR_SPACING,
         hsvPos_.x + SLIDER_WIDTH,
         hsvPos_.y + BAR_SPACING + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 
     // v
@@ -166,14 +166,14 @@ void ColorPicker::Draw()
         hsvPos_.x,
         hsvPos_.y + BAR_SPACING * 2 - LABEL_OFFSET_Y,
         "V",
-        Utility::WHITE);
+        ColorUtility::WHITE);
 
     DrawBox(
         hsvPos_.x,
         hsvPos_.y + BAR_SPACING * 2,
         hsvPos_.x + (int)(hsv_.z * SLIDER_WIDTH),
         hsvPos_.y + BAR_SPACING * 2 + BAR_HEIGHT,
-        Utility::BLUE,
+        ColorUtility::BLUE,
         TRUE);
 
     DrawBox(
@@ -181,7 +181,7 @@ void ColorPicker::Draw()
         hsvPos_.y + BAR_SPACING * 2,
         hsvPos_.x + SLIDER_WIDTH,
         hsvPos_.y + BAR_SPACING * 2 + BAR_HEIGHT,
-        Utility::WHITE,
+        ColorUtility::WHITE,
         FALSE);
 }
 

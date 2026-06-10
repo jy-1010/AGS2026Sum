@@ -1,18 +1,20 @@
 #include <DxLib.h>
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
+#include "../Manager/KeyConfig.h"
 #include "../Manager/Camera.h"
 #include "../Object/Character/Player/Player.h"
+#include "../Object/Character/Player/Skin/SkinManager.h"
 #include "../Object/SkinEdit/ColorPicker.h"
 #include "../Object/SkinEdit/SkinCanvas.h"
 #include "../Object/SkinEdit/SkinRenderer.h"
 #include "../Object/SkinEdit/Undo.h"
 #include "../Object/SkinEdit/PaintTool.h"
 #include "../Object/SkinEdit/FloodFill.h"
-#include "../Object/SkinEdit/SkinSave.h"
 #include "../Object/SkinEdit/QuickPalette.h"
 #include "../Object/SkinEdit/HSVRing.h"
 #include "../Object/SkinEdit/SVArea.h"
+#include "../Object/SkinEdit/InputName.h"
 #include "SceneMakeSkin.h"
 
 SceneMakeSkin::SceneMakeSkin(void)
@@ -20,16 +22,17 @@ SceneMakeSkin::SceneMakeSkin(void)
 	previewPlayer_ = std::make_unique<Player>("");
 	previewScreen_ = MakeScreen(Application::SCREEN_HALF_X / 2, Application::SCREEN_SIZE_Y, true);
 	canvasScreen_ = MakeScreen(SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE, SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
+	saveScreen_ = MakeScreen(SkinCanvas::SIZE, SkinCanvas::SIZE);
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW_ROTATION);
-	//camera.SetPos(VGet(0.0f, 300.0f, 100.0f));
-	camera.SetTargetPos(VGet(0.0f, 100.0f, 0.0f));
 	camera.SetFollow(previewPlayer_->GetTransform().lock());
 	colorPicker_ = std::make_shared<ColorPicker>();
 	skinCanvas_ = std::make_shared<SkinCanvas>();
 	undo_ = std::make_shared<Undo>();
 	paintTool_ = std::make_shared<PaintTool>();
 	quickPalette_ = std::make_shared<QuickPalette>();
+	inputName_ = std::make_shared<InputName>();
+	isSave_ = false;
 }
 
 SceneMakeSkin::~SceneMakeSkin(void)
@@ -72,6 +75,24 @@ bool SceneMakeSkin::Init(void)
 
 void SceneMakeSkin::Update(void)
 {
+	auto& keyConfig = KeyConfig::GetInstance();
+
+	if (inputName_->IsUpdate())
+	{
+		inputName_->Update();
+		return;
+	}
+	if (inputName_->IsEnd())
+	{
+		if (isSave_)
+		{
+			return;
+		}
+		SaveSkin(inputName_->GetInputData());
+		isSave_ = true;
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME, true);
+		return;
+	}
 	// 更新
 	previewPlayer_->Update();
 	colorPicker_->Update();
@@ -199,38 +220,31 @@ void SceneMakeSkin::Update(void)
 			skinCanvas_->GetData());
 	}
 
-	// 保存
-	static bool prevShift = false;
-
-	bool nowShift =
-		CheckHitKey(KEY_INPUT_RSHIFT) != 0;
-
-	if (nowShift && !prevShift)
-	{
-		SkinSave::Save(
-			skinCanvas_->GetData(),
-			"skin.png");
-	}
-
-	prevShift = nowShift;
-
 	// 前フレーム保存
 	prevClick = nowClick;
 	prevZ = nowZ;
+
+	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
+	{
+		inputName_->SetFase(InputName::Fase::FIRST_CHECK);
+	}
 }
 
 void SceneMakeSkin::Draw(void)
 {
 	colorPicker_->Draw();
+	quickPalette_->Draw();
 	SetDrawScreen(canvasScreen_);
+	ClearDrawScreen();
 	SkinRenderer::Draw(*skinCanvas_);
 
-	SkinRenderer::DrawGrid(SkinRenderer::PIXEL_SIZE, SkinRenderer::GRID_COLOR);
-
-	quickPalette_->Draw();
+	SetDrawScreen(saveScreen_);
+	ClearDrawScreen();
+	DrawExtendGraph(0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE, canvasScreen_, false);
 
 	//hsvRing_.Draw();
 	//svArea_.Draw();
+
 
 	SetDrawScreen(previewScreen_);
 	ClearDrawScreen();
@@ -238,15 +252,24 @@ void SceneMakeSkin::Draw(void)
 	sceneManager.GetCamera().CameraSetting();
 	previewPlayer_->SetSkinHandle(canvasScreen_);
 	previewPlayer_->Draw();
+
+	SetDrawScreen(canvasScreen_);
+	SkinRenderer::DrawGrid(SkinRenderer::PIXEL_SIZE, SkinRenderer::GRID_COLOR);
+
 	SetDrawScreen(sceneManager.GetMainScreen());
 	DrawGraph(0, 0, previewScreen_,true);
 	DrawGraph(offset_.x, offset_.y, canvasScreen_,true);
+
+	inputName_->Draw();
 }
 
 void SceneMakeSkin::Load(void)
 {
 }
 
-void SceneMakeSkin::SaveSkin(void)
+void SceneMakeSkin::SaveSkin(std::string skinName) const
 {
+	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE, (Application::PATH_IMAGE + "PlayerSkin/" + skinName + ".png").c_str());
+	auto& skinManager = SkinManager::GetInstance();
+	skinManager.SaveSkin(skinName);
 }

@@ -16,14 +16,17 @@ JsonResource::~JsonResource(void)
 
 bool JsonResource::Load(void)
 {
-	std::fstream jsonFile(path_);
-	if (!jsonFile.is_open())
+	jsonFile_ = std::fstream(path_,std::ios::in|std::ios::out);
+	if (!jsonFile_.is_open())
 	{
 		isLoaded_ = false;
 		return false;
 	}
 
-	jsonFile >> data_;
+	jsonFile_ >> data_;
+
+	jsonFile_.close();
+
 	isLoaded_ = true;
 	return true;
 }
@@ -31,6 +34,13 @@ bool JsonResource::Load(void)
 bool JsonResource::IsLoaded(void) const
 {
 	return isLoaded_;
+}
+
+void JsonResource::OutFile(nlohmann::json data)
+{
+	jsonFile_.open(path_, std::ios::out | std::ios::trunc);
+	jsonFile_ << data.dump(4);
+	jsonFile_.close();
 }
 
 void JsonResource::LoadResourceInfo(void)

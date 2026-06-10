@@ -175,6 +175,12 @@ public:
 	std::vector<JOYPAD_BTN> GetPushBtns(KeyConfig::JOYPAD_NO no) const;
 
 	/// <summary>
+	/// 押された全てのキーを取得
+	/// </summary>
+	/// <returns>押されているキー</returns>
+	std::vector<int> GetPushBtns(void) const;
+
+	/// <summary>
 	/// 操作の種類に対応したボタンを取得
 	/// </summary>
 	/// <param name="cType">操作の種類</param>

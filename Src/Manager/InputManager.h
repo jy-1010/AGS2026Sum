@@ -51,6 +51,12 @@ public:
 	// 判定を行うキーを追加
 	void Add(int key);
 
+	//判定を行うキーの数を取得
+	int GetKeyNum(void) { return keyInfos_.size(); }
+
+	//そのフレームで押されたキーをすべて取得
+	std::vector<int> GetTrgDownKey(void);
+
 	// 判定を行うキーをクリア
 	void Clear(void);
 

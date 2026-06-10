@@ -62,10 +62,9 @@
     <ClCompile Include="Src\Scene\SceneMakeSkin.cpp" />
     <ClCompile Include="Src\Object\Character\Player\Animation\PlayerAnimation.cpp" />
     <ClCompile Include="Src\Object\Character\Player\Animation\PlayerAnimationManager.cpp" />
-    <ClCompile Include="Src\Object\SkinEdit\ColorUtility.cpp" />
+    <ClCompile Include="Src\Utility\ColorUtility.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\FloodFill.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\Undo.cpp" />
-    <ClCompile Include="Src\Object\SkinEdit\SkinSave.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\QuickPalette.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\SkinCanvas.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\SkinRenderer.cpp" />
@@ -73,6 +72,7 @@
     <ClCompile Include="Src\Object\SkinEdit\PaintTool.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\HSVRing.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
+    <ClCompile Include="Src\Object\SkinEdit\InputName.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -147,10 +147,9 @@
     <ClInclude Include="Src\Scene\SceneMakeSkin.h" />
     <ClInclude Include="Src\Object\Character\Player\Animation\PlayerAnimation.h" />
     <ClInclude Include="Src\Object\Character\Player\Animation\PlayerAnimationManager.h" />
-    <ClInclude Include="Src\Object\SkinEdit\ColorUtility.h" />
+    <ClInclude Include="Src\Utility\ColorUtility.h" />
     <ClInclude Include="Src\Object\SkinEdit\FloodFill.h" />
     <ClInclude Include="Src\Object\SkinEdit\Undo.h" />
-    <ClInclude Include="Src\Object\SkinEdit\SkinSave.h" />
     <ClInclude Include="Src\Object\SkinEdit\QuickPalette.h" />
     <ClInclude Include="Src\Object\SkinEdit\SkinCanvas.h" />
     <ClInclude Include="Src\Object\SkinEdit\SkinRenderer.h" />
@@ -158,6 +157,7 @@
     <ClInclude Include="Src\Object\SkinEdit\PaintTool.h" />
     <ClInclude Include="Src\Object\SkinEdit\HSVRing.h" />
     <ClInclude Include="Src\Object\SkinEdit\SVArea.h" />
+    <ClInclude Include="Src\Object\SkinEdit\InputName.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

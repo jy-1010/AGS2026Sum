@@ -25,9 +25,11 @@ public:
 	//今登録されているスキンの数を取得する
 	const int GetSkinNum(void);
 
-	//スキンをセーブする
+	//スキンをマネージャーに保存セーブする
 	void SaveSkin(const std::string name);
 
+	//スキンのパスを取得
+	std::string GetRootPath(void) { return rootPath_; }
 private:
 
 	static SkinManager* instance_;
@@ -38,6 +40,8 @@ private:
 	std::string rootPath_;
 
 	void AddSkin(const std::string name, const std::string path, bool isPreload);
+	//新規スキンをjsonに保存
+	void AddSkinJson(const std::string name,const std::string path);
 
 	SkinManager() = default;
 	~SkinManager() = default;

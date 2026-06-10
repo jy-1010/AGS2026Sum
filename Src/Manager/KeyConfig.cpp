@@ -29,11 +29,11 @@ void KeyConfig::Init(void)
 	//åàíËèàóù
 	AddFixed(CONTROL_TYPE::ENTER, KEY_INPUT_SPACE);
 	AddFixed(CONTROL_TYPE::ENTER, KEY_INPUT_RETURN);
-	AddFixed(CONTROL_TYPE::ENTER, MOUSE::CLICK_LEFT);
 	AddFixed(CONTROL_TYPE::ENTER, JOYPAD_BTN::RIGHTBUTTON_RIGHT);
 	AddFixed(CONTROL_TYPE::ENTER, JOYPAD_BTN::RIGHTBUTTON_DOWN);
 
 	AddFixed(CONTROL_TYPE::CANCEL, KEY_INPUT_BACK);
+	AddFixed(CONTROL_TYPE::CANCEL, KEY_INPUT_LCONTROL);
 	AddFixed(CONTROL_TYPE::CANCEL, JOYPAD_BTN::RIGHTBUTTON_LEFT);
 	AddFixed(CONTROL_TYPE::CANCEL, JOYPAD_BTN::RIGHTBUTTON_TOP);
 
@@ -760,6 +760,11 @@ std::vector<KeyConfig::JOYPAD_BTN> KeyConfig::GetPushBtns(KeyConfig::JOYPAD_NO n
 		}
 	}
 	return pushBtns;
+}
+
+std::vector<int> KeyConfig::GetPushBtns(void) const
+{
+	return inputManager_->GetTrgDownKey();
 }
 
 std::vector<KeyConfig::JOYPAD_BTN> KeyConfig::GetControlBTN(CONTROL_TYPE cType) const

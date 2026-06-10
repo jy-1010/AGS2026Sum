@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "Resource.h"
 class JsonResource : public Resource
 {
@@ -17,8 +18,14 @@ public:
 
 	// JSONの内容を取得する
 	const nlohmann::json& GetData(void) const { return data_; }
+
+	//jsonに書き込む
+	void OutFile(nlohmann::json data);
+
 protected:
 	bool isLoaded_; // ロードされているか
+
+	std::fstream jsonFile_;
 
 	nlohmann::json data_; // JSONの内容
 	// JSONの情報をロード

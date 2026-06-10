@@ -1,15 +1,15 @@
 {
-  "Type": "Image",
-  "RootPath": "Image/PlayerSkin/",
-  "Preload": true,
-  "Info": [
-    {
-      "Name": "Steve",
-      "Path": "Steve.png"
-    },
-    {
-      "Name": "Alex",
-      "Path": "Alex.png"
-    }
-  ]
+    "Info": [
+        {
+            "Name": "Steve",
+            "Path": "Steve.png"
+        },
+        {
+            "Name": "Alex",
+            "Path": "Alex.png"
+        }
+    ],
+    "Preload": true,
+    "RootPath": "Image/PlayerSkin/",
+    "Type": "Image"
 }

@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "../../Common/Vector.h"
 #include "../../Utility/Utility.h"
+#include "../../Utility/ColorUtility.h"
 #include "QuickPalette.h"
 
 QuickPalette::QuickPalette()
@@ -105,7 +106,7 @@ void QuickPalette::Draw()
             py,
             px + SIZE,
             py + SIZE,
-            Utility::WHITE,
+            ColorUtility::WHITE,
             FALSE);
     }
 }

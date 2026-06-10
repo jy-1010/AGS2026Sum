@@ -8,50 +8,44 @@ void InputManager::Init(void)
 	// ゲームで使用したいキーを、
 	// 事前にここで登録しておいてください
 	Add(KEY_INPUT_SPACE);
-	Add(KEY_INPUT_N);
-	Add(KEY_INPUT_M);
-	Add(KEY_INPUT_Z);
-	Add(KEY_INPUT_X);
+	Add(KEY_INPUT_A);
+	Add(KEY_INPUT_B);
+	Add(KEY_INPUT_C);
+	Add(KEY_INPUT_D);
+	Add(KEY_INPUT_E);
+	Add(KEY_INPUT_F);
 	Add(KEY_INPUT_G);
+	Add(KEY_INPUT_H);
+	Add(KEY_INPUT_I);
+	Add(KEY_INPUT_J);
+	Add(KEY_INPUT_K);
+	Add(KEY_INPUT_L);
+	Add(KEY_INPUT_M);
+	Add(KEY_INPUT_N);
+	Add(KEY_INPUT_O);
+	Add(KEY_INPUT_P);
+	Add(KEY_INPUT_Q);
+	Add(KEY_INPUT_R);
+	Add(KEY_INPUT_S);
+	Add(KEY_INPUT_T);
+	Add(KEY_INPUT_U);
+	Add(KEY_INPUT_V);
+	Add(KEY_INPUT_W);
+	Add(KEY_INPUT_X);
+	Add(KEY_INPUT_Y);
+	Add(KEY_INPUT_Z);
 
 	Add(KEY_INPUT_UP);
 	Add(KEY_INPUT_RIGHT);
 	Add(KEY_INPUT_DOWN);
 	Add(KEY_INPUT_LEFT);
 	Add(KEY_INPUT_RCONTROL);
-
-	Add(KEY_INPUT_B);
-	Add(KEY_INPUT_BACK);
-
-	//プレイヤー操作関連
-	//---------------------------------------------------
-	//移動キー
-	Add(KEY_INPUT_W);
-	Add(KEY_INPUT_A);
-	Add(KEY_INPUT_S);
-	Add(KEY_INPUT_D);
-	Add(KEY_INPUT_Q);
-	Add(KEY_INPUT_R);
-	//ダッシュ
-	Add(KEY_INPUT_LSHIFT);
-
 	Add(KEY_INPUT_LCONTROL);
-	//ジャンプ
-	Add(KEY_INPUT_E);
-
-	//パンチキー
+	Add(KEY_INPUT_BACK);
+	Add(KEY_INPUT_LSHIFT);
+	Add(KEY_INPUT_RSHIFT);
 	Add(KEY_INPUT_RETURN);
-	Add(KEY_INPUT_T);
-	Add(KEY_INPUT_Y);
-
-	//タブキー
 	Add(KEY_INPUT_TAB);
-
-	//---------------------------------------------------
-
-	//デバッグ
-	Add(KEY_INPUT_C);	//ゲームクリアへの遷移
-	Add(KEY_INPUT_RSHIFT);	//タイトルシーン遷移
 
 
 	InputManager::MouseInfo mouseInfo;
@@ -169,6 +163,19 @@ void InputManager::Add(int key)
 	info.keyTrgDown = false;
 	info.keyTrgUp = false;
 	keyInfos_.emplace(key, info);
+}
+
+std::vector<int> InputManager::GetTrgDownKey(void)
+{
+	std::vector<int> ret;
+	for (auto& keyInfo : keyInfos_)
+	{
+		if (keyInfo.second.keyTrgDown)
+		{
+			ret.push_back(keyInfo.first);
+		}
+	}
+	return ret;
 }
 
 void InputManager::Clear(void)

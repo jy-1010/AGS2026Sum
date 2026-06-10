@@ -72,9 +72,24 @@ const int SkinManager::GetSkinNum(void)
 void SkinManager::SaveSkin(const std::string name)
 {
 	AddSkin(name, rootPath_ + name + ".png", true);
+	AddSkinJson(name, name + ".png");
 }
 
 void SkinManager::AddSkin(const std::string name, const std::string path, bool isPreload)
 {
 	skinResources_[name] = std::make_shared<Skin>(name, path, isPreload);
+}
+
+void SkinManager::AddSkinJson(const std::string name, const std::string path)
+{
+	//中身を書き換える
+	nlohmann::json json;
+	json["Name"] = name;
+	json["Path"] = path;
+	skinJson_["Info"].push_back(json);
+	skinJson_.dump(4);
+	//情報を更新する
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();
+	jsonResource->OutFile(skinJson_);
 }

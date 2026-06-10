@@ -1469,3 +1469,64 @@ VECTOR Utility::RotateZ(VECTOR localPos, float rad)
 	float y = localPos.x * sin(rad) + localPos.y * cos(rad);
 	return VGet(x, y, localPos.z);
 }
+
+std::string Utility::KeyCodeToString(int keyCode)
+{
+    std::string ret;
+    switch (keyCode)
+    {
+    case KEY_INPUT_A:
+        return "a";
+    case KEY_INPUT_B:
+        return "b";
+    case KEY_INPUT_C:
+        return "c";
+    case KEY_INPUT_D:
+        return "d";
+    case KEY_INPUT_E:
+        return "e";
+    case KEY_INPUT_F:
+        return "f";
+    case KEY_INPUT_G:
+        return "g";
+    case KEY_INPUT_H:
+        return "h";
+    case KEY_INPUT_I:
+        return "i";
+    case KEY_INPUT_J:
+        return "j";
+    case KEY_INPUT_K:
+        return "k";
+    case KEY_INPUT_L:
+        return "l";
+    case KEY_INPUT_M:
+        return "m";
+    case KEY_INPUT_N:
+        return "n";
+    case KEY_INPUT_O:
+        return "o";
+    case KEY_INPUT_P:
+        return "p";
+    case KEY_INPUT_Q:
+        return "q";
+    case KEY_INPUT_R:
+        return "r";
+    case KEY_INPUT_S:
+        return "s";
+    case KEY_INPUT_T:
+        return "t";
+    case KEY_INPUT_U:
+        return "u";
+    case KEY_INPUT_V:
+        return "v";
+    case KEY_INPUT_W:
+        return "w";
+    case KEY_INPUT_X:
+        return "x";
+    case KEY_INPUT_Y:
+        return "y";
+    case KEY_INPUT_Z:
+        return "z";
+    }
+    return ret;
+}
