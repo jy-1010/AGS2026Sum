@@ -2,13 +2,19 @@
   "Infos": {
     "BlocksImage": {
       "Type": "Image",
-      "Path": "Item/Blocks.png",
+      "Path": "Image/Item/Blocks.png",
+      "Preload": true
+    },
+
+    "TitleLogoImage": {
+      "Type": "Image",
+      "Path": "Image/Title/TitleLogo.png",
       "Preload": true
     },
 
     "BreathAttackImage": {
       "Type": "Image",
-      "Path": "Effect/Breath.png",
+      "Path": "Image/Effect/Breath.png",
       "Preload": true
     },
 
@@ -115,6 +121,12 @@
     "PlayerPS": {
       "Type": "Shader",
       "Path": "Shader/PlayerPS.cso",
+      "ShaderType": "Pixel",
+      "Preload": true
+    },
+    "CanvasPS": {
+      "Type": "Shader",
+      "Path": "Shader/Canvas.cso",
       "ShaderType": "Pixel",
       "Preload": true
     }

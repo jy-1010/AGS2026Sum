@@ -31,6 +31,8 @@ void SkinManager::Init(void)
 	skinJson_ = jsonResource->GetData();
 	rootPath_ = Application::PATH_DATA + skinJson_["RootPath"].get<std::string>();
 	bool isPreload = skinJson_["Preload"];
+	defaultSkinName_ = skinJson_["Default"];
+	//lastSavename_ = "";
 	//それぞれのスキンのインスタンス作成
 	for (auto& skinInfo : skinJson_["Info"])
 	{
@@ -64,6 +66,16 @@ const int SkinManager::GetHandleId(const std::string key)
 	return skinResources_[key]->GetHandle();
 }
 
+std::vector<std::string> SkinManager::GetSkinNameAll(void)
+{
+	std::vector<std::string> ret;
+	for (auto& skin : skinResources_)
+	{
+		ret.push_back(skin.first);
+	}
+	return ret;
+}
+
 const int SkinManager::GetSkinNum(void)
 {
 	return static_cast<int>(skinResources_.size());
@@ -73,6 +85,7 @@ void SkinManager::SaveSkin(const std::string name)
 {
 	AddSkin(name, rootPath_ + name + ".png", true);
 	AddSkinJson(name, name + ".png");
+	selectedSkinName_ = name;
 }
 
 void SkinManager::AddSkin(const std::string name, const std::string path, bool isPreload)
@@ -87,7 +100,7 @@ void SkinManager::AddSkinJson(const std::string name, const std::string path)
 	json["Name"] = name;
 	json["Path"] = path;
 	skinJson_["Info"].push_back(json);
-	skinJson_.dump(4);
+	skinJson_.dump(2);
 	//情報を更新する
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();

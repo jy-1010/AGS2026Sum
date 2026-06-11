@@ -26,6 +26,11 @@ public:
 		std::string shaderFileName, int constBufFloat4Size
 	);
 
+	// コンストラクタ
+	Polygon2DMaterial(
+		int shaderHandle, int constBufFloat4Size
+	);
+
 	// デストラクタ
 	~Polygon2DMaterial(void);
 

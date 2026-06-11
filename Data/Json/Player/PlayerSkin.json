@@ -1,13 +1,18 @@
 {
+    "Default": "Steve",
     "Info": [
         {
             "Name": "Steve",
             "Path": "Steve.png"
         },
-        {
-            "Name": "Alex",
-            "Path": "Alex.png"
-        }
+      {
+        "Name": "Alex",
+        "Path": "Alex.png"
+      },
+      {
+        "Name": "PigMan",
+        "Path": "PigMan.png"
+      }
     ],
     "Preload": true,
     "RootPath": "Image/PlayerSkin/",

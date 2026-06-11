@@ -1,6 +1,7 @@
 #pragma once
-#include "SceneBase.h"
-#include "../Common/Vector.h"
+#include "../SceneBase.h"
+#include "../../Common/Vector.h"
+#include "../../Renderer/Polygon2DRenderer.h"
 
 class Player;
 class ColorPicker;
@@ -27,6 +28,10 @@ private:
 
 	static constexpr int UI_OFFSET_X = 30;
 
+	std::shared_ptr<Polygon2DMaterial>canvasMaterial_;
+	std::shared_ptr<Polygon2DRenderer>canvasRenderer_;
+	Polygon2DRenderer::PolygonInfo canvasPolygonInfo_;
+
 	std::shared_ptr<ColorPicker> colorPicker_;
 	std::shared_ptr<SkinCanvas> skinCanvas_;
 	std::shared_ptr<Undo> undo_;
@@ -43,6 +48,9 @@ private:
 	//キャンバス用スクリーン
 	int canvasScreen_;
 
+	//キャンバスシェーダー用
+	int canvasShaderScreen_;
+
 	//保存用スクリーン
 	int saveScreen_;
 
@@ -52,5 +60,9 @@ private:
 	//保存したか
 	bool isSave_;
 
+	//スキンを保存する
 	void SaveSkin(std::string skinName) const;
+
+	//レンダラーの初期化
+	void InitRenderer(void);
 };

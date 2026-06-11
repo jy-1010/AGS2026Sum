@@ -2,6 +2,8 @@
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/KeyConfig.h"
+#include "../Manager/ResourceManager.h"
+#include "../Manager/Resource/ShaderResource.h"
 #include "../Manager/Camera.h"
 #include "../Object/Character/Player/Player.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
@@ -22,6 +24,7 @@ SceneMakeSkin::SceneMakeSkin(void)
 	previewPlayer_ = std::make_unique<Player>("");
 	previewScreen_ = MakeScreen(Application::SCREEN_HALF_X / 2, Application::SCREEN_SIZE_Y, true);
 	canvasScreen_ = MakeScreen(SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE, SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
+	canvasShaderScreen_ = MakeScreen(SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE, SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
 	saveScreen_ = MakeScreen(SkinCanvas::SIZE, SkinCanvas::SIZE);
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW_ROTATION);
@@ -33,6 +36,7 @@ SceneMakeSkin::SceneMakeSkin(void)
 	quickPalette_ = std::make_shared<QuickPalette>();
 	inputName_ = std::make_shared<InputName>();
 	isSave_ = false;
+	InitRenderer();
 }
 
 SceneMakeSkin::~SceneMakeSkin(void)
@@ -242,6 +246,10 @@ void SceneMakeSkin::Draw(void)
 	ClearDrawScreen();
 	DrawExtendGraph(0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE, canvasScreen_, false);
 
+	SetDrawScreen(canvasShaderScreen_);
+	ClearDrawScreen();
+	canvasMaterial_->SetTextureBuf(1, canvasScreen_);
+	canvasRenderer_->Draw();
 	//hsvRing_.Draw();
 	//svArea_.Draw();
 
@@ -253,12 +261,12 @@ void SceneMakeSkin::Draw(void)
 	previewPlayer_->SetSkinHandle(canvasScreen_);
 	previewPlayer_->Draw();
 
-	SetDrawScreen(canvasScreen_);
+	SetDrawScreen(canvasShaderScreen_);
 	SkinRenderer::DrawGrid(SkinRenderer::PIXEL_SIZE, SkinRenderer::GRID_COLOR);
 
 	SetDrawScreen(sceneManager.GetMainScreen());
 	DrawGraph(0, 0, previewScreen_,true);
-	DrawGraph(offset_.x, offset_.y, canvasScreen_,true);
+	DrawGraph(offset_.x, offset_.y, canvasShaderScreen_,true);
 
 	inputName_->Draw();
 }
@@ -269,7 +277,36 @@ void SceneMakeSkin::Load(void)
 
 void SceneMakeSkin::SaveSkin(std::string skinName) const
 {
-	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE, (Application::PATH_IMAGE + "PlayerSkin/" + skinName + ".png").c_str());
+	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE , (Application::PATH_IMAGE + "PlayerSkin/" + skinName + ".png").c_str());
 	auto& skinManager = SkinManager::GetInstance();
 	skinManager.SaveSkin(skinName);
+}
+
+void SceneMakeSkin::InitRenderer(void)
+{
+	auto& resManager = ResourceManager::GetInstance();
+	int shaderHandle = resManager.GetShaderResource("CanvasPS").lock()->GetHandleId();
+	canvasMaterial_ = std::make_shared<Polygon2DMaterial>(shaderHandle,0);
+	auto& skinManager = SkinManager::GetInstance();
+	int defaultSkin = skinManager.GetHandleId(skinManager.GetDefaultSkinName());
+	canvasMaterial_->AddTextureBuf(defaultSkin);
+	canvasMaterial_->AddTextureBuf(defaultSkin);
+	canvasRenderer_ = std::make_shared<Polygon2DRenderer>(*canvasMaterial_, canvasPolygonInfo_);
+
+	canvasPolygonInfo_.clear();
+	auto& vertex = canvasPolygonInfo_.vertex;
+	for (int i = 0; i < 4; i++)
+	{
+		VERTEX2DSHADER ver;
+		ver.pos = VGet((i % 2) * (SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE),(i / 2) * (SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE), 0.0f);
+		ver.dif = GetColorU8(255, 255, 255, 255);
+		ver.rhw = 1.0f;
+		ver.u = static_cast<float>(i % 2);
+		ver.v = static_cast<float>(i / 2);
+		ver.su = ver.pos.x / Application::SCREEN_SIZE_X;
+		ver.sv = ver.pos.y / Application::SCREEN_SIZE_Y;
+		ver.spc = GetColorU8(0, 0, 0, 0);
+		vertex.push_back(ver);
+	}
+	canvasPolygonInfo_.Indices = { 0,1,2,1,3,2 };
 }

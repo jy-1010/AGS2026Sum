@@ -8,6 +8,7 @@
 #include"../Manager/Camera.h"
 #include "../Object/Stage/Stage.h"
 #include "../Object/Character/Player/Player.h"
+#include "../Object/Character/Player/Skin/SkinManager.h"
 #include "../Object/Item/Block/BlockInfo.h"
 #include"SceneGame.h"
 
@@ -15,7 +16,7 @@ SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
 	blockInfo_ = std::make_unique<BlockInfo>();
-	player_ = std::make_unique<Player>("");
+	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName());
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW);
 	camera.SetFollow(player_->GetTransform().lock());

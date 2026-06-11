@@ -13,10 +13,24 @@ Polygon2DMaterial::Polygon2DMaterial(std::string shaderFileName, int constBufFlo
 	// ピクセルシェーダー用の定数バッファを作成
 	constBuf_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * constBufFloat4Size);
 
+	// テクスチャアドレス
+	texAddress_ = TEXADDRESS::CLAMP;
+}
 
+Polygon2DMaterial::Polygon2DMaterial(int shaderHandle, int constBufFloat4Size)
+{
+	// ピクセルシェーダのロード
+	shader_ = shaderHandle;
+
+	// ピクセル定数バッファの確保サイズ(FLOAT4をいくつ作るか)
+	constBufFloat4Size_ = constBufFloat4Size;
+
+	// ピクセルシェーダー用の定数バッファを作成
+	constBuf_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * constBufFloat4Size);
 
 	// テクスチャアドレス
 	texAddress_ = TEXADDRESS::CLAMP;
+
 }
 
 Polygon2DMaterial::~Polygon2DMaterial(void)

@@ -22,6 +22,10 @@ public:
 
 	//画像のハンドルIDを取得する
 	const int GetHandleId(const std::string key);
+
+	//画像の名前をすべて取得する
+	std::vector<std::string> GetSkinNameAll(void);
+
 	//今登録されているスキンの数を取得する
 	const int GetSkinNum(void);
 
@@ -30,7 +34,20 @@ public:
 
 	//スキンのパスを取得
 	std::string GetRootPath(void) { return rootPath_; }
+
+	//選択されたスキンの名前を取得する
+	std::string GetSelectedSkinName(void) { return selectedSkinName_; }
+
+	std::string GetDefaultSkinName(void) const { return defaultSkinName_; }
+
+	void SetSelectedSkinName(std::string skinName) { selectedSkinName_ = skinName; }
 private:
+
+	//選択されたスキンの名前
+	std::string selectedSkinName_;
+
+	//デフォルトスキン
+	std::string defaultSkinName_;
 
 	static SkinManager* instance_;
 	
