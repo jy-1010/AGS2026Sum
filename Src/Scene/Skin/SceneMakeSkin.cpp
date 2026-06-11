@@ -150,16 +150,22 @@ void SceneMakeSkin::Update(void)
 		(mouseY - offset_.y) /
 		SkinRenderer::PIXEL_SIZE;
 
+	bool inCanvas =
+		x >= 0 &&
+		x < SkinCanvas::SIZE &&
+		y >= 0 &&
+		y < SkinCanvas::SIZE;
+
 	// Undo保存
 	if (paintTool_->IsPen())
 	{
-		if (clickDown)
+		if (clickDown && inCanvas)
 		{
 			undo_->Push(
 				skinCanvas_->GetData());
 		}
 
-		if (nowClick)
+		if (nowClick && inCanvas)
 		{
 			skinCanvas_->SetPixel(
 				x,
@@ -182,21 +188,21 @@ void SceneMakeSkin::Update(void)
 	}
 
 	// ペン
-	if (paintTool_->IsPen())
-	{
-		if (nowClick)
-		{
-			skinCanvas_->SetPixel(
-				x,
-				y,
-				colorPicker_->GetCurrentColor());
-		}
-	}
+	//if (paintTool_->IsPen())
+	//{
+	//	if (nowClick)
+	//	{
+	//		skinCanvas_->SetPixel(
+	//			x,
+	//			y,
+	//			colorPicker_->GetCurrentColor());
+	//	}
+	//}
 
 	// バケツ
 	if (paintTool_->IsBucket())
 	{
-		if (clickDown)
+		if (clickDown && inCanvas)
 		{
 			undo_->Push(
 				skinCanvas_->GetData());
@@ -267,6 +273,26 @@ void SceneMakeSkin::Draw(void)
 	SetDrawScreen(sceneManager.GetMainScreen());
 	DrawGraph(0, 0, previewScreen_,true);
 	DrawGraph(offset_.x, offset_.y, canvasShaderScreen_,true);
+
+	DrawString(offset_.x * 2, offset_.y / 4, "右クリック：スポイト", GetColor(255, 255, 255));
+
+	if (paintTool_->IsPen())
+	{
+		DrawString(
+			offset_.x,
+			offset_.y / 4,
+			"Mode : PEN (Fで切替)",
+			GetColor(255, 255, 255));
+	}
+
+	if (paintTool_->IsBucket())
+	{
+		DrawString(
+			offset_.x,
+			offset_.y / 4,
+			"Mode : BUCKET (Fで切替)",
+			GetColor(255, 255, 0));
+	}
 
 	inputName_->Draw();
 }
