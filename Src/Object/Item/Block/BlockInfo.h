@@ -3,11 +3,20 @@
 #include <vector>
 #include <map>
 #include "../../../Lib/nlohmann/json.hpp"
+#include "../../Renderer/Polygon3DRenderer.h"
 #include "../../../Common/Vector.h"
 
 class BlockInfo
 {
 public:
+
+	//シェーダー情報
+	struct ShaderInfo
+	{
+		std::string VSKey;	// 頂点シェーダーのリソースキー
+		std::string PSKey;	// ピクセルシェーダーのリソースキー
+	};
+
 	struct Param
 	{
 		std::string name = "";	//ブロックの名前
@@ -17,7 +26,8 @@ public:
 		std::string toolType = "";	//ブロックを破壊するのに適性なツールの種類
 		std::vector<std::string> toolLevel;	//ブロックを破壊するのに適性なツールのレベル
 		bool isCorrectAnotherTool = false;	//別のツールでも獲得可能かどうか
-		Vector2F uvOffset = Vector2F(0.0f, 0.0f);	//ブロックのテクスチャのUVオフセット
+		FloatVector2 uvOffset = FloatVector2(0.0f, 0.0f);	//ブロックのテクスチャのUVオフセット
+		std::map<std::string, Polygon3DRenderer::PolygonInfo> fasesPolygonInfo;	//面ごとの頂点情報
 	};
 
 	BlockInfo(void);
@@ -27,11 +37,19 @@ public:
 	void Draw(void);
 	void UIDraw(void);
 
-	const Param& GetParam(unsigned short id) { return params_.at(id); }
+	const ShaderInfo GetShaderInfo(void) { return shaderInfo_; }
 
+	const int& GetImageHandle(void) { return imageHandle_; }
+
+	const Param& GetParam(unsigned short id) { return params_.at(id); }
+	const Param& GetParam(std::string name);
 private:
+
+	int imageHandle_;
+	ShaderInfo shaderInfo_;
 	std::map<unsigned short,Param> params_;
 	nlohmann::json blocks;
 	void LoadBlockInfo(const std::string blockName);
+	std::map<std::string, Polygon3DRenderer::PolygonInfo> MakePolygon(Param param);
 };
 

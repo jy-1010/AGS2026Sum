@@ -27,7 +27,7 @@ private:
 
     IntVector3 colors_[COUNT];
 
-    Vector2I pos_;
+    IntVector2 pos_;
 
     bool selected_ = false;
     bool clicked_ = false;

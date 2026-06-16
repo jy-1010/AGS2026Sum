@@ -73,6 +73,8 @@ public:
 	Camera& GetCamera(void) { return *camera_; }
 
 	int GetMainScreen(void) const { return mainScreen_; }
+
+
 private:
 	//メンバー変数
 	int nowPushSpace;           //今スペースを押しているか

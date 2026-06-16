@@ -53,6 +53,8 @@ public:
 	// 解放成功／失敗の判定
 	bool IsReleaseFail(void) const;
 
+	//ゲームを終了する
+	void ExitGame(void) { isExit_ = true; }
 private:
 
 	// 静的インスタンス
@@ -74,4 +76,5 @@ private:
 
 	void InitEffekseer(void);
 
+	bool isExit_;
 };

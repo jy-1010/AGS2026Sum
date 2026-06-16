@@ -40,11 +40,11 @@ private:
     // HSV
     VECTOR hsv_;
 
-    Vector2I hsvPos_;
+    IntVector2 hsvPos_;
 
-    Vector2I rgbPos_;
+    IntVector2 rgbPos_;
 
-    Vector2I previewPos_;
+    IntVector2 previewPos_;
 
     IntVector3 currentColor_;
 };

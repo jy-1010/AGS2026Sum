@@ -67,7 +67,7 @@ void PlayerModel::LoadModelInfo(void)
 	modelInfo_ = jsonResource->GetData();
 	auto& textureSize = modelInfo_["TextureSize"];
 	animationKey_ = modelInfo_["AnimationTemplate"].get<std::string>();
-	textureSize_ = Vector2F(textureSize["x"], textureSize["y"]);
+	textureSize_ = FloatVector2(textureSize["x"], textureSize["y"]);
 	shaderInfo_.VSKey = modelInfo_["Shader"]["VS"];
 	shaderInfo_.PSKey = modelInfo_["Shader"]["PS"];
 	rootPartName_ = modelInfo_["RootPart"];
@@ -92,7 +92,7 @@ void PlayerModel::LoadModelInfo(void)
 			auto& pixelSize = cubes["PixelSize"];
 			cube.pixelSize = IntVector3{ pixelSize["x"], pixelSize["y"], pixelSize["z"] };
 			auto& uvOffset = cubes["UV"];
-			cube.uvOffset = Vector2F(uvOffset["x"] / textureSize_.u, uvOffset["y"] / textureSize_.v);
+			cube.uvOffset = FloatVector2(uvOffset["x"] / textureSize_.u, uvOffset["y"] / textureSize_.v);
 			part.cubes.push_back(cube);
 		}
 		modelParts_.push_back(part);

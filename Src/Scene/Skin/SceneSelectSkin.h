@@ -36,14 +36,14 @@ private:
 		int screenHandle = -1;	//スクリーンのハンドル
 		std::string skinName = "";	//スキンの名前(キー)
 		int skinHandle = -1;	//スキンのハンドル
-		Vector2I pos = {0,0};	//表示する座標
+		IntVector2 pos = {0,0};	//表示する座標
 		bool isDraw = false;	//表示するか
 	};
 
 	static constexpr float SELECT_EDGE_SIZE = 30.0f;
 
 	//スクリーンの大きさ
-	Vector2I screenSize_;
+	IntVector2 screenSize_;
 
 	//スキンそれぞれのプレビュー用スクリーン情報
 	std::vector<ScreenInfo>skinPreviewScreens_;
@@ -61,7 +61,7 @@ private:
 	bool IsDrawScren(int skinNum);
 
 	//座標を取得る
-	Vector2I GetScreenPos(int skinNum);
+	IntVector2 GetScreenPos(int skinNum);
 
 	//選択されているスキンの名前を取得
 	std::string GetSelectSkinName(void);

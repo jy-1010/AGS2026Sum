@@ -1,11 +1,22 @@
 #include <fstream>
 #include "../../../Application.h"
+#include "../../../Utility/JsonUtility.h"
+#include "../../../Manager/ResourceManager.h"
+#include "../../../Manager/Resource/JsonResource.h"
+#include "../../../Manager/Resource/ImageResource.h"
+#include "../../Vertex/VertexInfo.h"
 #include "BlockInfo.h"
 
 BlockInfo::BlockInfo(void)
 {
-	std::ifstream blocksFile(Application::PATH_JSON + "Blocks.json");
-	blocksFile >> blocks;
+	auto& resManager = ResourceManager::GetInstance();
+	blocks = resManager.GetJsonResource("BlocksJson").lock()->GetData();
+
+	shaderInfo_.VSKey = blocks["Shader"]["VS"];
+	shaderInfo_.PSKey = blocks["Shader"]["PS"];
+
+	imageHandle_ = resManager.GetImageResource(blocks["Image"]).lock()->GetHandleId();
+
 	std::vector<std::string> blockNames = blocks["Names"].get<std::vector<std::string>>();
 	for (auto& blockName : blockNames)
 	{
@@ -33,6 +44,17 @@ void BlockInfo::UIDraw(void)
 {
 }
 
+const BlockInfo::Param& BlockInfo::GetParam(std::string name)
+{
+	for (auto& param : params_)
+	{
+		if (param.second.name == name)
+		{
+			return param.second;
+		}
+	}
+}
+
 void BlockInfo::LoadBlockInfo(const std::string blockName)
 {
 	Param param;
@@ -45,5 +67,18 @@ void BlockInfo::LoadBlockInfo(const std::string blockName)
 	param.isCorrectAnotherTool = blocks[blockName]["IsCorrectAnotherTool"].get<bool>();
 	param.uvOffset.u = blocks[blockName]["UVOffset"]["u"].get<float>();
 	param.uvOffset.v = blocks[blockName]["UVOffset"]["v"].get<float>();
+	param.fasesPolygonInfo = MakePolygon(param);
 	params_.emplace(param.id, param);
+}
+
+std::map<std::string, Polygon3DRenderer::PolygonInfo> BlockInfo::MakePolygon(Param param)
+{
+	int cubeSize = blocks["1SquareSize"];
+	VertexInfo::Cube_Param cubeParam;
+	cubeParam.center = { 0.5f,0.5f,0.5f };
+	cubeParam.cubeSize = IntVector3(cubeSize, cubeSize, cubeSize).ToVECTOR();
+	cubeParam.key = blocks["RenderTemplate"].get<std::string>();
+	cubeParam.startUV = param.uvOffset;
+	cubeParam.TextureSize = JsonUtility::GetPosTo2D(blocks["TextureSize"]);
+	return VertexInfo::LoadFromFileAFace(cubeParam);
 }

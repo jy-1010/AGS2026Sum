@@ -42,6 +42,47 @@ Polygon3DRenderer::PolygonInfo VertexInfo::LoadFromFile(const Cube_Param& param)
 	return  polygonInfo;
 }
 
+std::map<std::string, Polygon3DRenderer::PolygonInfo> VertexInfo::LoadFromFileAFace(const Cube_Param& param)
+{
+	std::map< std::string, Polygon3DRenderer::PolygonInfo> facePolygonInfo;
+	nlohmann::json jsonfile;
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource(param.key).lock();
+	jsonfile = jsonResource->GetData();
+	// どの面から作るかを読み込み
+	std::vector<std::string> Order;
+	for (auto& param : jsonfile["Order"])
+	{
+		Order.push_back(param);
+	}
+	float size = jsonfile["Size"];
+	//頂点情報を面ごとに読み込む
+	auto& Vertices = jsonfile["Vertices"];
+	for (int i = 0; i < Order.size(); i++)
+	{
+		Polygon3DRenderer::PolygonInfo polygonInfo;
+		polygonInfo.clear();
+		//情報を読み込む
+		auto& vertex = Vertices[Order[i]];
+		UVOffset uvOffset = GetUVOffset(vertex["UVOffset"], param.cubeSize);
+		auto inputVertices = GetInputVertices(vertex["Vertices"]);
+		//頂点情報を作成
+		for (int j = 0;j < inputVertices.size();j++)
+		{
+			polygonInfo.vertex.push_back(CreateVertex(inputVertices[j], param, uvOffset, size));
+		}
+		polygonInfo.Indices.push_back(0);
+		polygonInfo.Indices.push_back(1);
+		polygonInfo.Indices.push_back(2);
+		polygonInfo.Indices.push_back(0);
+		polygonInfo.Indices.push_back(2);
+		polygonInfo.Indices.push_back(3);
+		std::string faseName = Order[i];
+		facePolygonInfo.emplace(faseName, polygonInfo);
+	}
+	return  facePolygonInfo;
+}
+
 float VertexInfo::GetPixelSize(std::string key)
 {
 	auto& resourceManager = ResourceManager::GetInstance();
@@ -60,10 +101,10 @@ VertexInfo::UVOffset VertexInfo::GetUVOffset(const nlohmann::json offset, VECTOR
 	return uvOffset;
 }
 
-Vector2F VertexInfo::GetUVOffset(const nlohmann::json offset, const std::string key, VECTOR size)
+FloatVector2 VertexInfo::GetUVOffset(const nlohmann::json offset, const std::string key, VECTOR size)
 {
 	auto& param = offset[key];
-	Vector2F uvOffset;
+	FloatVector2 uvOffset;
 	uvOffset.u = CalcUVOffset(param["u"], size);
 	uvOffset.v = CalcUVOffset(param["v"], size);
 	return uvOffset;
@@ -99,7 +140,7 @@ std::vector<VertexInfo::InputVerticesParam> VertexInfo::GetInputVertices(const n
 		auto& pos = param["Pos"];
 		vertex.pos = VECTOR(pos["x"], pos["y"], pos["z"]);
 		auto& localUV = param["LocalUV"];
-		vertex.localUV = Vector2F(localUV["u"], localUV["v"]);
+		vertex.localUV = FloatVector2(localUV["u"], localUV["v"]);
 		auto& normal = param["Normal"];
 		vertex.normal = VECTOR(normal["x"], normal["y"], normal["z"]);
 		inputVertices.push_back(vertex);

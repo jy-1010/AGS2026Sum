@@ -15,7 +15,6 @@
 SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
-	blockInfo_ = std::make_unique<BlockInfo>();
 	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName());
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW);
@@ -41,11 +40,13 @@ void SceneGame::Update(void)
 {
 	KeyConfig& ins = KeyConfig::GetInstance();
 	player_->Update();
+	stage_->Update();
 }
 
 //•`‰æˆ—
 void SceneGame::Draw(void)
 {
+	stage_->Draw();
 	player_->Draw();
 }
 

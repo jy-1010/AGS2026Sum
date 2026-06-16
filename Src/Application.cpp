@@ -38,6 +38,7 @@ Application& Application::GetInstance(void)
 
 void Application::Init(void)
 {
+	isExit_ = false;
 
 	// アプリケーションの初期設定
 	SetWindowText("THE END");
@@ -80,7 +81,7 @@ void Application::Run(void)
 	auto& sceneManager = SceneManager::GetInstance();
 
 	// ゲームループ
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !isExit_)
 	{
 
 		keyConfig.Update();

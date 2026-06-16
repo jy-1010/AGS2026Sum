@@ -130,9 +130,9 @@ bool SceneSelectSkin::IsDrawScren(int skinNum)
 	return false;
 }
 
-Vector2I SceneSelectSkin::GetScreenPos(int skinNum)
+IntVector2 SceneSelectSkin::GetScreenPos(int skinNum)
 {
-	Vector2I pos = { 0,0 };
+	IntVector2 pos = { 0,0 };
 	if (!IsDrawScren(skinNum))
 	{
 		//描画しないならリターンする

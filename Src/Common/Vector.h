@@ -2,8 +2,7 @@
 #include <DxLib.h>
 
 struct IntVector3;
-//struct Vector2F;
-struct Vector2I;
+struct IntVector2;
 
 struct IntVector3
 {
@@ -38,7 +37,7 @@ struct IntVector3
 	VECTOR ToVECTOR(void)const;
 };
 
-struct Vector2F
+struct FloatVector2
 {
 	union
 	{
@@ -47,30 +46,30 @@ struct Vector2F
 		float data[2];
 	};
 
-	Vector2F() : x(0.0f), y(0.0f) {}
-	Vector2F(float vX, float vY) : x(vX), y(vY) {}
-	Vector2F(const Vector2I& _value);
+	FloatVector2() : x(0.0f), y(0.0f) {}
+	FloatVector2(float vX, float vY) : x(vX), y(vY) {}
+	FloatVector2(const IntVector2& _value);
 
 	// 演算
-	Vector2F operator+(const Vector2F& _value) const;
-	void operator+=(const Vector2F& _value);
-	Vector2F operator-(const Vector2F& _value) const;
-	void operator-=(const Vector2F& _value);
-	Vector2F operator*(float _value) const;
+	FloatVector2 operator+(const FloatVector2& _value) const;
+	void operator+=(const FloatVector2& _value);
+	FloatVector2 operator-(const FloatVector2& _value) const;
+	void operator-=(const FloatVector2& _value);
+	FloatVector2 operator*(float _value) const;
 	void operator*=(float _value);
-	Vector2F operator/(float _value) const;
+	FloatVector2 operator/(float _value) const;
 	void operator/=(float _value);
-	Vector2F operator*(const Vector2F& _value) const;
-	void operator*=(const Vector2F& _value);
-	Vector2F operator/(const Vector2F& _value) const;
-	void operator/=(const Vector2F& _value);
+	FloatVector2 operator*(const FloatVector2& _value) const;
+	void operator*=(const FloatVector2& _value);
+	FloatVector2 operator/(const FloatVector2& _value) const;
+	void operator/=(const FloatVector2& _value);
 
 	// 比較
-	bool operator==(const Vector2F& _value) const;
-	bool operator!=(const Vector2F& _value) const;
+	bool operator==(const FloatVector2& _value) const;
+	bool operator!=(const FloatVector2& _value) const;
 };
 
-struct Vector2I
+struct IntVector2
 {
 	union
 	{
@@ -79,26 +78,26 @@ struct Vector2I
 		int data[2];
 	};
 
-	Vector2I() : x(0), y(0) {}
-	Vector2I(int vX, int vY) : x(vX), y(vY) {}
-	Vector2I(const Vector2F& _value);
+	IntVector2() : x(0), y(0) {}
+	IntVector2(int vX, int vY) : x(vX), y(vY) {}
+	IntVector2(const FloatVector2& _value);
 
 	// 演算
-	Vector2I operator+(const Vector2I& _value) const;
-	void operator+=(const Vector2I& _value);
-	Vector2I operator-(const Vector2I& _value) const;
-	void operator-=(const Vector2I& _value);
-	Vector2I operator*(int _value) const;
+	IntVector2 operator+(const IntVector2& _value) const;
+	void operator+=(const IntVector2& _value);
+	IntVector2 operator-(const IntVector2& _value) const;
+	void operator-=(const IntVector2& _value);
+	IntVector2 operator*(int _value) const;
 	void operator*=(int _value);
-	Vector2I operator/(int _value) const;
+	IntVector2 operator/(int _value) const;
 	void operator/=(int _value);
-	Vector2I operator*(const Vector2I& _value) const;
-	void operator*=(const Vector2I& _value);
-	Vector2I operator/(const Vector2I& _value) const;
-	void operator/=(const Vector2I& _value);
+	IntVector2 operator*(const IntVector2& _value) const;
+	void operator*=(const IntVector2& _value);
+	IntVector2 operator/(const IntVector2& _value) const;
+	void operator/=(const IntVector2& _value);
 	// 比較
-	bool operator==(const Vector2I& _value) const;
-	bool operator!=(const Vector2I& _value) const;
+	bool operator==(const IntVector2& _value) const;
+	bool operator!=(const IntVector2& _value) const;
 };
 
 //static constexpr IntVector3 ZERO_INT_VECTOR3 = {0, 0, 0};

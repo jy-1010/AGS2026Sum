@@ -53,6 +53,15 @@ void ResourceManager::Destroy(void)
 	instance_ = nullptr;
 }
 
+void ResourceManager::Load(std::string key)
+{
+	if (resourcesMap_[key]->IsLoaded())
+	{
+		return;
+	}
+	resourcesMap_[key]->Load();
+}
+
 std::weak_ptr<JsonResource> ResourceManager::GetJsonResource(const std::string& key)
 {
 	auto resource = GetResource(key);

@@ -70,15 +70,15 @@ public:
 	bool IsTrgUp(int key) const;
 
 	// マウス座標の取得
-	Vector2I GetMousePos(void) const;
+	IntVector2 GetMousePos(void) const;
 
 	//マウスの移動距離を取得
-	Vector2I GetMousePosDistance(void)const;
+	IntVector2 GetMousePosDistance(void)const;
 
 	//マウスの座標を設定
 	void SetMousePosScreen(void);
 
-	void SetMousePos(const Vector2I& pos);
+	void SetMousePos(const IntVector2& pos);
 
 	// マウスのクリック状態を取得(MOUSE_INPUT_LEFT、RIGHT)
 	int GetMouse(void) const;
@@ -147,8 +147,8 @@ private:
 	std::map<KeyConfig::JOYPAD_NO, std::vector<InputManager::StickInfo>> stickInfos_;
 
 	// マウスカーソルの位置
-	Vector2I mousePrePos_;
-	Vector2I mousePos_;
+	IntVector2 mousePrePos_;
+	IntVector2 mousePos_;
 	
 	//マウスホイール回転量
 	int wheelRot_;

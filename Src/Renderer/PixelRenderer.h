@@ -25,13 +25,13 @@ public:
 	~PixelRenderer(void)override;
 
 	// 描画矩形の生成
-	void MakeSquereVertex(Vector2I pos, Vector2I size);
+	void MakeSquereVertex(IntVector2 pos, IntVector2 size);
 	void MakeSquereVertex(void);
 
 	// 座標設定
-	void SetPos(Vector2I pos);
+	void SetPos(IntVector2 pos);
 	// 画像サイズ設定
-	void SetSize(Vector2I size);
+	void SetSize(IntVector2 size);
 
 	// 描画
 	void Draw(void)override;
@@ -40,10 +40,10 @@ public:
 private:
 
 	// 座標
-	Vector2I pos_;
+	IntVector2 pos_;
 
 	// 描画サイズ
-	Vector2I size_;
+	IntVector2 size_;
 
 	// 頂点
 	VERTEX2DSHADER vertexs_[NUM_VERTEX];
