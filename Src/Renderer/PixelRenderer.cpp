@@ -8,7 +8,7 @@ PixelRenderer::~PixelRenderer(void)
 {
 }
 
-void PixelRenderer::MakeSquereVertex(Vector2I pos, Vector2I size)
+void PixelRenderer::MakeSquereVertex(IntVector2 pos, IntVector2 size)
 {
 
 	pos_ = pos;
@@ -90,12 +90,12 @@ void PixelRenderer::MakeSquereVertex(void)
 	MakeSquereVertex(pos_, size_);
 }
 
-void PixelRenderer::SetPos(Vector2I pos)
+void PixelRenderer::SetPos(IntVector2 pos)
 {
 	pos_ = pos;
 }
 
-void PixelRenderer::SetSize(Vector2I size)
+void PixelRenderer::SetSize(IntVector2 size)
 {
 	size_ = size;
 }

@@ -105,3 +105,12 @@ void ColorUtility::RGBtoHSV(IntVector3 color, float& h, float& s, float& v)
         }
     }
 }
+
+int ColorUtility::ColorChange(VECTOR color)
+{
+    int ret = 0;
+    int r = static_cast<int>(color.x * COLOR_MAX_F);
+    int g = static_cast<int>(color.y * COLOR_MAX_F);
+    int b = static_cast<int>(color.z * COLOR_MAX_F);
+    return ret = (r * 0x010000) + (g * 0x000100) + (b * 0x000001);
+}

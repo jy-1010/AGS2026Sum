@@ -198,12 +198,12 @@ bool InputManager::IsTrgUp(int key) const
 	return Find(key).keyTrgUp;
 }
 
-Vector2I InputManager::GetMousePos(void) const
+IntVector2 InputManager::GetMousePos(void) const
 {
 	return mousePos_;
 }
 
-Vector2I InputManager::GetMousePosDistance(void) const
+IntVector2 InputManager::GetMousePosDistance(void) const
 {
 	return { mousePos_.x - mousePrePos_.x ,mousePos_.y - mousePrePos_.y };
 }
@@ -217,7 +217,7 @@ void InputManager::SetMousePosScreen(void)
 	SetMousePoint(static_cast<int>(mousePos_.x), static_cast<int>(mousePos_.y));
 }
 
-void InputManager::SetMousePos(const Vector2I& pos)
+void InputManager::SetMousePos(const IntVector2& pos)
 {
 	mousePos_ = pos;
 	mousePrePos_ = pos;

@@ -17,7 +17,7 @@ public:
 		std::string toolType = "";	//ブロックを破壊するのに適性なツールの種類
 		std::vector<std::string> toolLevel;	//ブロックを破壊するのに適性なツールのレベル
 		bool isCorrectAnotherTool = false;	//別のツールでも獲得可能かどうか
-		Vector2F uvOffset = Vector2F(0.0f, 0.0f);	//ブロックのテクスチャのUVオフセット
+		FloatVector2 uvOffset = FloatVector2(0.0f, 0.0f);	//ブロックのテクスチャのUVオフセット
 	};
 
 	BlockInfo(void);

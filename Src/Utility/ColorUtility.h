@@ -46,4 +46,7 @@ public:
 
     static IntVector3 HSVtoRGB(float h, float s, float v);
     static void RGBtoHSV(IntVector3 color, float& h, float& s, float& v);
+
+    //F‚ÌŠ„‡‚ğint‚É•ÏŠ·‚·‚é VECTOR 0`1
+    static int ColorChange(VECTOR color);
 };

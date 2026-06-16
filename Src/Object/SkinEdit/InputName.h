@@ -42,7 +42,7 @@ private:
 
 	int screen_;
 
-	Vector2I screenSize_;
+	IntVector2 screenSize_;
 
 	//フェーズ
 	Fase fase_;

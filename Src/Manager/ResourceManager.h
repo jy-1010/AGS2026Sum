@@ -23,6 +23,9 @@ public:
 	// リソースの完全破棄
 	void Destroy(void);
 
+	// ロードする
+	void Load(std::string key);
+
 	// 種類ごとのリソースの取得
 	std::weak_ptr<JsonResource> GetJsonResource(const std::string& key);
 	std::weak_ptr<ImageResource> GetImageResource(const std::string& key);

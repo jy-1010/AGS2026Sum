@@ -123,145 +123,145 @@ static IntVector3 VECTORToIntVector(VECTOR _v)
 	return intVec;
 }
 
-Vector2F::Vector2F(const Vector2I& _value)
+FloatVector2::FloatVector2(const IntVector2& _value)
 {
 	x = static_cast<float>(_value.x);
 	y = static_cast<float>(_value.y);
 }
 
-Vector2F Vector2F::operator+(const Vector2F& _value) const
+FloatVector2 FloatVector2::operator+(const FloatVector2& _value) const
 {
-	return Vector2F(x + _value.x, y + _value.y);
+	return FloatVector2(x + _value.x, y + _value.y);
 }
 
-void Vector2F::operator+=(const Vector2F& _value)
+void FloatVector2::operator+=(const FloatVector2& _value)
 {
 	x += _value.x;
 	y += _value.y;
 }
 
-Vector2F Vector2F::operator-(const Vector2F& _value) const
+FloatVector2 FloatVector2::operator-(const FloatVector2& _value) const
 {
-	return Vector2F(x - _value.x, y - _value.y);
+	return FloatVector2(x - _value.x, y - _value.y);
 }
 
-void Vector2F::operator-=(const Vector2F& _value)
+void FloatVector2::operator-=(const FloatVector2& _value)
 {
 	x -= _value.x;
 	y -= _value.y;
 }
 
-Vector2F Vector2F::operator*(const float _value) const
+FloatVector2 FloatVector2::operator*(const float _value) const
 {
-	return Vector2F(x * _value, y * _value);
+	return FloatVector2(x * _value, y * _value);
 }
 
-void Vector2F::operator*=(const float _value)
+void FloatVector2::operator*=(const float _value)
 {
 	x *= _value;
 	y *= _value;
 }
 
-Vector2F Vector2F::operator/(const float _value) const
+FloatVector2 FloatVector2::operator/(const float _value) const
 {
-	return Vector2F(x / _value, y / _value);
+	return FloatVector2(x / _value, y / _value);
 }
 
-void Vector2F::operator/=(const float _value)
+void FloatVector2::operator/=(const float _value)
 {
 	x /= _value;
 	y /= _value;
 }
 
-Vector2F Vector2F::operator*(const Vector2F& _value) const
+FloatVector2 FloatVector2::operator*(const FloatVector2& _value) const
 {
-	return Vector2F(x * _value.x, y * _value.y);
+	return FloatVector2(x * _value.x, y * _value.y);
 }
 
-void Vector2F::operator*=(const Vector2F& _value)
+void FloatVector2::operator*=(const FloatVector2& _value)
 {
 	x *= _value.x;
 	y *= _value.y;
 }
 
-Vector2F Vector2F::operator/(const Vector2F& _value) const
+FloatVector2 FloatVector2::operator/(const FloatVector2& _value) const
 {
-	return Vector2F(x / _value.x, y / _value.y);
+	return FloatVector2(x / _value.x, y / _value.y);
 }
 
-void Vector2F::operator/=(const Vector2F& _value)
+void FloatVector2::operator/=(const FloatVector2& _value)
 {
 	x /= _value.x;
 	y /= _value.y;
 }
 
-Vector2I::Vector2I(const Vector2F& _value)
+IntVector2::IntVector2(const FloatVector2& _value)
 {
 	x = static_cast<int>(_value.x);
 	y = static_cast<int>(_value.y);
 }
 
-Vector2I Vector2I::operator+(const Vector2I& _value) const
+IntVector2 IntVector2::operator+(const IntVector2& _value) const
 {
-	return Vector2I(x + _value.x, y + _value.y);
+	return IntVector2(x + _value.x, y + _value.y);
 }
 
-void Vector2I::operator+=(const Vector2I& _value)
+void IntVector2::operator+=(const IntVector2& _value)
 {
 	x += _value.x;
 	y += _value.y;
 }
 
-Vector2I Vector2I::operator-(const Vector2I& _value) const
+IntVector2 IntVector2::operator-(const IntVector2& _value) const
 {
-	return Vector2I(x - _value.x, y - _value.y);
+	return IntVector2(x - _value.x, y - _value.y);
 }
 
-void Vector2I::operator-=(const Vector2I& _value)
+void IntVector2::operator-=(const IntVector2& _value)
 {
 	x -= _value.x;
 	y -= _value.y;
 }
 
-Vector2I Vector2I::operator*(const int _value) const
+IntVector2 IntVector2::operator*(const int _value) const
 {
-	return Vector2I(x * _value, y * _value);
+	return IntVector2(x * _value, y * _value);
 }
 
-void Vector2I::operator*=(const int _value)
+void IntVector2::operator*=(const int _value)
 {
 	x *= _value;
 	y *= _value;
 }
 
-Vector2I Vector2I::operator/(const int _value) const
+IntVector2 IntVector2::operator/(const int _value) const
 {
-	return Vector2I(x / _value, y / _value);
+	return IntVector2(x / _value, y / _value);
 }
 
-void Vector2I::operator/=(const int _value)
+void IntVector2::operator/=(const int _value)
 {
 	x /= _value;
 	y /= _value;
 }
 
-Vector2I Vector2I::operator*(const Vector2I& _value) const
+IntVector2 IntVector2::operator*(const IntVector2& _value) const
 {
-	return Vector2I(x * _value.x, y * _value.y);
+	return IntVector2(x * _value.x, y * _value.y);
 }
 
-void Vector2I::operator*=(const Vector2I& _value)
+void IntVector2::operator*=(const IntVector2& _value)
 {
 	x *= _value.x;
 	y *= _value.y;
 }
 
-Vector2I Vector2I::operator/(const Vector2I& _value) const
+IntVector2 IntVector2::operator/(const IntVector2& _value) const
 {
-	return Vector2I(x / _value.x, y / _value.y);
+	return IntVector2(x / _value.x, y / _value.y);
 }
 
-void Vector2I::operator/=(const Vector2I& _value)
+void IntVector2::operator/=(const IntVector2& _value)
 {
 	x /= _value.x;
 	y /= _value.y;

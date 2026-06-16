@@ -32,7 +32,7 @@ public:
 	{
 		IntVector3 offset;	//キューブの中心からのオフセット
 		IntVector3 pixelSize;
-		Vector2F uvOffset;
+		FloatVector2 uvOffset;
 	};
 
 	//モデルのパーツごとの情報
@@ -121,7 +121,7 @@ private:
 	nlohmann::json modelInfo_;
 
 	//テクスチャのサイズ
-	Vector2F textureSize_;
+	FloatVector2 textureSize_;
 
 	//モデルの大親の名前
 	std::string rootPartName_;

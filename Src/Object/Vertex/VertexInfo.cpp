@@ -60,10 +60,10 @@ VertexInfo::UVOffset VertexInfo::GetUVOffset(const nlohmann::json offset, VECTOR
 	return uvOffset;
 }
 
-Vector2F VertexInfo::GetUVOffset(const nlohmann::json offset, const std::string key, VECTOR size)
+FloatVector2 VertexInfo::GetUVOffset(const nlohmann::json offset, const std::string key, VECTOR size)
 {
 	auto& param = offset[key];
-	Vector2F uvOffset;
+	FloatVector2 uvOffset;
 	uvOffset.u = CalcUVOffset(param["u"], size);
 	uvOffset.v = CalcUVOffset(param["v"], size);
 	return uvOffset;
@@ -99,7 +99,7 @@ std::vector<VertexInfo::InputVerticesParam> VertexInfo::GetInputVertices(const n
 		auto& pos = param["Pos"];
 		vertex.pos = VECTOR(pos["x"], pos["y"], pos["z"]);
 		auto& localUV = param["LocalUV"];
-		vertex.localUV = Vector2F(localUV["u"], localUV["v"]);
+		vertex.localUV = FloatVector2(localUV["u"], localUV["v"]);
 		auto& normal = param["Normal"];
 		vertex.normal = VECTOR(normal["x"], normal["y"], normal["z"]);
 		inputVertices.push_back(vertex);

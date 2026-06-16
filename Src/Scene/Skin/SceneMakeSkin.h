@@ -55,7 +55,7 @@ private:
 	int saveScreen_;
 
 	//描画位置
-	Vector2I offset_;
+	IntVector2 offset_;
 
 	//保存したか
 	bool isSave_;
