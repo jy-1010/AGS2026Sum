@@ -168,5 +168,7 @@
     <FxCompile Include="Src\Shader\Polygon\PlayerPS.hlsl" />
     <FxCompile Include="Src\Shader\Polygon\PlayerVS.hlsl" />
     <FxCompile Include="Src\Shader\Image\Canvas.hlsl" />
+    <FxCompile Include="Src\Shader\Polygon\BlocksVS.hlsl" />
+    <FxCompile Include="Src\Shader\Polygon\BlocksPS.hlsl" />
   </ItemGroup>
 </Project>

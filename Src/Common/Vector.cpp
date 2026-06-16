@@ -55,7 +55,7 @@ VECTOR IntVector3::operator*(const VECTOR& _value) const
 
 bool IntVector3::operator==(const IntVector3& _value) const
 {
-	bool diffX = x == _value.x;
+ 	bool diffX = x == _value.x;
 	bool diffY = y == _value.y;
 	bool diffZ = z == _value.z;
 
@@ -64,11 +64,17 @@ bool IntVector3::operator==(const IntVector3& _value) const
 
 bool IntVector3::operator<(const IntVector3& _value) const
 {
-	bool diffX = x < _value.x;
-	bool diffY = y < _value.y;
-	bool diffZ = z < _value.z;
+	if (x != _value.x)
+	{
+		return x < _value.x;
+	}
 
-	return diffX && diffY && diffZ;
+	if (y != _value.y)
+	{
+		return y < _value.y;
+	}
+
+	return z < _value.z;
 }
 
 bool IntVector3::operator<=(const IntVector3& _value) const
@@ -82,11 +88,17 @@ bool IntVector3::operator<=(const IntVector3& _value) const
 
 bool IntVector3::operator>(const IntVector3& _value) const
 {
-	bool diffX = x > _value.x;
-	bool diffY = y > _value.y;
-	bool diffZ = z > _value.z;
+	if (x != _value.x)
+	{
+		return x > _value.x;
+	}
 
-	return diffX && diffY && diffZ;
+	if (y != _value.y)
+	{
+		return y > _value.y;
+	}
+
+	return z > _value.z;
 }
 
 bool IntVector3::operator>=(const IntVector3& _value) const

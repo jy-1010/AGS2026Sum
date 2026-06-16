@@ -31,7 +31,11 @@ public:
 		FloatVector2 localUV;
 		VECTOR normal;
 	};
+
+	//ファイルを用いて頂点情報を取得する
 	static Polygon3DRenderer::PolygonInfo LoadFromFile(const Cube_Param& param);
+	//ファイルを用いて頂点情報を面ごとに取得する
+	static std::map<std::string, Polygon3DRenderer::PolygonInfo> LoadFromFileAFace(const Cube_Param& param);
 	static float GetPixelSize(std::string key);
 private:
 	static UVOffset GetUVOffset(const nlohmann::json offset,VECTOR size);

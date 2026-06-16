@@ -90,34 +90,16 @@
       "Preload": true
     },
 
-    "StageFileListJson": {
-      "Type": "Json",
-      "Path": "Json/StageFileList.json",
-      "Preload": true
-    },
-
     "ToolsJson": {
       "Type": "Json",
       "Path": "Json/Tools.json",
       "Preload": true
     },
 
-    "Stage1Json": {
+    "CreateStageRuleJson": {
       "Type": "Json",
-      "Path": "Json/Stage/Stage1.json",
-      "Preload": false
-    },
-
-    "Stage2Json": {
-      "Type": "Json",
-      "Path": "Json/Stage/Stage2.json",
-      "Preload": false
-    },
-
-    "Stage3Json": {
-      "Type": "Json",
-      "Path": "Json/Stage/Stage3.json",
-      "Preload": false
+      "Path": "Json/Stage/CreateStageRule.json",
+      "Preload": true
     },
 
     "TitleBGM": {
@@ -157,6 +139,19 @@
     "PlayerPS": {
       "Type": "Shader",
       "Path": "Shader/PlayerPS.cso",
+      "ShaderType": "Pixel",
+      "Preload": true
+    },
+
+    "BlocksVS": {
+      "Type": "Shader",
+      "Path": "Shader/BlocksVS.cso",
+      "ShaderType": "Vertex",
+      "Preload": true
+    },
+    "BlocksPS": {
+      "Type": "Shader",
+      "Path": "Shader/BlocksPS.cso",
       "ShaderType": "Pixel",
       "Preload": true
     },
