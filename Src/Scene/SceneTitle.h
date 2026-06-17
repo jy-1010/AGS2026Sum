@@ -29,10 +29,14 @@ private:
 	//四角
 	struct Rect
 	{
-		float left;
-		float top;
-		float right;
-		float bottom;
+		float leftPer;
+		float topPer;
+		float rightPer;
+		float bottomPer;
+		int leftScreen;
+		int topScreen;
+		int rightScreen;
+		int bottomScreen;
 	};
 
 	//ボタンの状態
@@ -46,26 +50,28 @@ private:
 	//ボタンの情報
 	struct ButtonInfo
 	{
-		ButtonState state;	//状態
-		std::string name;	//名前
-		std::string imageKey;	//画像のキー
-		std::string nextScene;	//次のシーン
+		ButtonState state = ButtonState::NORMAL;	//状態
+		std::string name = "";	//名前
+		std::string imageKey = "";	//画像のキー
+		std::string nextScene = "";	//次のシーン
 		int imageHandle = -1;	//画像のハンドル
 		Rect rect;			//四角の情報
 		int selectIndex = -1;	//配列番号
+		int layer = -1;
 	};
 
 	struct LogoInfo
 	{
-		std::string name;
-		std::string imageKey;
+		std::string name = "";
+		std::string imageKey = "";
 		int imageHandle = -1;
 		FloatVector2 pos;
+		int layer = -1;
 	};
 
 	struct OutLineInfo
 	{
-		VECTOR color;	//色
+		VECTOR color = {};	//色
 		float thickness =  -1.0f;	//太さ
 	};
 
@@ -79,6 +85,9 @@ private:
 
 	//ロゴの情報
 	std::vector<LogoInfo> logoInfo_;
+
+	int maxLayerNum_;
+	
 
 	//アウトラインの色
 	OutLineInfo blackInfo_;
@@ -96,7 +105,13 @@ private:
 	void LoadColor(void);
 	void LoadButton(void);
 
-	void DrawOutLine(Rect rect,ButtonState state);
+	//レイヤーに対応するオブジェクトを取得する
+	std::vector<ButtonInfo> GetButtonInfoToLayer(int layerNum);
+	std::vector<LogoInfo> GetLogoInfoToLayer(int layerNum);
 
 	void ChangeScene(void);
+
+	//ボタンのDraw
+	void DrawOutLine(Rect rect, ButtonState state);
+	void DrawButton(ButtonInfo button);
 };

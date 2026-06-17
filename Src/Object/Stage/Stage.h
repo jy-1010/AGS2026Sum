@@ -54,8 +54,11 @@ private:
 	//エネミースポーンポイント
 	IntVector3 enemySpawnPoint_;
 
+	//ブロックのidと名前の対応表
+	std::map<std::string, unsigned short> listNameAndID_;
+
 	//ステージデータ (座標とブロックの種類(ID))
-	std::map<IntVector3, unsigned short> stageData_;
+	std::unordered_map<IntVector3, unsigned short> stageData_;
 
 	//ブロックの情報
 	std::unique_ptr<BlockInfo> blockInfo_;
@@ -86,7 +89,8 @@ private:
 	void CreatePlayerSpawnPoint(void);
 
 	//ブロックを設置する
-	void SetBlock(IntVector3 pos, std::string blockName);
+	void SetBlock(const IntVector3& pos, std::string blockName);
+	void SetBlock(const IntVector3& pos, unsigned short blockId);
 
 	//ポリゴン情報を更新する
 	void UpdatePolygon(void);

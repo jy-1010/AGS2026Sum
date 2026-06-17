@@ -44,6 +44,17 @@ void BlockInfo::UIDraw(void)
 {
 }
 
+const std::map<std::string, unsigned short> BlockInfo::GetPairNameAndID(void)
+{
+	std::map<std::string, unsigned short>ret;
+	for (auto& param : params_)
+	{
+		ret.emplace(param.second.name, param.first);
+	}
+
+	return ret;
+}
+
 const BlockInfo::Param& BlockInfo::GetParam(std::string name)
 {
 	for (auto& param : params_)

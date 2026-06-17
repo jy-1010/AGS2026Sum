@@ -11,6 +11,7 @@ Stage::Stage(void)
 {
 	//LoadStageData(SelectStageFilePath());
     blockInfo_ = std::make_unique<BlockInfo>();
+    listNameAndID_ = blockInfo_->GetPairNameAndID();
     LoadJsonData();
     InitRenderer();
     MakeStage();
@@ -86,7 +87,7 @@ void Stage::InitRenderer(void)
 
 void Stage::MakeStage(void)
 {
-	CreateMainIsland();
+    CreateMainIsland();
 	CreateObsidianPillars();
 	CreateEndCrystals();
 	//CreateIronBarCages();
@@ -95,29 +96,35 @@ void Stage::MakeStage(void)
 
 void Stage::CreateMainIsland(void)
 {
+    IntVector3 postemp = {};
+    const unsigned short endStoneId = listNameAndID_["EndStone"];
 
+    const int radiusSq = jsonInput_.radius * jsonInput_.radius;
     // XZ平面を走査
     for (int x = -jsonInput_.radius; x <= jsonInput_.radius; x++)
     {
         for (int z = -jsonInput_.radius; z <= jsonInput_.radius; z++)
         {
             // 中心からの距離を計算
-            float distance = sqrtf(static_cast<float>(x * x + z * z));
+            //float distance = sqrtf(static_cast<float>(x * x + z * z));
+            int distanceSq = x * x + z * z;
 
             // 半径外なら生成しない
-            if (distance > jsonInput_.radius)
+            if (distanceSq > radiusSq)
             {
                 continue;
             }
-
+            //float distance = std::sqrt(static_cast<float>(distanceSq));
             // ノイズで高さを変化させる
             //float noise = PerlinNoise(x * 0.03f, z * 0.03f);
-            float rate = distance / jsonInput_.radius;
+            float rateSq = distanceSq / radiusSq;
 
             // この地点の地表高さ
             //int height = baseHeight + static_cast<int>(noise * 8);
-            int height = jsonInput_.baseHeight -static_cast<int>(rate *rate *(jsonInput_.baseHeight - jsonInput_.outHeight));
+            int height = jsonInput_.baseHeight -static_cast<int>(rateSq *(jsonInput_.baseHeight - jsonInput_.outHeight));
 
+            postemp.x = x;
+            postemp.z = z;
             // 下方向へブロックを配置
             for (int y = 0; y <= height; y++)
             {
@@ -131,7 +138,8 @@ void Stage::CreateMainIsland(void)
                 //{
                 //    SetBlock({ x, y, z }, "EndStone");
                 //}
-                SetBlock({ x, y, z }, "EndStone");
+                postemp.y = y;
+                SetBlock(postemp, endStoneId);
             }
         }
     }
@@ -139,20 +147,16 @@ void Stage::CreateMainIsland(void)
 
 void Stage::CreateObsidianPillars(void)
 {
-
-    // 柱の本数
-    constexpr int pillarCount = 10;
-
     // 柱を配置する円の半径
     constexpr float ringRadius = 36.0f;
 
-    for (int i = 0; i < pillarCount; i++)
+    for (int i = 0; i < jsonInput_.pillarNum; i++)
     {
         // 円周上に均等配置
         float angle =
             DX_TWO_PI *
             static_cast<float>(i) /
-            pillarCount;
+            jsonInput_.pillarNum;
 
         int x =static_cast<int>(cosf(angle) * ringRadius);
 
@@ -258,15 +262,22 @@ void Stage::CreatePlayerSpawnPoint()
     }
 }
 
-void Stage::SetBlock(IntVector3 pos, std::string blockName)
+void Stage::SetBlock(const IntVector3& pos, std::string blockName)
 {
-    unsigned short id = blockInfo_->GetParam(blockName).id;
-    if (stageData_.contains(pos))
-    {
-        stageData_[pos] = id;
-        return;
-    }
-    stageData_.emplace(pos, id);
+    //unsigned short id = blockInfo_->GetParam(blockName).id;
+    unsigned short id = listNameAndID_[blockName];
+    //if (stageData_.contains(pos))
+    //{
+    //    stageData_[pos] = id;
+    //    return;
+    //}
+    //stageData_.emplace(pos, id);
+    stageData_.insert_or_assign(pos, id);
+}
+
+void Stage::SetBlock(const IntVector3& pos, unsigned short blockId)
+{
+    stageData_.insert_or_assign(pos, blockId);
 }
 
 void Stage::UpdatePolygon(void)
@@ -300,6 +311,10 @@ void Stage::UpdatePolygon(void)
         if (!stageData_.contains(IntVector3(pos.x, pos.y, pos.z + 1)))
         {
             faseNames.push_back("Front");
+        }
+        if (faseNames.empty())
+        {
+            continue;
         }
 
         auto& param = blockInfo_->GetParam(stageData.second);

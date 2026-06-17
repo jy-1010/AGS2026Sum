@@ -39,8 +39,12 @@ public:
 
 	const ShaderInfo GetShaderInfo(void) { return shaderInfo_; }
 
-	const int& GetImageHandle(void) { return imageHandle_; }
+	const int& GetImageHandle(void) const { return imageHandle_; }
 
+	//全ての名前のIDの組み合わせの対応表を送る
+	const std::map<std::string, unsigned short> GetPairNameAndID(void);
+
+	//ブロック個別の情報を取得する
 	const Param& GetParam(unsigned short id) { return params_.at(id); }
 	const Param& GetParam(std::string name);
 private:
