@@ -66,6 +66,11 @@ const BlockInfo::Param& BlockInfo::GetParam(std::string name)
 	}
 }
 
+const int BlockInfo::GetSize(void)
+{
+	return blocks["1SquareSize"] * VertexInfo::GetPixelSize(blocks["RenderTemplate"]);;
+}
+
 void BlockInfo::LoadBlockInfo(const std::string blockName)
 {
 	Param param;
@@ -86,7 +91,7 @@ std::map<std::string, Polygon3DRenderer::PolygonInfo> BlockInfo::MakePolygon(Par
 {
 	int cubeSize = blocks["1SquareSize"];
 	VertexInfo::Cube_Param cubeParam;
-	cubeParam.center = { 0.5f,0.5f,0.5f };
+	cubeParam.center = { static_cast<float>(cubeSize) / 2,static_cast<float>(cubeSize) / 2,static_cast<float>(cubeSize) / 2 };
 	cubeParam.cubeSize = IntVector3(cubeSize, cubeSize, cubeSize).ToVECTOR();
 	cubeParam.key = blocks["RenderTemplate"].get<std::string>();
 	cubeParam.startUV = param.uvOffset;

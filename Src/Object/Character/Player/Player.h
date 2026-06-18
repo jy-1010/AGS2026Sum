@@ -68,6 +68,17 @@ public:
 	/// <param name="isCompulsion">強制的に変えるか</param>
 	void SetAnimation(std::string animName,bool isCompulsion);
 
+	/// <summary>
+	/// 座標を設定する
+	/// </summary>
+	/// <param name="pos"></param>
+	void SetPos(const VECTOR pos) { transform_->pos = pos; }
+
+	/// <summary>
+	/// 頂点情報を適用する
+	/// </summary>
+	/// <param name=""></param>
+	void ApplyVertex(void);
 private:
 
 	//モデル管理

@@ -47,6 +47,8 @@ public:
 	//ブロック個別の情報を取得する
 	const Param& GetParam(unsigned short id) { return params_.at(id); }
 	const Param& GetParam(std::string name);
+
+	const int GetSize(void);
 private:
 
 	int imageHandle_;

@@ -101,6 +101,13 @@ public:
 	/// <param name="isCompulsion">強制的に変えるか</param>
 	void SetAnimation(std::string animName, bool isCompulsion);
 
+	/// <summary>
+	/// 頂点座標を適用する
+	/// </summary>
+	/// <param name="pos">座標</param>
+	/// <param name="rot">回転</param>
+	void ApplayVertexPos(VECTOR pos, VECTOR rot);
+	
 private:
 	//アニメーションマネージャー
 	std::unique_ptr<PlayerAnimationManager> animationManager_;
@@ -154,5 +161,11 @@ private:
 
 	//シェーダの情報を設定する
 	void SetRendererInfo(void);
+
+	//座標を適用
+	void ApplyPosition(VECTOR pos);
+
+	//回転を適用
+	void ApplyRotation(VECTOR rot);
 };
 

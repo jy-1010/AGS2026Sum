@@ -34,8 +34,6 @@ void PlayerModel::Update(void)
 
 void PlayerModel::Draw(void)
 {
-	animationManager_->ApplyAnimation();
-	polygonInfo_ = animationManager_->GetPolygonInfo();
 	renderer_->Draw();
 	//DrawGraph(0, 0, skinHandle_, true);
 }
@@ -57,6 +55,14 @@ void PlayerModel::SetAnimation(std::string animName, bool isCompulsion)
 		animationManager_->Init();
 	}
 	animationManager_->SetAnimation(animName);
+}
+
+void PlayerModel::ApplayVertexPos(VECTOR pos, VECTOR rot)
+{
+	animationManager_->ApplyAnimation();
+	polygonInfo_ = animationManager_->GetPolygonInfo();
+	ApplyRotation(rot);
+	ApplyPosition(pos);
 }
 
 void PlayerModel::LoadModelInfo(void)
@@ -137,4 +143,16 @@ void PlayerModel::SetRendererInfo(void)
 	material_ = std::make_unique<Polygon3DMaterial>(shaderVSResource->GetHandleId(), 1, shaderPSResource->GetHandleId(), 1);
 	renderer_ = std::make_shared<Polygon3DRenderer>(*material_, polygonInfo_);
 	material_->AddConstBufPS(FLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+void PlayerModel::ApplyPosition(VECTOR pos)
+{
+	for (auto& polygon : polygonInfo_.vertex)
+	{
+		polygon.pos =VAdd(polygon.pos, pos);
+	}
+}
+
+void PlayerModel::ApplyRotation(VECTOR rot)
+{
 }

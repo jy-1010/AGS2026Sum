@@ -16,6 +16,7 @@ SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
 	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName());
+	player_->SetPos(stage_->GetPlayerSpawnPos());
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW);
 	camera.SetFollow(player_->GetTransform().lock());
@@ -41,6 +42,8 @@ void SceneGame::Update(void)
 	KeyConfig& ins = KeyConfig::GetInstance();
 	player_->Update();
 	stage_->Update();
+
+	player_->ApplyVertex();
 }
 
 //•`‰æˆ—
