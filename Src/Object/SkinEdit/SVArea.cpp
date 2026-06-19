@@ -11,6 +11,8 @@ SVArea::SVArea()
     posX_ = 0;
     posY_ = 0;
 
+    active_ = false;
+
     areaScreen_ =
         MakeScreen(
             SIZE,
@@ -20,6 +22,8 @@ SVArea::SVArea()
 
 void SVArea::Update()
 {
+    active_ = false;
+
     // HueÇ™ïœÇÌÇ¡ÇΩÇÁçƒê∂ê¨
     if (hue_ != lastHue_)
     {
@@ -98,6 +102,8 @@ void SVArea::Update()
 
         if (inside)
         {
+            active_ = true;
+
             s_ =
                 (mouseX - posX_) /
                 (float)SIZE;
