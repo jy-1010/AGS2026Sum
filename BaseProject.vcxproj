@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Stage\Chunk.cpp" />
     <ClCompile Include="Src\Utility\JsonUtility.cpp" />
     <ClCompile Include="Src\Scene\Skin\SceneSelectSkin.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\InputName.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Stage\Chunk.h" />
     <ClInclude Include="Src\Utility\JsonUtility.h" />
     <ClInclude Include="Src\Scene\Skin\SceneSelectSkin.h" />
     <ClInclude Include="Src\Object\SkinEdit\InputName.h" />

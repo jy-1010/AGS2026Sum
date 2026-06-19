@@ -10,6 +10,7 @@
 #include "../../Manager/Resource/ShaderResource.h"
 #include "../Item/Block/BlockInfo.h"
 #include "../Vertex/VertexInfo.h"
+#include "Chunk.h"
 #include "Stage.h"
 
 Stage::Stage(void)
@@ -17,11 +18,11 @@ Stage::Stage(void)
 	//LoadStageData(SelectStageFilePath());
     blockInfo_ = std::make_unique<BlockInfo>();
     listNameAndID_ = blockInfo_->GetPairNameAndID();
+    size_ = blockInfo_->GetSize();
     LoadJsonData();
-    InitCheckList();
     InitRenderer();
     MakeStage();
-    UpdatePolygon();
+    Update();
 }
 
 Stage::~Stage(void)
@@ -34,10 +35,15 @@ void Stage::Init(void)
 
 void Stage::Update(void)
 {
+    for (auto& chunk : chunkDatas_)
+    {
+        chunk.second->Update();
+    }
 }
 
 void Stage::Draw(void)
 {
+    UpdatePolygon();
     renderer_->Draw();
 }
 
@@ -50,16 +56,6 @@ VECTOR Stage::GetPlayerSpawnPos(void)
     VECTOR ret;
     ret = IntVector3(jsonInput_.playerSpawnMapPos * blockInfo_->GetSize()).ToVECTOR();
     return ret;
-}
-
-void Stage::InitCheckList(void)
-{
-    faceChackList_.emplace( "Left",FaceCheck{{-1,0,0},1 << 0 });
-    faceChackList_.emplace( "Right",FaceCheck{{1,0,0},1 << 1 });
-    faceChackList_.emplace( "Bottom",FaceCheck{{0,-1,0},1 << 2 });
-    faceChackList_.emplace( "Top",FaceCheck{{0,1,0},1 << 3 });
-    faceChackList_.emplace( "Back",FaceCheck{{0,0,-1},1 << 4 });
-    faceChackList_.emplace( "Front",FaceCheck{{0,0,1},1 << 5 });
 }
 
 void Stage::LoadJsonData(void)
@@ -75,7 +71,9 @@ void Stage::LoadJsonData(void)
     }
     jsonInput_.pillarNum = json["PillarNum"];
     jsonInput_.pillarHasCageNum = json["PillarHasCageNum"];
-    jsonInput_.chanckBlockNum = json["ChankBlockNum"];
+    jsonInput_.chanckBlockNum = json["chunkBlockNum"];
+    jsonInput_.chankMaxVertexNum = json["chunkMaxVertexNum"];
+    jsonInput_.chankMaxIndexNum = json["chunkMaxIndexNum"];
     jsonInput_.playerSpawnMapPos = JsonUtility::GetPosTo3D(json["SpawnPosition"]["Player"]);
     jsonInput_.enemySpawnMapPos = JsonUtility::GetPosTo3D(json["SpawnPosition"]["Enemy"]);
 }
@@ -119,9 +117,6 @@ void Stage::CreateMainIsland(void)
             {
                 continue;
             }
-            //float distance = std::sqrt(static_cast<float>(distanceSq));
-            // ノイズで高さを変化させる
-            //float noise = PerlinNoise(x * 0.03f, z * 0.03f);
             float rateSq = distanceSq / radiusSq;
 
             // この地点の地表高さ
@@ -133,16 +128,6 @@ void Stage::CreateMainIsland(void)
             // 下方向へブロックを配置
             for (int y = 0; y <= height; y++)
             {
-                //// 下に行くほど島を細くする
-                //float rate = 1.0f - static_cast<float>(y) / static_cast<float>(height);
-
-                //float currentRadius = jsonInput_.radius * rate;
-
-                //// 円形範囲内なら配置
-                //if (distance <= currentRadius)
-                //{
-                //    SetBlock({ x, y, z }, "EndStone");
-                //}
                 postemp.y = y;
                 SetBlock(postemp, endStoneId);
             }
@@ -275,120 +260,129 @@ void Stage::SetBlock(const IntVector3& pos, std::string blockName)
 
 void Stage::SetBlock(const IntVector3& pos, unsigned short blockId)
 {
-    std::pair<IntVector3, unsigned short> data;
-    data.first = pos;
-    data.second = blockId;
 
     //stageData_.insert_or_assign(pos, id);
-    IntVector3 chankPos = MapPosToChankPos(pos);
-    auto it = chankDatas_.find(chankPos);
-    if (it != chankDatas_.end())
+    IntVector3 chunkPos = MapPosToChunkPos(pos);
+    auto it = chunkDatas_.find(chunkPos);
+    if (it != chunkDatas_.end())
     {
         //既存の場合
-        it->second.emplace(data);
+        it->second->AddBlock(pos, blockId);
         return;
     }
-
-    chankDatas_.emplace(chankPos, std::unordered_map{ data });
+    std::shared_ptr<Chunk> data = std::make_shared<Chunk>(chunkPos, *this, *blockInfo_);
+    chunkDatas_.emplace(chunkPos,  data);
 
 }
 
 void Stage::DeleteBlock(const IntVector3& pos)
 {
-    IntVector3 chankPos = MapPosToChankPos(pos);
+    IntVector3 chunkPos = MapPosToChunkPos(pos);
 
-    auto chunkIt = chankDatas_.find(chankPos);
-    if (chunkIt == chankDatas_.end())
+    auto chunkIt = chunkDatas_.find(chunkPos);
+    if (chunkIt == chunkDatas_.end())
     {
         return;
     }
 
-    chunkIt->second.erase(pos);
+    chunkIt->second->DeleteBlock(pos);
 }
 
 void Stage::UpdatePolygon(void)
 {
+    int draw = 0;
     auto& sceneManager = SceneManager::GetInstance();
     auto& camera = sceneManager.GetCamera();
     VECTOR cameraPos = camera.GetPos();
-    IntVector3 cameraChank = MapPosToChankPos(WorldPosToMapPos(IntVector3(cameraPos)));
+    IntVector3 camerachunk = WorldPosToChunkPos(cameraPos);
     polygonInfo_.clear();
-    for (auto& chankData : chankDatas_)
+    for (auto& chunkData : chunkDatas_)
     {
         //チャンク座標
-        const IntVector3 chankPos = chankData.first;
-        const IntVector3 sub = chankPos - cameraChank;
-        if (abs(sub.x) > 4 || abs(sub.y) > 4 || abs(sub.z) > 4)
+        const IntVector3& chunkPos = chunkData.first;
+        const IntVector3 sub = chunkPos - camerachunk;
+        //描画チャンク処理
+        if (abs(sub.x) > 2 || abs(sub.y) > 2 || abs(sub.z) > 2)
         {
             continue;
         }
-        int blockSize = blockInfo_->GetSize();
-        if (!CheckCameraViewClip_Box((chankPos * blockSize).ToVECTOR(), ((chankPos + IntVector3{ 1,1,1 }) * blockSize).ToVECTOR()))
+        if (!CheckCameraViewClip_Box(ChunkPosToWorldPos(chunkPos), ChunkPosToWorldPos(chunkPos + IntVector3{1,1,1})))
         {
             continue;
         }
-        //チャンク内の情報
-        const auto& inChankData = chankData.second;
-        for (auto& stageData : inChankData)
+        //チャンク内の頂点情報
+        const auto& inchunkData = chunkData.second;
+        if (!inchunkData->IsDraw())
         {
-            //uint8_tでどこを描画するかを表す 1 = left,2 = right,4 = bottom,8 = top, 16 = back,32 = front
-            uint8_t isDraw = 0;
-
-            const IntVector3 mapPos = stageData.first;
-            const VECTOR worldPos = (mapPos * jsonInput_.chanckBlockNum).ToVECTOR();
-            //隣接する場所にブロックがあるかを判定しなければその面を描画するため頂点を生成する
-            for (auto& chack : faceChackList_)
-            {
-                if (!inChankData.contains(chack.second.offSet))
-                {
-                    isDraw |= chack.second.flag;
-                }
-            }
-            if (isDraw == 0)
-            {
-                continue;
-            }
-            auto& param = blockInfo_->GetParam(stageData.second);
-            for (auto& chack : faceChackList_)
-            {
-                if (chack.second.flag & isDraw)
-                {
-                    continue;
-                }
-                int size = static_cast<int>(polygonInfo_.vertex.size());
-                auto facePolygon = param.fasesPolygonInfo.find(chack.first);
-                auto& vertex = facePolygon->second.vertex;
-                auto& index = facePolygon->second.Indices;
-                for (auto& ver: vertex)
-                {
-                    VERTEX3DSHADER vertemp = ver;
-                    vertemp.pos = VAdd(ver.pos, worldPos);
-                    polygonInfo_.vertex.push_back(vertemp);
-                }
-                for (auto& ind : index)
-                {
-                    polygonInfo_.Indices.push_back(ind + size);
-                }
-            }
+            continue;
+        }
+        draw++;
+        const auto& polygon = inchunkData->GetPolygonInfo();
+        int size = static_cast<int>(polygonInfo_.vertex.size());
+        auto& vertex = polygon.vertex;
+        auto& index = polygon.Indices;
+        polygonInfo_.vertex.insert(polygonInfo_.vertex.end(), vertex.begin(), vertex.end());
+        for (auto& ind : index)
+        {
+            polygonInfo_.Indices.push_back(ind + size);
         }
     }
+    //polygonInfo_.Indices = { 0,1,2 };
 }
 
-IntVector3 Stage::WorldPosToMapPos(IntVector3 worldPos) const
+IntVector3 Stage::WorldPosToMapPos(const VECTOR& worldPos) const
 {
     IntVector3 ret;
-    int size = blockInfo_->GetSize();
-    ret.x = static_cast<int>(std::floor(static_cast<float>(worldPos.x) / size));
-    ret.y = static_cast<int>(std::floor(static_cast<float>(worldPos.y) / size));
-    ret.z = static_cast<int>(std::floor(static_cast<float>(worldPos.z) / size));
+    ret.x = static_cast<int>(std::floor(worldPos.x / size_));
+    ret.y = static_cast<int>(std::floor(worldPos.y / size_));
+    ret.z = static_cast<int>(std::floor(worldPos.z / size_));
     return ret;
 }
 
-IntVector3 Stage::MapPosToChankPos(IntVector3 mapPos) const
+IntVector3 Stage::MapPosToChunkPos(const IntVector3& mapPos) const
 {
     IntVector3 ret;
     ret.x = static_cast<int>(std::floor(static_cast<float>(mapPos.x) / jsonInput_.chanckBlockNum));
     ret.y = static_cast<int>(std::floor(static_cast<float>(mapPos.y) / jsonInput_.chanckBlockNum));
     ret.z = static_cast<int>(std::floor(static_cast<float>(mapPos.z) / jsonInput_.chanckBlockNum));
     return ret;
+}
+
+IntVector3 Stage::WorldPosToChunkPos(const VECTOR& worldPos) const
+{
+    return MapPosToChunkPos(WorldPosToMapPos(worldPos));
+}
+
+VECTOR Stage::MapPosToWorldPos(const IntVector3& mapPos) const
+{
+    VECTOR ret;
+    ret.x = static_cast<float>(mapPos.x) * size_;
+    ret.y = static_cast<float>(mapPos.y) * size_;
+    ret.z = static_cast<float>(mapPos.z) * size_;
+    return ret;
+}
+
+IntVector3 Stage::ChunkPosToMapPos(const IntVector3& chunkPos) const
+{
+    IntVector3 ret;
+    ret.x = static_cast<int>(chunkPos.x * jsonInput_.chanckBlockNum);
+    ret.y = static_cast<int>(chunkPos.y * jsonInput_.chanckBlockNum);
+    ret.z = static_cast<int>(chunkPos.z * jsonInput_.chanckBlockNum);
+    return ret;
+}
+
+VECTOR Stage::ChunkPosToWorldPos(const IntVector3& chunkPos) const
+{
+    return MapPosToWorldPos(ChunkPosToMapPos(chunkPos));
+}
+
+bool Stage::IsBlock(const IntVector3& mapPos) const
+{
+    IntVector3 chunkPos = MapPosToChunkPos(mapPos);
+    const auto& it = chunkDatas_.find(chunkPos);
+    if (it == chunkDatas_.end())
+    {
+        return false;
+    }
+    return it->second->IsBlock(mapPos);
 }

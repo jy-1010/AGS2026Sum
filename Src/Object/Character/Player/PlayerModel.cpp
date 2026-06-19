@@ -17,6 +17,8 @@ PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : params_
 	MakePokygonInfo();
 	LoadSkin(skinName);
 	animationManager_ = std::make_unique<PlayerAnimationManager>(modelInfos_,animationKey_, rootPartName_);
+	animationManager_->ApplyAnimation();
+	polygonInfo_ = animationManager_->GetPolygonInfo();
 }
 
 PlayerModel::~PlayerModel(void)
