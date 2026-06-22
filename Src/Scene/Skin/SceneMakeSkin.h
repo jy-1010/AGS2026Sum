@@ -38,8 +38,8 @@ private:
 	std::shared_ptr<PaintTool> paintTool_;
 	std::shared_ptr<QuickPalette> quickPalette_;
 	std::shared_ptr<InputName> inputName_;
-	//std::shared_ptr<HSVRing> hsvRing_;
-	//std::shared_ptr<SVArea> svArea_;
+	std::shared_ptr<HSVRing> hsvRing_;
+	std::shared_ptr<SVArea> svArea_;
 
 	std::unique_ptr<Player> previewPlayer_;
 	//プレイヤーを見るためのスクリーン

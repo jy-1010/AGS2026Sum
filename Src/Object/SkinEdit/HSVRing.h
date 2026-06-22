@@ -18,7 +18,13 @@ public:
 
     float GetHue() const;
 
+    bool IsActive()const;
+
 private:
+
+    void CreateRing();
+
+    bool active_;
 
     float hue_;
 

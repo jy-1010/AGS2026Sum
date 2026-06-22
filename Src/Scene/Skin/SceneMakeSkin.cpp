@@ -35,6 +35,8 @@ SceneMakeSkin::SceneMakeSkin(void)
 	paintTool_ = std::make_shared<PaintTool>();
 	quickPalette_ = std::make_shared<QuickPalette>();
 	inputName_ = std::make_shared<InputName>();
+	hsvRing_ = std::make_shared<HSVRing>();
+	svArea_ = std::make_shared<SVArea>();
 	isSave_ = false;
 	InitRenderer();
 }
@@ -66,13 +68,13 @@ bool SceneMakeSkin::Init(void)
 		offset_.x,
 		offset_.y);
 
-	//hsvRing_->SetPosition(
-	//	900,
-	//	552);
+	hsvRing_->SetPosition(
+		900,
+		552);
 
-	//svArea_->SetPosition(
-	//	860,
-	//	552);
+	svArea_->SetPosition(
+		867,
+		518);
 
 	return true;
 }
@@ -102,14 +104,25 @@ void SceneMakeSkin::Update(void)
 	colorPicker_->Update();
 	quickPalette_->Update();
 
-	//svArea_.Update();
+	hsvRing_->Update();
+
+	svArea_->SetHue(
+		hsvRing_->GetHue());
+
+	svArea_->Update();
+
+	if (hsvRing_->IsActive() ||
+		svArea_->IsActive())
+	{
+		colorPicker_->SetColor(
+			svArea_->GetCurrentColor());
+	}
 
 	if (quickPalette_->IsSelected())
 	{
 		colorPicker_->SetColor(
 			quickPalette_->GetSelectedColor());
 	}
-
 	// 入力取得
 	char keys[256];
 	GetHitKeyStateAll(keys);
@@ -256,9 +269,6 @@ void SceneMakeSkin::Draw(void)
 	ClearDrawScreen();
 	canvasMaterial_->SetTextureBuf(1, canvasScreen_);
 	canvasRenderer_->Draw();
-	//hsvRing_.Draw();
-	//svArea_.Draw();
-
 
 	SetDrawScreen(previewScreen_);
 	ClearDrawScreen();
@@ -273,6 +283,10 @@ void SceneMakeSkin::Draw(void)
 	SetDrawScreen(sceneManager.GetMainScreen());
 	DrawGraph(0, 0, previewScreen_,true);
 	DrawGraph(offset_.x, offset_.y, canvasShaderScreen_,true);
+
+	hsvRing_->Draw();
+	svArea_->Draw();
+
 
 	DrawString(offset_.x * 2, offset_.y / 4, "右クリック：スポイト", GetColor(255, 255, 255));
 
