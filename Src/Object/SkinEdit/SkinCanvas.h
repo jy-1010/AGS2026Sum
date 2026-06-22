@@ -10,12 +10,19 @@ public:
 
     void Clear(IntVector3 color);
 
+    void DrawBrush(
+        int centerX,
+        int centerY,
+        int size,
+        IntVector3 color);
+
     void SetPixel(
         int x,
         int y,
         IntVector3 color);
 
     IntVector3 GetPixel(
+
         int x,
         int y) const;
 

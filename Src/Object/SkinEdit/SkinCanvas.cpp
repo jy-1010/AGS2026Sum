@@ -17,6 +17,22 @@ void SkinCanvas::Clear(IntVector3 color)
     }
 }
 
+void SkinCanvas::DrawBrush(int centerX, int centerY, int size, IntVector3 color)
+{
+    int offset = size / 2;
+
+    for (int y = 0; y < size; y++)
+    {
+        for (int x = 0; x < size; x++)
+        {
+            SetPixel(
+                centerX + x - offset,
+                centerY + y - offset,
+                color);
+        }
+    }
+}
+
 void SkinCanvas::SetPixel(
     int x,
     int y,

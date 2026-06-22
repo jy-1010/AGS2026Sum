@@ -180,9 +180,10 @@ void SceneMakeSkin::Update(void)
 
 		if (nowClick && inCanvas)
 		{
-			skinCanvas_->SetPixel(
+			skinCanvas_->DrawBrush(
 				x,
 				y,
+				paintTool_->GetSize(),
 				colorPicker_->GetCurrentColor());
 		}
 	}
@@ -199,18 +200,6 @@ void SceneMakeSkin::Update(void)
 				skinCanvas_->GetPixel(x, y));
 		}
 	}
-
-	// ペン
-	//if (paintTool_->IsPen())
-	//{
-	//	if (nowClick)
-	//	{
-	//		skinCanvas_->SetPixel(
-	//			x,
-	//			y,
-	//			colorPicker_->GetCurrentColor());
-	//	}
-	//}
 
 	// バケツ
 	if (paintTool_->IsBucket())
@@ -242,6 +231,25 @@ void SceneMakeSkin::Update(void)
 		undo_->Pop(
 			skinCanvas_->GetData());
 	}
+
+	static bool prevQ = false;
+	static bool prevE = false;
+
+	bool nowQ = CheckHitKey(KEY_INPUT_Q) != 0;
+	bool nowE = CheckHitKey(KEY_INPUT_E) != 0;
+
+	if (nowQ && !prevQ)
+	{
+		paintTool_->DecreaseSize();
+	}
+
+	if (nowE && !prevE)
+	{
+		paintTool_->IncreaseSize();
+	}
+
+	prevQ = nowQ;
+	prevE = nowE;
 
 	// 前フレーム保存
 	prevClick = nowClick;
