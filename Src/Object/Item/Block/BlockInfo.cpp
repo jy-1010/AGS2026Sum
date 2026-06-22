@@ -15,6 +15,8 @@ BlockInfo::BlockInfo(void)
 	shaderInfo_.VSKey = blocks["Shader"]["VS"];
 	shaderInfo_.PSKey = blocks["Shader"]["PS"];
 
+	textureSize_ = JsonUtility::GetPosTo2D(blocks["TextureSize"]);
+
 	imageHandle_ = resManager.GetImageResource(blocks["Image"]).lock()->GetHandleId();
 
 	std::vector<std::string> blockNames = blocks["Names"].get<std::vector<std::string>>();
@@ -81,8 +83,8 @@ void BlockInfo::LoadBlockInfo(const std::string blockName)
 	param.toolType = blocks[blockName]["ToolType"].get<std::string>();
 	param.toolLevel = blocks[blockName]["ToolLevel"].get<std::vector<std::string>>();
 	param.isCorrectAnotherTool = blocks[blockName]["IsCorrectAnotherTool"].get<bool>();
-	param.uvOffset.u = blocks[blockName]["UVOffset"]["u"].get<float>();
-	param.uvOffset.v = blocks[blockName]["UVOffset"]["v"].get<float>();
+	param.uvOffset.u = blocks[blockName]["UVOffset"]["u"].get<float>() / textureSize_.x;
+	param.uvOffset.v = blocks[blockName]["UVOffset"]["v"].get<float>() / textureSize_.y;
 	param.fasesPolygonInfo = MakePolygon(param);
 	params_.emplace(param.id, param);
 }

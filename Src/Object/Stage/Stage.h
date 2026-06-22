@@ -67,6 +67,8 @@ private:
 
 	int size_;
 
+	int blockImage_;
+
 	JsonInput jsonInput_;
 
 	//プレイヤースポーンポイント
@@ -82,11 +84,13 @@ private:
 	//std::unordered_map<IntVector3, unsigned short> stageData_;
 
 	//ステージデータチャンク毎
-	//std::map<IntVector3, std::vector<MapBlockData>> chunkDatas_;
-	//std::map<IntVector3, std::unordered_map<IntVector3,unsigned short>> chunkDatas_;
 	std::map<IntVector3, std::shared_ptr<Chunk>> chunkDatas_;
+
 	//ブロックの情報
 	std::unique_ptr<BlockInfo> blockInfo_;
+
+	//描画するチャンクをまとめる
+	std::vector<IntVector3> drawChanks_;
 
 	//jsonデータをロードする
 	void LoadJsonData(void);
@@ -116,4 +120,6 @@ private:
 
 	//ポリゴン情報を更新する
 	void UpdatePolygon(void);
+
+	void DrawChankGaid(void);
 };

@@ -1,6 +1,9 @@
 #include <fstream>
 #include "../../../Manager/ResourceManager.h"
 #include "../../../Manager/Resource/JsonResource.h"
+#include "../../../Manager/KeyConfig.h"
+#include "../../../Manager/SceneManager.h"
+#include "../../../Manager/Camera.h"
 #include "../../../Application.h"
 #include "PlayerModel.h"
 #include "Player.h"
@@ -27,6 +30,7 @@ void Player::Init(void)
 
 void Player::Update(void)
 {
+	UpdateMove();
 	model_->Update();
 }
 
@@ -52,7 +56,7 @@ void Player::SetAnimation(std::string animName, bool isCompulsion)
 
 void Player::ApplyVertex(void)
 {
-	model_->ApplayVertexPos(transform_->pos, transform_->rot);
+	model_->ApplayVertexPos(transform_->pos, transform_->rot,params_.DefaultScale);
 }
 
 void Player::LoadPlayerInfo(void)
@@ -68,4 +72,11 @@ void Player::LoadPlayerInfo(void)
 	params_.SPRINT_SPEED = paramsJson_["Move"]["SprintSpeed"];
 	params_.JUMP_POWER = paramsJson_["Move"]["JumpVelocity"];
 	params_.health = paramsJson_["Status"]["Health"];
+	params_.DefaultScale = paramsJson_["DefaultScale"];
+}
+
+void Player::UpdateMove(void)
+{
+	KeyConfig& keycon = KeyConfig::GetInstance();
+
 }

@@ -34,6 +34,11 @@ FloatVector2 JsonUtility::GetPosTo2D(const nlohmann::json& json)
         ret.x = json[0];
         ret.y = json[1];
     }
+    else if (json.contains("x") && json.contains("y"))
+    {
+        ret.x = json["x"];
+        ret.y = json["y"];
+    }
 
     return ret;
 }

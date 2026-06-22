@@ -31,7 +31,7 @@ void Chunk::Update(void)
 
 void Chunk::AddBlock(IntVector3 mapPos, unsigned short id)
 {
-	mapData_.emplace(mapPos,id);
+	mapData_.insert_or_assign(mapPos,id);
     inBlockID_.insert(id);
     isUpdate_ = true;
 }

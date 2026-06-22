@@ -1,6 +1,7 @@
 #include <fstream>
 #include "../../Application.h"
 #include "../../Utility/JsonUtility.h"
+#include "../../Utility/ColorUtility.h"
 #include "../../Utility/Utility.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/SceneManager.h"
@@ -45,6 +46,7 @@ void Stage::Draw(void)
 {
     UpdatePolygon();
     renderer_->Draw();
+    DrawChankGaid();
 }
 
 void Stage::UIDraw(void)
@@ -84,7 +86,8 @@ void Stage::InitRenderer(void)
     auto shaderVSResource = resourceManager.GetShaderResource(blockInfo_->GetShaderInfo().VSKey).lock();
     auto shaderPSResource = resourceManager.GetShaderResource(blockInfo_->GetShaderInfo().PSKey).lock();
     material_ = std::make_unique<Polygon3DMaterial>(shaderVSResource->GetHandleId(), 1, shaderPSResource->GetHandleId(), 1);
-    material_->AddTextureBuf(blockInfo_->GetImageHandle());
+    blockImage_ = blockInfo_->GetImageHandle();
+    material_->AddTextureBuf(blockImage_);
     renderer_ = std::make_shared<Polygon3DRenderer>(*material_, polygonInfo_);
 }
 
@@ -290,23 +293,24 @@ void Stage::DeleteBlock(const IntVector3& pos)
 
 void Stage::UpdatePolygon(void)
 {
-    int draw = 0;
     auto& sceneManager = SceneManager::GetInstance();
+    int renderDistance = 1;
     auto& camera = sceneManager.GetCamera();
     VECTOR cameraPos = camera.GetPos();
     IntVector3 camerachunk = WorldPosToChunkPos(cameraPos);
     polygonInfo_.clear();
+    drawChanks_.clear();
     for (auto& chunkData : chunkDatas_)
     {
         //チャンク座標
         const IntVector3& chunkPos = chunkData.first;
         const IntVector3 sub = chunkPos - camerachunk;
         //描画チャンク処理
-        if (abs(sub.x) > 2 || abs(sub.y) > 2 || abs(sub.z) > 2)
+        if (abs(sub.x) > renderDistance || abs(sub.y) > renderDistance || abs(sub.z) > renderDistance)
         {
             continue;
         }
-        if (!CheckCameraViewClip_Box(ChunkPosToWorldPos(chunkPos), ChunkPosToWorldPos(chunkPos + IntVector3{1,1,1})))
+        if (CheckCameraViewClip_Box(ChunkPosToWorldPos(chunkPos), ChunkPosToWorldPos(chunkPos + IntVector3{1,1,1})))
         {
             continue;
         }
@@ -316,7 +320,6 @@ void Stage::UpdatePolygon(void)
         {
             continue;
         }
-        draw++;
         const auto& polygon = inchunkData->GetPolygonInfo();
         int size = static_cast<int>(polygonInfo_.vertex.size());
         auto& vertex = polygon.vertex;
@@ -326,8 +329,21 @@ void Stage::UpdatePolygon(void)
         {
             polygonInfo_.Indices.push_back(ind + size);
         }
+        drawChanks_.push_back(chunkPos);
     }
     //polygonInfo_.Indices = { 0,1,2 };
+}
+
+void Stage::DrawChankGaid(void)
+{
+    VECTOR low;
+    VECTOR high;
+    for (auto& draw : drawChanks_)
+    {
+        low = ChunkPosToWorldPos(draw);
+        high = ChunkPosToWorldPos(draw + IntVector3{ 1,1,1 });
+        DrawCube3D(low, high, ColorUtility::WHITE, ColorUtility::WHITE, false);
+    }
 }
 
 IntVector3 Stage::WorldPosToMapPos(const VECTOR& worldPos) const
