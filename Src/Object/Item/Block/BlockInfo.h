@@ -52,6 +52,8 @@ public:
 private:
 
 	int imageHandle_;
+	FloatVector2 textureSize_;
+
 	ShaderInfo shaderInfo_;
 	std::map<unsigned short,Param> params_;
 	nlohmann::json blocks;

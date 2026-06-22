@@ -17,6 +17,7 @@ public:
 		float SPRINT_SPEED;	//ダッシュスピード
 		float JUMP_POWER;	//ジャンプスピード
 		float health;		//体力
+		float DefaultScale;	//通常サイズ
 	};
 
 	/// <summary>
@@ -90,5 +91,9 @@ private:
 
 	//プレイヤー情報の読み込み
 	void LoadPlayerInfo(void);
+
+	//移動処理
+	void UpdateMove(void);
+
 };
 

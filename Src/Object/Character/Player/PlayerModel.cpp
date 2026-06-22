@@ -17,6 +17,8 @@ PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : params_
 	MakePokygonInfo();
 	LoadSkin(skinName);
 	animationManager_ = std::make_unique<PlayerAnimationManager>(modelInfos_,animationKey_, rootPartName_);
+	animationManager_->ApplyAnimation();
+	polygonInfo_ = animationManager_->GetPolygonInfo();
 }
 
 PlayerModel::~PlayerModel(void)
@@ -57,10 +59,11 @@ void PlayerModel::SetAnimation(std::string animName, bool isCompulsion)
 	animationManager_->SetAnimation(animName);
 }
 
-void PlayerModel::ApplayVertexPos(VECTOR pos, VECTOR rot)
+void PlayerModel::ApplayVertexPos(VECTOR pos, VECTOR rot,float scale)
 {
 	animationManager_->ApplyAnimation();
 	polygonInfo_ = animationManager_->GetPolygonInfo();
+	ApplyScale(scale);
 	ApplyRotation(rot);
 	ApplyPosition(pos);
 }
@@ -155,4 +158,12 @@ void PlayerModel::ApplyPosition(VECTOR pos)
 
 void PlayerModel::ApplyRotation(VECTOR rot)
 {
+}
+
+void PlayerModel::ApplyScale(float scale)
+{
+	for (auto& polygon : polygonInfo_.vertex)
+	{
+		polygon.pos = VScale(polygon.pos,scale);
+	}
 }

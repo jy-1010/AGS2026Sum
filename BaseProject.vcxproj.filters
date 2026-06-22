@@ -75,6 +75,7 @@
     <ClCompile Include="Src\Object\SkinEdit\InputName.cpp" />
     <ClCompile Include="Src\Scene\Skin\SceneSelectSkin.cpp" />
     <ClCompile Include="Src\Utility\JsonUtility.cpp" />
+    <ClCompile Include="Src\Object\Stage\Chunk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Src\Object\SkinEdit\InputName.h" />
     <ClInclude Include="Src\Scene\Skin\SceneSelectSkin.h" />
     <ClInclude Include="Src\Utility\JsonUtility.h" />
+    <ClInclude Include="Src\Object\Stage\Chunk.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

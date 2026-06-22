@@ -5,25 +5,11 @@
 #include "../../Renderer/Polygon3DRenderer.h"
 
 class BlockInfo;
+class Chunk;
 
 class Stage : public ObjectBase
 {
 public:
-	Stage(void);
-	~Stage(void);
-	void Init(void) override;
-	void Update(void) override;
-	void Draw(void) override;
-	void UIDraw(void) override;
-	VECTOR GetPlayerSpawnPos(void);
-private:
-
-	//描画に必要な情報
-	Polygon3DRenderer::PolygonInfo polygonInfo_;
-	//ピクセルマテリアル
-	std::unique_ptr<Polygon3DMaterial> material_;
-	//ポリゴンレンダラー
-	std::shared_ptr<Polygon3DRenderer> renderer_;
 
 	//jsonから取得する情報
 	struct JsonInput
@@ -34,10 +20,40 @@ private:
 		std::vector<int> pillarHeights;	//黒曜石の柱の高さ
 		int pillarNum = -1;	//柱の数
 		int pillarHasCageNum = -1;	//柱に鉄格子がついている数
-		int chanckBlockNum = -1;	//１チャンクのブロックのサイズ
+		int chanckBlockNum = -1;	//1チャンクのブロックのサイズ
+		int chankMaxVertexNum = -1;	//1チャンクの最大頂点数
+		int chankMaxIndexNum = -1;	//1チャンクの頂点配列の最大数
 		IntVector3 playerSpawnMapPos = {};
 		IntVector3 enemySpawnMapPos = {};
 	};
+
+	Stage(void);
+	~Stage(void);
+	void Init(void) override;
+	void Update(void) override;
+	void Draw(void) override;
+	void UIDraw(void) override;
+	VECTOR GetPlayerSpawnPos(void);
+
+	const JsonInput& GetJsonInput(void)const { return jsonInput_; }
+
+	//変換
+	IntVector3 WorldPosToMapPos(const VECTOR& worldPos)const;
+	IntVector3 MapPosToChunkPos(const IntVector3& mapPos) const;
+	IntVector3 WorldPosToChunkPos(const VECTOR& worldPos)const;
+	VECTOR MapPosToWorldPos(const IntVector3& mapPos)const;
+	IntVector3 ChunkPosToMapPos(const IntVector3& chunkPos)const;
+	VECTOR ChunkPosToWorldPos(const IntVector3& chunkPos)const;
+
+	bool IsBlock(const IntVector3& mapPos)const;
+private:
+
+	//描画に必要な情報
+	Polygon3DRenderer::PolygonInfo polygonInfo_;
+	//ピクセルマテリアル
+	std::unique_ptr<Polygon3DMaterial> material_;
+	//ポリゴンレンダラー
+	std::shared_ptr<Polygon3DRenderer> renderer_;
 
 	// 黒曜石柱の情報
 	struct PillarData
@@ -47,21 +63,11 @@ private:
 		bool hasCage;	// 鉄格子付きか
 	};
 
-	//ステージのブロックのデータ
-	//struct MapBlockData
-	//{
-	//	IntVector3 mapPos;	//マップ座標
-	//	unsigned short blockId;	//ブロックID
-	//};
-
-	struct FaceCheck
-	{
-		IntVector3 offSet = {};
-		uint8_t flag = 0;
-	};
-
-
 	std::vector<PillarData> pillars_;
+
+	int size_;
+
+	int blockImage_;
 
 	JsonInput jsonInput_;
 
@@ -78,20 +84,13 @@ private:
 	//std::unordered_map<IntVector3, unsigned short> stageData_;
 
 	//ステージデータチャンク毎
-	//std::map<IntVector3, std::vector<MapBlockData>> chankDatas_;
-	std::map<IntVector3, std::unordered_map<IntVector3,unsigned short>> chankDatas_;
-
-	//隣にブロックがあるか判定するときに使うもの
-	std::map<std::string,FaceCheck> faceChackList_;
+	std::map<IntVector3, std::shared_ptr<Chunk>> chunkDatas_;
 
 	//ブロックの情報
 	std::unique_ptr<BlockInfo> blockInfo_;
 
-	//std::string SelectStageFilePath(void);
-	//void LoadStageData(const std::string filePath);
-
-	//チェック用のものを初期化
-	void InitCheckList(void);
+	//描画するチャンクをまとめる
+	std::vector<IntVector3> drawChanks_;
 
 	//jsonデータをロードする
 	void LoadJsonData(void);
@@ -122,6 +121,5 @@ private:
 	//ポリゴン情報を更新する
 	void UpdatePolygon(void);
 
-	IntVector3 WorldPosToMapPos(IntVector3 worldPos)const;
-	IntVector3 MapPosToChankPos(IntVector3 mapPos) const;
+	void DrawChankGaid(void);
 };

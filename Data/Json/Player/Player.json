@@ -1,6 +1,8 @@
 {
   "PixelNum": 16,
 
+  "DefaultScale": 1.6,
+
   "Collision": {
     "Width": 0.6,
     "Height": 1.8,

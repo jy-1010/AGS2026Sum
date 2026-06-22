@@ -106,7 +106,8 @@ public:
 	/// </summary>
 	/// <param name="pos">座標</param>
 	/// <param name="rot">回転</param>
-	void ApplayVertexPos(VECTOR pos, VECTOR rot);
+	/// <param name="scale">大きさ</param>
+	void ApplayVertexPos(VECTOR pos, VECTOR rot,float scale);
 	
 private:
 	//アニメーションマネージャー
@@ -167,5 +168,8 @@ private:
 
 	//回転を適用
 	void ApplyRotation(VECTOR rot);
+
+	//大きさを適用
+	void ApplyScale(float scale);
 };
 

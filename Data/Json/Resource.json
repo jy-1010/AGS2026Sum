@@ -3,7 +3,7 @@
     "BlocksImage": {
       "Type": "Image",
       "Path": "Image/Item/Blocks.png",
-      "Preload": true
+      "Preload": false
     },
 
     "TitleLogoImage": {
