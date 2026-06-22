@@ -8,9 +8,10 @@
 #include "PlayerModel.h"
 #include "Player.h"
 
-Player::Player(std::string skinName)
+Player::Player(std::string skinName,float blockSize)
 {
 	LoadPlayerInfo();
+	blockSize_ = blockSize;
 	if (skinName == "")
 	{
 		skinName = "Alex";
@@ -79,7 +80,17 @@ void Player::UpdateMove(void)
 {
 	KeyConfig& keycon = KeyConfig::GetInstance();
 	Camera& camera = SceneManager::GetInstance().GetCamera();
+
+	//移動量
 	float moveSpeed = 0.0f;
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_DASH))
+	{
+		moveSpeed = params_.SPRINT_SPEED * blockSize_ * SceneManager::GetInstance().GetDeltaTime();
+	}
+	else
+	{
+		moveSpeed = params_.WALK_SPEED * blockSize_ * SceneManager::GetInstance().GetDeltaTime();
+	}
 	//カメラの前方向を取得
 	VECTOR front = VSub(camera.GetTargetPos(), camera.GetPos());
 	front.y = 0.0f;
@@ -106,14 +117,6 @@ void Player::UpdateMove(void)
 	{
 		dir = VAdd(dir, left);
 	}
-	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_DASH))
-	{
-		moveSpeed = params_.SPRINT_SPEED;
-	}
-	else
-	{
-		moveSpeed = params_.WALK_SPEED;
-	}
 	if (dir.x != 0.0f || dir.z != 0.0f)
 	{
 		dir = VNorm(dir);
@@ -133,10 +136,10 @@ void Player::UpdateMove(void)
 	SetAnimation("Walk", false);
 	//スティック情報を3D情報に変更
 	auto stick3D = Utility::Normalize(stick2D);
-	transform_->rot = CalcRot(stick2D);
+	auto moves = VAdd(VScale(front, stick3D.y * moveSpeed * -1), VScale(left, stick3D.x * moveSpeed * -1));
+	transform_->rot = CalcRot(moves);
 	//座標を更新する
-	transform_->pos = VAdd(transform_->pos, VScale(front, stick3D.y * moveSpeed * -1));
-	transform_->pos = VAdd(transform_->pos, VScale(left, stick3D.x * moveSpeed * -1));
+	transform_->pos = VAdd(transform_->pos,moves );
 
 }
 

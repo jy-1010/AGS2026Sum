@@ -24,7 +24,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="skinName">スキンの名前</param>
-	Player(std::string skinName);
+	Player(std::string skinName,float blockSize = -1.0f);
 
 	/// <summary>
 	/// デストラクタ
@@ -88,6 +88,8 @@ private:
 	nlohmann::json paramsJson_;
 	//パラメーター
 	Param params_;
+
+	float blockSize_;
 
 	//プレイヤー情報の読み込み
 	void LoadPlayerInfo(void);
