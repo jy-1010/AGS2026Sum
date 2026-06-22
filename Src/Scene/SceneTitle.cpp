@@ -17,6 +17,7 @@ SceneTitle::SceneTitle(void)
 	auto& resManager = ResourceManager::GetInstance();
 	auto titleJson = resManager.GetJsonResource("TitleJson");
 	selectIndex_ = 0;
+	maxLayerNum_ = -1;
 	json_ = titleJson.lock()->GetData();
 	LoadJson();
 }
@@ -64,25 +65,21 @@ void SceneTitle::Update(void)
 //•`‰æˆ—
 void SceneTitle::Draw(void)
 {
-	for (auto& logo : logoInfo_)
+	for (int i = 0; i <= maxLayerNum_; i++)
 	{
-		int x = static_cast<int>(logo.pos.x * Application::SCREEN_SIZE_X);
-		int y = static_cast<int>(logo.pos.y * Application::SCREEN_SIZE_Y);
-		//ƒƒS‚Ì•`‰æ
-		DrawRotaGraph(x, y, 1.0f, 0.0f, logo.imageHandle, true);
-	}
-	for (auto& button : buttonInfo_)
-	{
-		IntVector2 center = {
-			static_cast<int>(Application::SCREEN_SIZE_X * ((button.rect.left + button.rect.right) / 2)),
-			static_cast<int>(Application::SCREEN_SIZE_Y * ((button.rect.top + button.rect.bottom) / 2))
-		};
-
-
-		//ƒ{ƒ^ƒ“‚Ì”wŒi‚ğ•`‰æ
-		DrawOutLine(button.rect, button.state);
-		//ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg•`‰æ
-		DrawRotaGraph(center.x, center.y, 1.0f, 0.0f, button.imageHandle, true);
+		auto logos = GetLogoInfoToLayer(i);
+		for (auto& logo : logos)
+		{
+			int x = static_cast<int>(logo.pos.x * Application::SCREEN_SIZE_X);
+			int y = static_cast<int>(logo.pos.y * Application::SCREEN_SIZE_Y);
+			//ƒƒS‚Ì•`‰æ
+			DrawRotaGraph(x, y, 1.0f, 0.0f, logo.imageHandle, true);
+		}
+		auto buttons = GetButtonInfoToLayer(i);
+		for (auto& button : buttons)
+		{
+			DrawButton(button);
+		}
 	}
 }
 
@@ -114,6 +111,8 @@ void SceneTitle::LoadLogo(void)
 		info.imageKey = logoJson["Image"];
 		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
 		info.pos = JsonUtility::GetPosTo2D(logoJson);
+		info.layer = logoJson["Layer"];
+		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
 		logoInfo_.push_back(info);
 	}
 }
@@ -153,42 +152,49 @@ void SceneTitle::LoadButton(void)
 		info.imageKey = buttonJson["Image"];
 		info.nextScene = buttonJson["NextScene"];
 		info.selectIndex = buttonJson["SelectIndex"];
+		info.layer = buttonJson["Layer"];
+		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
 		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
 		//lŠp‚Ìî•ñ
 		auto& rectJson = buttonJson["Rect"];
-		info.rect.left = rectJson["Left"];
-		info.rect.top = rectJson["Top"];
-		info.rect.right = rectJson["Right"];
-		info.rect.bottom = rectJson["Bottom"];
+		info.rect.leftPer = rectJson["Left"];
+		info.rect.topPer = rectJson["Top"];
+		info.rect.rightPer = rectJson["Right"];
+		info.rect.bottomPer = rectJson["Bottom"];
+		info.rect.leftScreen = Application::SCREEN_SIZE_X * info.rect.leftPer;
+		info.rect.rightScreen = Application::SCREEN_SIZE_X * info.rect.rightPer;
+		info.rect.topScreen = Application::SCREEN_SIZE_Y * info.rect.topPer;
+		info.rect.bottomScreen = Application::SCREEN_SIZE_Y * info.rect.bottomPer;
 		buttonInfo_.push_back(info);
 	}
 }
 
-void SceneTitle::DrawOutLine(Rect rect, ButtonState state)
+std::vector<SceneTitle::ButtonInfo> SceneTitle::GetButtonInfoToLayer(int layerNum)
 {
-	//F‚ğ•ÏŠ·‚·‚é
-	int black = ColorUtility::ColorChange(blackInfo_.color);
-	int light = ColorUtility::ColorChange(lightInfo_.color);
-	int dark = ColorUtility::ColorChange(darkInfo_.color);
-	int back = ColorUtility::ColorChange(buttonBackColor_[state]);
-
-	//À•W•ÔŠÒ
-	int left = Application::SCREEN_SIZE_X * rect.left;
-	int right = Application::SCREEN_SIZE_X * rect.right;
-	int top = Application::SCREEN_SIZE_Y * rect.top;
-	int bottom = Application::SCREEN_SIZE_Y * rect.bottom;
-
-	//‘åŠO‚Ì•‚ğ•`‰æ
-	DrawBoxAA(left, top, right, bottom, black, false, blackInfo_.thickness);
-	//‚¤‚¿‚Ì–¾‚é‚¢•”•ª‚ğ•`‰æ
-	DrawLine(left + 1, top + 1, right - 1, top + 1, light, lightInfo_.thickness);
-	DrawLine(left + 1, top + 1, left + 1, bottom - 1, light, lightInfo_.thickness);
-	//‚¤‚¿‚ÌˆÃ‚¢•”•ª‚ğ•`‰æ
-	DrawLine(left + 1, bottom - 1, right - 1, bottom - 1, dark, darkInfo_.thickness);
-	DrawLine(right - 1, top + 1, right - 1, bottom - 1, dark, darkInfo_.thickness);
-	//”wŒiF‚Ì•`‰æ
-	DrawBox(left + 2, top + 2, right - 2, bottom - 2, back, true);
+	std::vector<ButtonInfo>ret;
+	for (auto& button : buttonInfo_)
+	{
+		if (button.layer = layerNum)
+		{
+			ret.push_back(button);
+		}
+	}
+	return ret;
 }
+
+std::vector<SceneTitle::LogoInfo> SceneTitle::GetLogoInfoToLayer(int layerNum)
+{
+	std::vector<LogoInfo>ret;
+	for (auto& logo : logoInfo_)
+	{
+		if (logo.layer = layerNum)
+		{
+			ret.push_back(logo);
+		}
+	}
+	return ret;
+}
+
 
 void SceneTitle::ChangeScene(void)
 {
@@ -229,4 +235,37 @@ void SceneTitle::ChangeScene(void)
 		return;
 	}
 
+}
+
+void SceneTitle::DrawButton(ButtonInfo button)
+{
+	IntVector2 center = {
+		static_cast<int>(((button.rect.leftScreen + button.rect.rightScreen) / 2)),
+		static_cast<int>(((button.rect.topScreen + button.rect.bottomScreen) / 2))
+	};
+	DrawOutLine(button.rect, button.state);
+	//ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg•`‰æ
+	DrawRotaGraph(center.x, center.y, 1.0f, 0.0f, button.imageHandle, true);
+}
+
+void SceneTitle::DrawOutLine(Rect rect, ButtonState state)
+{
+	//F‚ğ•ÏŠ·‚·‚é
+	int black = ColorUtility::ColorChange(blackInfo_.color);
+	int light = ColorUtility::ColorChange(lightInfo_.color);
+	int dark = ColorUtility::ColorChange(darkInfo_.color);
+	int back = ColorUtility::ColorChange(buttonBackColor_[state]);
+
+	//À•W•ÔŠÒ
+
+	//‘åŠO‚Ì•‚ğ•`‰æ
+	DrawBoxAA(rect.leftScreen, rect.topScreen, rect.rightScreen, rect.bottomScreen, black, false, blackInfo_.thickness);
+	//‚¤‚¿‚Ì–¾‚é‚¢•”•ª‚ğ•`‰æ
+	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.rightScreen - 1, rect.topScreen + 1, light, lightInfo_.thickness);
+	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.leftScreen + 1, rect.bottomScreen - 1, light, lightInfo_.thickness);
+	//‚¤‚¿‚ÌˆÃ‚¢•”•ª‚ğ•`‰æ
+	DrawLine(rect.leftScreen + 1, rect.bottomScreen - 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
+	DrawLine(rect.rightScreen - 1, rect.topScreen + 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
+	//”wŒiF‚Ì•`‰æ
+	DrawBox(rect.leftScreen + 2, rect.topScreen + 2, rect.rightScreen - 2, rect.bottomScreen - 2, back, true);
 }

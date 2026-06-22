@@ -1,5 +1,6 @@
 #pragma once
 #include <DxLib.h>
+#include <functional>
 
 struct IntVector3;
 struct IntVector2;
@@ -35,6 +36,31 @@ struct IntVector3
 	bool operator>=(const IntVector3& _value)const;
 	//変換
 	VECTOR ToVECTOR(void)const;
+
+};
+
+
+struct IntVector3Hash
+{
+	size_t operator()(const IntVector3& v) const
+	{
+		return
+			std::hash<int>()(v.x) ^
+			(std::hash<int>()(v.y) << 1) ^
+			(std::hash<int>()(v.z) << 2);
+	}
+};
+	
+template<>
+struct std::hash<IntVector3>
+{
+	size_t operator()(const IntVector3& v) const
+	{
+		return
+			std::hash<int>{}(v.x) ^
+			(std::hash<int>{}(v.y) << 1) ^
+			(std::hash<int>{}(v.z) << 2);
+	}
 };
 
 struct FloatVector2

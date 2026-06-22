@@ -59,15 +59,5 @@
     "InvertY": {
       "Default": false
     }
-  },
-  "Gameplay": {
-    "AutoSave": {
-      "Default": true
-    },
-    "AutoSaveInterval": {
-      "Default": 300,
-      "Min": 60,
-      "Max": 1800
-    }
   }
 }

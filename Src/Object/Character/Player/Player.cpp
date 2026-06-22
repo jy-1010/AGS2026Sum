@@ -50,6 +50,11 @@ void Player::SetAnimation(std::string animName, bool isCompulsion)
 	model_->SetAnimation(animName, isCompulsion);
 }
 
+void Player::ApplyVertex(void)
+{
+	model_->ApplayVertexPos(transform_->pos, transform_->rot);
+}
+
 void Player::LoadPlayerInfo(void)
 {
 	auto& resourceManager = ResourceManager::GetInstance();

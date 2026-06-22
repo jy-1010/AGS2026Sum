@@ -7,11 +7,22 @@
     "SettingImage",
     "ExitImage"
   ],
+
   "Logo": {
     "List":[
       {
+        "Name": "BackImage",
+        "Image": "TitleBackImage",
+        "Layer": 0,
+        "Position": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      {
         "Name": "TitleLogo",
         "Image": "TitleLogoImage",
+        "Layer": 1,
         "Position": {
           "x": 0.5,
           "y": 0.2
@@ -82,6 +93,7 @@
       {
         "Name": "GameStart",
         "Image": "GameStartImage",
+        "Layer": 2,
         "NextScene": "Game",
         "SelectIndex": 0,
         "Rect": {
@@ -94,6 +106,7 @@
       {
         "Name": "SkinCreate",
         "Image": "SkinCreateImage",
+        "Layer": 2,
         "NextScene": "SkinCreate",
         "SelectIndex": 1,
         "Rect": {
@@ -106,6 +119,7 @@
       {
         "Name": "SkinSelect",
         "Image": "SkinSelectImage",
+        "Layer": 2,
         "NextScene": "SkinSelect",
         "SelectIndex": 2,
         "Rect": {
@@ -118,6 +132,7 @@
       {
         "Name": "Setting",
         "Image": "SettingImage",
+        "Layer": 2,
         "NextScene": "Setting",
         "SelectIndex": 3,
         "Rect": {
@@ -130,6 +145,7 @@
       {
         "Name": "Exit",
         "Image": "ExitImage",
+        "Layer": 2,
         "NextScene": "Exit",
         "SelectIndex": 4,
         "Rect": {

@@ -78,7 +78,10 @@ void InputName::InputUpdate(void)
 		switch (key)
 		{
 		case KEY_INPUT_BACK:
-			inputData_.pop_back();
+			if (inputData_.size() > 0)
+			{
+				inputData_.pop_back();
+			}
 			continue;
 		}
 	}

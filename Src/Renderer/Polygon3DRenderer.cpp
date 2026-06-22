@@ -33,8 +33,10 @@ void Polygon3DRenderer::Draw(void)
 	// テクスチャアドレスタイプを変更
 	SetTextureAddressModeUV(texAType, texAType);
 
-	DrawPolygonIndexed3DToShader(info_.vertex.data(), static_cast<int>(info_.vertex.size()), info_.Indices.data(),static_cast<int>(info_.Indices.size() / POLYGON_VERTEX_NUM));
-
+	if (static_cast<int>(info_.vertex.size()) > 0)
+	{
+		DrawPolygonIndexed3DToShader(info_.vertex.data(), static_cast<int>(info_.vertex.size()), info_.Indices.data(), static_cast<int>(info_.Indices.size() / POLYGON_VERTEX_NUM));
+	}
 	// テクスチャアドレスタイプを元に戻す
 	SetTextureAddressModeUV(DX_TEXADDRESS_CLAMP, DX_TEXADDRESS_CLAMP);
 

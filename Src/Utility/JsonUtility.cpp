@@ -68,13 +68,13 @@ VECTOR JsonUtility::GetPosTo3D(const nlohmann::json& json)
     {
         ret.x = json[0];
         ret.y = json[1];
-        ret.y = json[2];
+        ret.z = json[2];
     }
     else if (json.contains("x") && json.contains("y") && json.contains("z"))
     {
         ret.x = json["x"];
         ret.y = json["y"];
-        ret.y = json["z"];
+        ret.z = json["z"];
     }
     return ret;
 }

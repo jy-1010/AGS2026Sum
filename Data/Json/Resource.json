@@ -12,6 +12,12 @@
       "Preload": true
     },
 
+    "TitleBackImage": {
+      "Type": "Image",
+      "Path": "Image/Title/TitleBackImage.png",
+      "Preload": true
+    },
+
     "GameStartImage": {
       "Type": "Image",
       "Path": "Image/Title/GameStart.png",
