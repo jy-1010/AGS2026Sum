@@ -100,11 +100,11 @@ public:
 		PLAY_CAMERA_ZOOM_IN,	//プレイのカメラズームイン
 		PLAY_CAMERA_ZOOM_OUT,	//プレイのカメラズームアウト
 
-		PLAYER_MOVE_UP,		//プレイヤー移動上
+		PLAYER_MOVE_UP,			//プレイヤー移動上
 		PLAYER_MOVE_DOWN,		//プレイヤー移動下
 		PLAYER_MOVE_RIGHT,		//プレイヤー移動右
 		PLAYER_MOVE_LEFT,		//プレイヤー移動左
-		PLAYER_AVOID,			//プレイヤー回避
+		PLAYER_MOVE_DASH,		//プレイヤーのダッシュ移動
 		PLAYER_ATTACK,			//プレイヤー攻撃
 		PLAYER_JUMP,			//プレイヤージャンプ
 		MAX,
@@ -120,9 +120,9 @@ public:
 	void Update(void);
 
 	//操作の種類別にキーの状態を取得
-	bool IsNew(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no ,TYPE type = TYPE::ALL);
-	bool IsTrgDown(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no,TYPE type = TYPE::ALL);
-	bool IsTrgUp(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no, TYPE type = TYPE::ALL);
+	bool IsNew(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no  = JOYPAD_NO::PAD1,TYPE type = TYPE::ALL);
+	bool IsTrgDown(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no = JOYPAD_NO::PAD1,TYPE type = TYPE::ALL);
+	bool IsTrgUp(CONTROL_TYPE cType, KeyConfig::JOYPAD_NO no = JOYPAD_NO::PAD1, TYPE type = TYPE::ALL);
 
 
 	//操作の種類別にキーを追加	(初期以外の追加)

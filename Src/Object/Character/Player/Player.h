@@ -95,5 +95,8 @@ private:
 	//移動処理
 	void UpdateMove(void);
 
+	//移動方向をもとに回転量を取得
+	VECTOR CalcRot(VECTOR dir);
+	VECTOR CalcRot(IntVector2 dir);
 };
 
