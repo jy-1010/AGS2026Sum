@@ -46,6 +46,8 @@ public:
 	VECTOR ChunkPosToWorldPos(const IntVector3& chunkPos)const;
 
 	bool IsBlock(const IntVector3& mapPos)const;
+
+	float GetBlockSize(void);
 private:
 
 	//描画に必要な情報

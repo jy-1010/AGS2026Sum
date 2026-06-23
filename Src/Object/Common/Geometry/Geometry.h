@@ -6,6 +6,7 @@ class Line3D;
 class Sphere;
 class Triangle3D;
 class Cylinder;
+class AABB;
 
 class Geometry
 {
@@ -18,7 +19,7 @@ public:
 		TRIANGLE3D,	//3DOŠpŒ`
 		LINE3D,		//3Dü
 		CYLINDER,	//XZ‰~’Œ
-		CUBE,		//” 
+		AABB_CUBE,		//‰ñ“]‚È‚µ” 
 	};
 
 	Geometry(void) = default;
@@ -83,6 +84,14 @@ public:
 	/// <param name="_circle">‰~’Œî•ñ</param>
 	/// <returns>“–‚½‚è”»’è(true:“–‚½‚Á‚½)</returns>
 	virtual const bool IsHit(Cylinder& _circle, VECTOR& _hitPos) = 0;
+
+	/// <summary>
+	/// ‰ñ“]‚È‚µBOX‚Æ‚Ì“–‚½‚è”»’è
+	/// </summary>
+	/// <param name="_box">Boxî•ñ</param>
+	/// <param name="_hitPos">“–‚½‚Á‚½êŠ</param>
+	/// <returns>“–‚½‚è”»’è(true:“–‚½‚Á‚½)</returns>
+	virtual const bool IsHit(AABB& _box, VECTOR& _hitPos) = 0;
 
 protected:
 	static constexpr int DRAW_COLOR = 0xff00ff;

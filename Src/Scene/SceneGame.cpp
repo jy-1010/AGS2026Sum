@@ -15,7 +15,7 @@
 SceneGame::SceneGame(void)
 {
 	stage_ = std::make_unique<Stage>();
-	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName());
+	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName(), stage_->GetBlockSize());
 	player_->SetPos(stage_->GetPlayerSpawnPos());
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW);
@@ -55,6 +55,11 @@ void SceneGame::Draw(void)
 
 void SceneGame::DebugDraw(void)
 {
+}
+
+float SceneGame::GetBlockSize(void)
+{
+	return stage_->GetBlockSize();
 }
 
 

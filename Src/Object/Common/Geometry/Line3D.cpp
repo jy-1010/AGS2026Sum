@@ -55,3 +55,8 @@ const bool Line3D::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 {
 	return false;
 }
+
+const bool Line3D::IsHit(AABB& _box, VECTOR& _hitPos)
+{
+	return false;
+}

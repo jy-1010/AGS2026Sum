@@ -402,3 +402,8 @@ bool Stage::IsBlock(const IntVector3& mapPos) const
     }
     return it->second->IsBlock(mapPos);
 }
+
+float Stage::GetBlockSize(void)
+{
+    return blockInfo_->GetSize();
+}

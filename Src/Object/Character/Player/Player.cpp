@@ -8,9 +8,10 @@
 #include "PlayerModel.h"
 #include "Player.h"
 
-Player::Player(std::string skinName)
+Player::Player(std::string skinName,float blockSize)
 {
 	LoadPlayerInfo();
+	blockSize_ = blockSize;
 	if (skinName == "")
 	{
 		skinName = "Alex";
@@ -78,5 +79,76 @@ void Player::LoadPlayerInfo(void)
 void Player::UpdateMove(void)
 {
 	KeyConfig& keycon = KeyConfig::GetInstance();
+	Camera& camera = SceneManager::GetInstance().GetCamera();
 
+	//移動量
+	float moveSpeed = 0.0f;
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_DASH))
+	{
+		moveSpeed = params_.SPRINT_SPEED * blockSize_ * SceneManager::GetInstance().GetDeltaTime();
+	}
+	else
+	{
+		moveSpeed = params_.WALK_SPEED * blockSize_ * SceneManager::GetInstance().GetDeltaTime();
+	}
+	//カメラの前方向を取得
+	VECTOR front = VSub(camera.GetTargetPos(), camera.GetPos());
+	front.y = 0.0f;
+	front = VNorm(front);
+	//カメラの左方向を取得
+	VECTOR left = front;
+	std::swap(left.x, left.z);
+	left.x = -left.x;
+	VECTOR dir = Utility::VECTOR_ZERO;
+	//キーボードでの移動処理
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_UP))
+	{
+		dir = VAdd(dir, front);
+	}
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_DOWN))
+	{
+		dir = VAdd(dir, VScale(front, -1));
+	}
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_RIGHT))
+	{
+		dir = VAdd(dir, VScale(left, -1));
+	}
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_LEFT))
+	{
+		dir = VAdd(dir, left);
+	}
+	if (dir.x != 0.0f || dir.z != 0.0f)
+	{
+		dir = VNorm(dir);
+		transform_->pos = VAdd(transform_->pos, VScale(VNorm(dir), moveSpeed));
+		transform_->rot = CalcRot(dir);
+		SetAnimation("Walk", false);
+		return;
+	}
+
+	//PADのスティック情報を取得
+	auto stick2D = (keycon.GetKnockLStickSize(KeyConfig::JOYPAD_NO::PAD1));
+	if (stick2D.x == 0.0f && stick2D.y == 0.0f)
+	{
+		SetAnimation("Idle", true);
+		return;
+	}
+	SetAnimation("Walk", false);
+	//スティック情報を3D情報に変更
+	auto stick3D = Utility::Normalize(stick2D);
+	auto moves = VAdd(VScale(front, stick3D.y * moveSpeed * -1), VScale(left, stick3D.x * moveSpeed * -1));
+	transform_->rot = CalcRot(moves);
+	//座標を更新する
+	transform_->pos = VAdd(transform_->pos,moves );
+
+}
+
+VECTOR Player::CalcRot(VECTOR dir)
+{
+	return VECTOR(0,atan2f(dir.x,dir.z),0);
+}
+
+VECTOR Player::CalcRot(IntVector2 dir)
+{
+	return VECTOR(0, atan2f(dir.x, -dir.y) , 0);
 }
