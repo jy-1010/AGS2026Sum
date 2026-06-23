@@ -44,7 +44,6 @@
     <ClCompile Include="Src\Object\Item\Tool\ToolBase.cpp" />
     <ClCompile Include="Src\Object\Character\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Character\Player\PlayerModel.cpp" />
-    <ClCompile Include="Src\Object\Common\Geometry\Cube.cpp" />
     <ClCompile Include="Src\Object\Vertex\VertexInfo.cpp" />
     <ClCompile Include="Src\Common\Vector.cpp" />
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
@@ -76,6 +75,7 @@
     <ClCompile Include="Src\Scene\Skin\SceneSelectSkin.cpp" />
     <ClCompile Include="Src\Utility\JsonUtility.cpp" />
     <ClCompile Include="Src\Object\Stage\Chunk.cpp" />
+    <ClCompile Include="Src\Object\Common\Geometry\AABB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -132,7 +132,6 @@
     <ClInclude Include="Src\Object\Item\Tool\ToolBase.h" />
     <ClInclude Include="Src\Object\Character\Player\Player.h" />
     <ClInclude Include="Src\Object\Character\Player\PlayerModel.h" />
-    <ClInclude Include="Src\Object\Common\Geometry\Cube.h" />
     <ClInclude Include="Src\Object\Vertex\VertexInfo.h" />
     <ClInclude Include="Src\Common\Vector.h" />
     <ClInclude Include="Src\Manager\ResourceManager.h" />
@@ -164,6 +163,7 @@
     <ClInclude Include="Src\Scene\Skin\SceneSelectSkin.h" />
     <ClInclude Include="Src\Utility\JsonUtility.h" />
     <ClInclude Include="Src\Object\Stage\Chunk.h" />
+    <ClInclude Include="Src\Object\Common\Geometry\AABB.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

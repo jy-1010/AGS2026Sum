@@ -60,3 +60,8 @@ const bool Triangle3D::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 {
 	return false;
 }
+
+const bool Triangle3D::IsHit(AABB& _box, VECTOR& _hitPos)
+{
+	return false;
+}

@@ -68,6 +68,14 @@ public:
 	/// <returns>“–‚½‚è”»’è(true:“–‚½‚Á‚½)</returns>
 	const bool IsHit(Cylinder& _circle, VECTOR& _hitPos)override;
 
+	/// <summary>
+	/// ‰ñ“]‚È‚µBox‚Æ‚Ì“–‚½‚è”»’è
+	/// </summary>
+	/// <param name="_box">boxî•ñ</param>
+	/// <param name="_hitPos">“–‚½‚Á‚½êŠ</param>
+	/// <returns>“–‚½‚è”»’è(true“–‚½‚Á‚½)</returns>
+	const bool IsHit(AABB& _box, VECTOR& _hitPos)override;
+
 private:
 
 	static constexpr int DRAW_VERTEX_NUM = 16;

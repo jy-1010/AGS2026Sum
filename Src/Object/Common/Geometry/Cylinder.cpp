@@ -59,3 +59,8 @@ const bool Cylinder::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 	bool ret =Utility::IsColCylinder2Cylinder(pos_, radius_, pos, radius, _hitPos);
 	return ret;
 }
+
+const bool Cylinder::IsHit(AABB& _box, VECTOR& _hitPos)
+{
+	return false;
+}

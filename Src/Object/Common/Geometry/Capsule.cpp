@@ -58,3 +58,8 @@ const bool Capsule::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 {
 	return false;
 }
+
+const bool Capsule::IsHit(AABB& _box, VECTOR& _hitPos)
+{
+	return false;
+}
