@@ -158,6 +158,12 @@ void PlayerModel::ApplyPosition(VECTOR pos)
 
 void PlayerModel::ApplyRotation(VECTOR rot)
 {
+	for (auto& polygon : polygonInfo_.vertex)
+	{
+		polygon.pos = Utility::RotateX(polygon.pos, rot.x);
+		polygon.pos = Utility::RotateY(polygon.pos, rot.y);
+		polygon.pos = Utility::RotateZ(polygon.pos, rot.z);
+	}
 }
 
 void PlayerModel::ApplyScale(float scale)

@@ -24,7 +24,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="skinName">スキンの名前</param>
-	Player(std::string skinName);
+	Player(std::string skinName,float blockSize = -1.0f);
 
 	/// <summary>
 	/// デストラクタ
@@ -89,11 +89,16 @@ private:
 	//パラメーター
 	Param params_;
 
+	float blockSize_;
+
 	//プレイヤー情報の読み込み
 	void LoadPlayerInfo(void);
 
 	//移動処理
 	void UpdateMove(void);
 
+	//移動方向をもとに回転量を取得
+	VECTOR CalcRot(VECTOR dir);
+	VECTOR CalcRot(IntVector2 dir);
 };
 

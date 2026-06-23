@@ -23,6 +23,8 @@ public:
 	virtual void Draw(void) override;
 
 	void DebugDraw(void);
+
+	float GetBlockSize(void);
 protected:
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<Player> player_;
