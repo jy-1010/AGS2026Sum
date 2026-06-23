@@ -49,8 +49,8 @@ void SceneGame::Update(void)
 //•`‰æˆ—
 void SceneGame::Draw(void)
 {
-	stage_->Draw();
 	player_->Draw();
+	stage_->Draw();
 }
 
 void SceneGame::DebugDraw(void)

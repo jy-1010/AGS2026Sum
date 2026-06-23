@@ -36,11 +36,11 @@ public:
 	std::string GetRootPath(void) { return rootPath_; }
 
 	//選択されたスキンの名前を取得する
-	std::string GetSelectedSkinName(void) { return selectedSkinName_; }
+	std::string GetSelectedSkinName(void);
 
 	std::string GetDefaultSkinName(void) const { return defaultSkinName_; }
 
-	void SetSelectedSkinName(std::string skinName) { selectedSkinName_ = skinName; }
+	void SetSelectedSkinName(const std::string skinName) { selectedSkinName_ = skinName; }
 private:
 
 	//選択されたスキンの名前
