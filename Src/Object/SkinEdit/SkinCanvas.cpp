@@ -19,15 +19,13 @@ void SkinCanvas::Clear(IntVector3 color)
 
 void SkinCanvas::DrawBrush(int centerX, int centerY, int size, IntVector3 color)
 {
-    int offset = size / 2;
-
-    for (int y = 0; y < size; y++)
+    for (int py = 0; py < size; py++)
     {
-        for (int x = 0; x < size; x++)
+        for (int px = 0; px < size; px++)
         {
             SetPixel(
-                centerX + x - offset,
-                centerY + y - offset,
+                centerX + px,
+                centerY + py,
                 color);
         }
     }

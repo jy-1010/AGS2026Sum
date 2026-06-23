@@ -316,6 +316,34 @@ void SceneMakeSkin::Draw(void)
 			GetColor(255, 255, 0));
 	}
 
+	int mouseX;
+	int mouseY;
+	GetMousePoint(&mouseX, &mouseY);
+
+	int x =
+		(mouseX - offset_.x) /
+		SkinRenderer::PIXEL_SIZE;
+
+	int y =
+		(mouseY - offset_.y) /
+		SkinRenderer::PIXEL_SIZE;
+
+	if (x >= 0 &&
+		x < SkinCanvas::SIZE &&
+		y >= 0 &&
+		y < SkinCanvas::SIZE)
+	{
+		int size = paintTool_->GetSize();
+
+		DrawBox(
+			offset_.x + x * SkinRenderer::PIXEL_SIZE,
+			offset_.y + y * SkinRenderer::PIXEL_SIZE,
+			offset_.x + (x + size) * SkinRenderer::PIXEL_SIZE,
+			offset_.y + (y + size) * SkinRenderer::PIXEL_SIZE,
+			GetColor(255, 0, 0),
+			FALSE);
+	}
+
 	inputName_->Draw();
 }
 
