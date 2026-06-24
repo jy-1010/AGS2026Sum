@@ -333,15 +333,44 @@ void SceneMakeSkin::Draw(void)
 		y >= 0 &&
 		y < SkinCanvas::SIZE)
 	{
-		int size = paintTool_->GetSize();
+		IntVector3 color =
+			colorPicker_->GetCurrentColor();
 
-		DrawBox(
-			offset_.x + x * SkinRenderer::PIXEL_SIZE,
-			offset_.y + y * SkinRenderer::PIXEL_SIZE,
-			offset_.x + (x + size) * SkinRenderer::PIXEL_SIZE,
-			offset_.y + (y + size) * SkinRenderer::PIXEL_SIZE,
-			GetColor(255, 0, 0),
-			FALSE);
+		int size =
+			paintTool_->GetSize();
+
+		int left =
+			offset_.x +
+			x * SkinRenderer::PIXEL_SIZE;
+
+		int top =
+			offset_.y +
+			y * SkinRenderer::PIXEL_SIZE;
+
+		int right =
+			left +
+			size * SkinRenderer::PIXEL_SIZE;
+
+		int bottom =
+			top +
+			size * SkinRenderer::PIXEL_SIZE;
+
+		bool blink =
+			(GetNowCount() / 250) % 2 == 0;
+
+		if (blink)
+		{
+			DrawBox(
+				left,
+				top,
+				right,
+				bottom,
+				GetColor(
+					color.r,
+					color.g,
+					color.b),
+				FALSE);
+		}
 	}
 
 	inputName_->Draw();
