@@ -5,6 +5,7 @@
 #include "../../../Manager/SceneManager.h"
 #include "../../../Manager/Camera.h"
 #include "../../../Application.h"
+#include "Skin/SkinManager.h"
 #include "PlayerModel.h"
 #include "Player.h"
 
@@ -14,7 +15,7 @@ Player::Player(std::string skinName,float blockSize)
 	blockSize_ = blockSize;
 	if (skinName == "")
 	{
-		skinName = "Alex";
+		skinName = SkinManager::GetInstance().GetDefaultSkinName();
 	}
 	transform_ = std::make_shared<Transform>();
 	model_ = std::make_unique<PlayerModel>(skinName, paramsJson_);

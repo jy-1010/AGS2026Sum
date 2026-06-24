@@ -27,6 +27,7 @@ SkinManager& SkinManager::GetInstance(void)
 void SkinManager::Init(void)
 {
 	auto& resourceManager = ResourceManager::GetInstance();
+	selectedSkinName_ = "";
 	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();
 	skinJson_ = jsonResource->GetData();
 	rootPath_ = Application::PATH_DATA + skinJson_["RootPath"].get<std::string>();
@@ -86,6 +87,15 @@ void SkinManager::SaveSkin(const std::string name)
 	AddSkin(name, rootPath_ + name + ".png", true);
 	AddSkinJson(name, name + ".png");
 	selectedSkinName_ = name;
+}
+
+std::string SkinManager::GetSelectedSkinName(void)
+{
+	if (selectedSkinName_ == "")
+	{
+		return defaultSkinName_;
+	}
+	return selectedSkinName_;
 }
 
 void SkinManager::AddSkin(const std::string name, const std::string path, bool isPreload)
