@@ -9,10 +9,15 @@ public:
 
 	//ロードされているか
 	const bool isLoaded(void) const;
+
+	//ロード中にエラーが起きたか
+	const bool isLoadError(void)const;
+
 	void Load(void);
 
 	const int GetHandle(void) const; 
 
+	const std::string GetPath(void)const { return path_; }
 private:
 	int handle_ = -1;	// スキンの画像ハンドル
 	std::string path_;

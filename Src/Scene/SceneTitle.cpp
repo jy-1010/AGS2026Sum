@@ -36,6 +36,10 @@ bool SceneTitle::Init(void)
 //XVˆ—
 void SceneTitle::Update(void)
 {
+	if (GetASyncLoadNum() > 0)
+	{
+		return;
+	}
 	auto& keyConfig = KeyConfig::GetInstance();
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::SELECT_UP, KeyConfig::JOYPAD_NO::PAD1))
 	{

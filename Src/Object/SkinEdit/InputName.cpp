@@ -85,6 +85,7 @@ void InputName::InputUpdate(void)
 			continue;
 		}
 	}
+	//決定をする処理
 	if (keycon.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
 		fase_ = static_cast<Fase>(static_cast<int>(fase_) + 1);

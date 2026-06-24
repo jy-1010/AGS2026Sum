@@ -33,6 +33,17 @@ const bool Skin::isLoaded(void) const
 	return ret;
 }
 
+const bool Skin::isLoadError(void) const
+{
+	bool ret = false;
+	int async = CheckHandleASyncLoad(handle_);
+	if (handle_ == -1 || async == -1)
+	{
+		ret = true;
+	}
+	return ret;
+}
+
 void Skin::Load(void)
 {
 	if (handle_ != -1)

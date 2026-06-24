@@ -5,14 +5,18 @@
             "Name": "Steve",
             "Path": "Steve.png"
         },
-      {
-        "Name": "Alex",
-        "Path": "Alex.png"
-      },
-      {
-        "Name": "PigMan",
-        "Path": "PigMan.png"
-      }
+        {
+            "Name": "Alex",
+            "Path": "Alex.png"
+        },
+        {
+            "Name": "PigMan",
+            "Path": "PigMan.png"
+        },
+        {
+            "Name": "Chicken",
+            "Path": "Chicken.png"
+        }
     ],
     "Preload": true,
     "RootPath": "Image/PlayerSkin/",

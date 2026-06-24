@@ -41,6 +41,13 @@ public:
 	std::string GetDefaultSkinName(void) const { return defaultSkinName_; }
 
 	void SetSelectedSkinName(const std::string skinName) { selectedSkinName_ = skinName; }
+
+	//指定された名前のスキンが存在するか
+	bool IsContainName(const std::string skinName) { return skinResources_.contains(skinName); }
+
+	//スキンの画像が存在するかを確認しなければリソース削除
+	void CheckSkinResource(void);
+
 private:
 
 	//選択されたスキンの名前
@@ -59,6 +66,12 @@ private:
 	void AddSkin(const std::string name, const std::string path, bool isPreload);
 	//新規スキンをjsonに保存
 	void AddSkinJson(const std::string name,const std::string path);
+
+
+	//スキンをマネージャーから削除する
+	void DeleteSkin(const std::string name);
+	//jsonから削除する
+	void DeleteSkinJson(const std::string name);
 
 	SkinManager() = default;
 	~SkinManager() = default;

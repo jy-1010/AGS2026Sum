@@ -382,9 +382,20 @@ void SceneMakeSkin::Load(void)
 
 void SceneMakeSkin::SaveSkin(std::string skinName) const
 {
-	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE , (Application::PATH_IMAGE + "PlayerSkin/" + skinName + ".png").c_str());
+	//無限ループで同じ名前で登録されているものがすでにあるかを確認しある場合数字を追加する
 	auto& skinManager = SkinManager::GetInstance();
-	skinManager.SaveSkin(skinName);
+	int i = 0;
+	std::string tempName = skinName;
+	for (;;)
+	{
+		if (!skinManager.IsContainName(tempName))
+		{
+			break;
+		}
+		tempName = skinName + "_" + std::to_string(i);
+	}
+	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE , (Application::PATH_IMAGE + "PlayerSkin/" + tempName + ".png").c_str());
+	skinManager.SaveSkin(tempName);
 }
 
 void SceneMakeSkin::InitRenderer(void)

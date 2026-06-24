@@ -41,6 +41,7 @@ void SkinManager::Init(void)
 		std::string path = rootPath_ + skinInfo["Path"].get<std::string>();
 		AddSkin(name, path, isPreload);
 	}
+	CheckSkinResource();
 }
 
 void SkinManager::Release(void)
@@ -84,9 +85,21 @@ const int SkinManager::GetSkinNum(void)
 
 void SkinManager::SaveSkin(const std::string name)
 {
-	AddSkin(name, rootPath_ + name + ".png", true);
-	AddSkinJson(name, name + ".png");
-	selectedSkinName_ = name;
+	//無限ループで同じ名前で登録されているものがすでにあるかを確認しある場合数字を追加する
+	int i = 0;
+	std::string tempName = name;
+	for (;;)
+	{
+		if (!IsContainName(tempName))
+		{
+			break;
+		}
+		tempName = name + "_" + std::to_string(i);
+	}
+	//保存する
+	AddSkin(name, rootPath_ + tempName + ".png", true);
+	AddSkinJson(tempName, tempName + ".png");
+	selectedSkinName_ = tempName;
 }
 
 std::string SkinManager::GetSelectedSkinName(void)
@@ -96,6 +109,25 @@ std::string SkinManager::GetSelectedSkinName(void)
 		return defaultSkinName_;
 	}
 	return selectedSkinName_;
+}
+
+void SkinManager::CheckSkinResource(void)
+{
+	//ロードエラーが起きたスキンをjsonからも削除
+	std::vector<std::string> names;
+	for (auto& skin : skinResources_)
+	{
+		if (!skin.second->isLoadError())
+		{
+			continue;
+		}
+		names.push_back(skin.first);
+	}
+	for (auto& name : names)
+	{
+		DeleteSkin(name);
+		DeleteSkinJson(name);
+	}
 }
 
 void SkinManager::AddSkin(const std::string name, const std::string path, bool isPreload)
@@ -112,6 +144,33 @@ void SkinManager::AddSkinJson(const std::string name, const std::string path)
 	skinJson_["Info"].push_back(json);
 	skinJson_.dump(2);
 	//情報を更新する
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();
+	jsonResource->OutFile(skinJson_);
+}
+
+void SkinManager::DeleteSkin(const std::string name)
+{
+	skinResources_.erase(name);
+}
+
+void SkinManager::DeleteSkinJson(const std::string name)
+{
+	nlohmann::json json;
+	for (auto& skin : skinResources_)
+	{
+		nlohmann::json temp;
+		//指定されたモノをスキップする
+		if (skin.first == name)
+		{
+			continue;
+		}
+		temp["Name"] = skin.first;
+		temp["Path"] = skin.second->GetPath();
+		json.push_back(temp);
+	}
+	skinJson_["Info"] = json;
+	skinJson_.dump(2);
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto jsonResource = resourceManager.GetJsonResource("PlayerSkinJson").lock();
 	jsonResource->OutFile(skinJson_);
