@@ -393,6 +393,7 @@ void SceneMakeSkin::SaveSkin(std::string skinName) const
 			break;
 		}
 		tempName = skinName + "_" + std::to_string(i);
+		i++;
 	}
 	SaveDrawValidGraphToPNG(saveScreen_, 0, 0, SkinCanvas::SIZE, SkinCanvas::SIZE , (Application::PATH_IMAGE + "PlayerSkin/" + tempName + ".png").c_str());
 	skinManager.SaveSkin(tempName);
