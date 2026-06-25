@@ -8,6 +8,7 @@
 #include "../Manager/Camera.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/Resource/JsonResource.h"
+#include "../Manager/Resource/FontResource.h"
 #include "../Manager/Resource/ImageResource.h"
 #include "SceneTitle.h"
 
@@ -153,12 +154,13 @@ void SceneTitle::LoadButton(void)
 		auto& buttonJson = buttonsJson["List"][i];
 		info.state = ButtonState::NORMAL;
 		info.name = buttonJson["Name"];
-		info.imageKey = buttonJson["Image"];
+		//info.imageKey = buttonJson["Image"];
+		info.drawStrigInfo = LoadDrawStringInfo(buttonJson["String"]);
 		info.nextScene = buttonJson["NextScene"];
 		info.selectIndex = buttonJson["SelectIndex"];
 		info.layer = buttonJson["Layer"];
 		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
-		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
+		//info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
 		//ŽlŠp‚Ìî•ñ
 		auto& rectJson = buttonJson["Rect"];
 		info.rect.leftPer = rectJson["Left"];
@@ -171,6 +173,13 @@ void SceneTitle::LoadButton(void)
 		info.rect.bottomScreen = Application::SCREEN_SIZE_Y * info.rect.bottomPer;
 		buttonInfo_.push_back(info);
 	}
+}
+
+SceneTitle::DrawStringInfo SceneTitle::LoadDrawStringInfo(nlohmann::json stringJson)
+{
+	DrawStringInfo ret;
+	ret.fontKey = stringJson["Font"];
+	ret.fonthandle = ResourceManager::GetInstance().GetFontResource(ret.fontKey).lock()->GetHandleId();
 }
 
 std::vector<SceneTitle::ButtonInfo> SceneTitle::GetButtonInfoToLayer(int layerNum)

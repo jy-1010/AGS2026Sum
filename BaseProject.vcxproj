@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Manager\Resource\FontResource.cpp" />
     <ClCompile Include="Src\Object\Common\Geometry\AABB.cpp" />
     <ClCompile Include="Src\Object\Stage\Chunk.cpp" />
     <ClCompile Include="Src\Utility\JsonUtility.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Manager\Resource\FontResource.h" />
     <ClInclude Include="Src\Object\Common\Geometry\AABB.h" />
     <ClInclude Include="Src\Object\Stage\Chunk.h" />
     <ClInclude Include="Src\Utility\JsonUtility.h" />

@@ -92,7 +92,13 @@
     "List": [
       {
         "Name": "GameStart",
-        "Image": "GameStartImage",
+        "String": {
+          "Font": "TitleFont",
+          "DrawString": {
+            "Japanese": "ゲームプレイ",
+            "Englesh": "Game Start"
+          }
+        },
         "Layer": 2,
         "NextScene": "Game",
         "SelectIndex": 0,
@@ -105,7 +111,13 @@
       },
       {
         "Name": "SkinCreate",
-        "Image": "SkinCreateImage",
+        "String": {
+          "Font": "TitleFont",
+          "DrawString": {
+            "Japanese": "スキン作成",
+            "Englesh": "Create Skin"
+          }
+        },
         "Layer": 2,
         "NextScene": "SkinCreate",
         "SelectIndex": 1,
@@ -118,7 +130,13 @@
       },
       {
         "Name": "SkinSelect",
-        "Image": "SkinSelectImage",
+        "String": {
+          "Font": "TitleFont",
+          "DrawString": {
+            "Japanese": "スキン選択",
+            "Englesh": "Select Skin"
+          }
+        },
         "Layer": 2,
         "NextScene": "SkinSelect",
         "SelectIndex": 2,
@@ -131,7 +149,13 @@
       },
       {
         "Name": "Setting",
-        "Image": "SettingImage",
+        "String": {
+          "Font": "TitleFont",
+          "DrawString": {
+            "Japanese": "設定",
+            "Englesh": "Setting"
+          }
+        },
         "Layer": 2,
         "NextScene": "Setting",
         "SelectIndex": 3,
@@ -144,7 +168,13 @@
       },
       {
         "Name": "Exit",
-        "Image": "ExitImage",
+        "String": {
+          "Font": "TitleFont",
+          "DrawString": {
+            "Japanese": "終了",
+            "Englesh": "Exit Game"
+          }
+        },
         "Layer": 2,
         "NextScene": "Exit",
         "SelectIndex": 4,

@@ -166,7 +166,15 @@
       "Path": "Shader/Canvas.cso",
       "ShaderType": "Pixel",
       "Preload": true
-    }
+    },
 
+    "TitleFont": {
+      "Type": "Font",
+      "Path": "Font/PixelMplus12.ttf",
+      "Name": "PixelMplus12",
+      "Size": 24,
+      "Thick": 3,
+      "Preload": true
+    }
   }
 }

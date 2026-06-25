@@ -7,6 +7,7 @@
 #include "Resource/Sound/Sound2DResource.h"
 #include "Resource/Sound/Sound3DResource.h"
 #include "Resource/ShaderResource.h"
+#include "Resource/FontResource.h"
 #include "ResourceManager.h"
 
 
@@ -132,6 +133,16 @@ std::weak_ptr<ShaderResource> ResourceManager::GetShaderResource(const std::stri
 	return std::static_pointer_cast<ShaderResource>(resource);
 }
 
+std::weak_ptr<FontResource> ResourceManager::GetFontResource(const std::string& key)
+{
+	auto resource = GetResource(key);
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::SHADER)
+	{
+		return std::weak_ptr<FontResource>();
+	}
+	return std::static_pointer_cast<FontResource>(resource);
+}
+
 Resource::TYPE ResourceManager::GetResourceTypeFromString(const std::string& str)
 {
 	if (str == "Json")
@@ -162,6 +173,10 @@ Resource::TYPE ResourceManager::GetResourceTypeFromString(const std::string& str
 	{
 		return Resource::TYPE::SHADER;
 	}
+	else if(str == "Font")
+	{
+		return Resource::TYPE::FONT;
+	}
 	return Resource::TYPE::NONE;
 }
 
@@ -183,6 +198,8 @@ std::shared_ptr<Resource> ResourceManager::CreateResource( const nlohmann::json&
 		return std::make_shared<Sound3DResource>(json);
 	case Resource::TYPE::SHADER:
 		return std::make_shared<ShaderResource>(json);
+	case Resource::TYPE::FONT:
+		return std::make_shared<FontResource>(json);
 	}
 	return nullptr;
 }

@@ -47,14 +47,23 @@ private:
 		PRESS,	//決定
 	};
 
+
+	struct DrawStringInfo
+	{
+		std::string fontKey;	//フォントのキー
+		int fonthandle;			//フォントのハンドルID
+		std::map<std::string, std::string> drawString;	//言語ごとの描画文字
+	};
+
 	//ボタンの情報
 	struct ButtonInfo
 	{
 		ButtonState state = ButtonState::NORMAL;	//状態
 		std::string name = "";	//名前
-		std::string imageKey = "";	//画像のキー
+		//std::string imageKey = "";	//画像のキー
+		DrawStringInfo drawStrigInfo;	//描画する文字の情報
 		std::string nextScene = "";	//次のシーン
-		int imageHandle = -1;	//画像のハンドル
+		//int imageHandle = -1;	//画像のハンドル
 		Rect rect;			//四角の情報
 		int selectIndex = -1;	//配列番号
 		int layer = -1;
@@ -104,7 +113,7 @@ private:
 	void LoadLogo(void);
 	void LoadColor(void);
 	void LoadButton(void);
-
+	DrawStringInfo LoadDrawStringInfo(nlohmann::json stringJson);
 	//レイヤーに対応するオブジェクトを取得する
 	std::vector<ButtonInfo> GetButtonInfoToLayer(int layerNum);
 	std::vector<LogoInfo> GetLogoInfoToLayer(int layerNum);

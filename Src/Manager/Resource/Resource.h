@@ -10,6 +10,7 @@ class ModelResource;
 class Sound2DResource;
 class Sound3DResource;
 class ShaderResource;
+class FontResource;
 
 class Resource
 {
@@ -26,6 +27,7 @@ public:
 		SOUND_2D,	// 2D音響
 		SOUND_3D,	// 3D音響
 		SHADER,		// シェーダー
+		FONT,		// フォント
 	};
 
 
@@ -60,6 +62,7 @@ public:
 	static std::shared_ptr<Sound2DResource> CastToSound2DResource(std::shared_ptr<Resource> resource);
 	static std::shared_ptr<Sound3DResource> CastToSound3DResource(std::shared_ptr<Resource> resource);
 	static std::shared_ptr<ShaderResource> CastToShaderResource(std::shared_ptr<Resource> resource);
+	static std::shared_ptr<FontResource> CastToFontResource(std::shared_ptr<Resource> resource);
 protected:
 
 	//タイプ
