@@ -296,15 +296,15 @@ void SceneMakeSkin::Draw(void)
 	svArea_->Draw();
 
 
-	DrawString(offset_.x * 2, offset_.y / 4, "右クリック：スポイト", GetColor(255, 255, 255));
-	DrawString(offset_.x , offset_.y / 2, "Q/E : ペンサイズ変更", GetColor(255, 255, 255));
+	DrawString(offset_.x * 2, offset_.y / 4, "Right-click : Dropper", GetColor(255, 255, 255));
+	DrawString(offset_.x , offset_.y / 2, "Q/E : Size Change", GetColor(255, 255, 255));
 
 	if (paintTool_->IsPen())
 	{
 		DrawString(
 			offset_.x,
 			offset_.y / 4,
-			"Mode : PEN (Fで切替)",
+			"Mode : PEN (F : Switching)",
 			GetColor(255, 255, 255));
 	}
 
@@ -313,7 +313,7 @@ void SceneMakeSkin::Draw(void)
 		DrawString(
 			offset_.x,
 			offset_.y / 4,
-			"Mode : BUCKET (Fで切替)",
+			"Mode : BUCKET (F : Switching)",
 			GetColor(255, 255, 0));
 	}
 
