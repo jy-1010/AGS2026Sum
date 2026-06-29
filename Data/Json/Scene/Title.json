@@ -1,160 +1,186 @@
 {
-  "Resource": [
-    "TitleLogoImage",
-    "GameStartImage",
-    "SkinSelectImage",
-    "SkinCreateImage",
-    "SettingImage",
-    "ExitImage"
-  ],
+	"Resource": [
+		"TitleLogoImage",
+		"TitleBackImage"
+	],
 
-  "Logo": {
-    "List":[
-      {
-        "Name": "BackImage",
-        "Image": "TitleBackImage",
-        "Layer": 0,
-        "Position": {
-          "x": 0.5,
-          "y": 0.5
-        }
-      },
-      {
-        "Name": "TitleLogo",
-        "Image": "TitleLogoImage",
-        "Layer": 1,
-        "Position": {
-          "x": 0.5,
-          "y": 0.2
-        }
-      }
-    ]
-  },
-  "Buttons": {
-    "Color": {
-      "Normal": {
-        "Back": {
-          "r": 0.5,
-          "g": 0.5,
-          "b": 0.5
-        },
-        "Text": {
-          "r": 1.0,
-          "g": 1.0,
-          "b": 1.0
-        }
-      },
-      "Selected": {
-        "Back": {
-          "r": 0.7,
-          "g": 0.7,
-          "b": 0.7
-        },
-        "Text": {
-          "r": 1.0,
-          "g": 1.0,
-          "b": 0.0
-        }
-      },
-      "Pressed": {
-        "Back": {
-          "r": 0.3,
-          "g": 0.3,
-          "b": 0.3
-        },
-        "Text": {
-          "r": 1.0,
-          "g": 1.0,
-          "b": 1.0
-        }
-      },
-      "OutLine": {
-        "Black": {
-          "r": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "Thickness" : 3.0
-        },
-        "Light": {
-          "r": 0.7,
-          "g": 0.7,
-          "b": 0.7,
-          "Thickness": 2.0
-        },
-        "Dark": {
-          "r": 0.2,
-          "g": 0.2,
-          "b": 0.2,
-          "Thickness": 2.0
-        }
-      }
-    },
-    "List": [
-      {
-        "Name": "GameStart",
-        "Image": "GameStartImage",
-        "Layer": 2,
-        "NextScene": "Game",
-        "SelectIndex": 0,
-        "Rect": {
-          "Left": 0.31,
-          "Top": 0.41,
-          "Right": 0.69,
-          "Bottom": 0.49
-        }
-      },
-      {
-        "Name": "SkinCreate",
-        "Image": "SkinCreateImage",
-        "Layer": 2,
-        "NextScene": "SkinCreate",
-        "SelectIndex": 1,
-        "Rect": {
-          "Left": 0.31,
-          "Top": 0.51,
-          "Right": 0.69,
-          "Bottom": 0.59
-        }
-      },
-      {
-        "Name": "SkinSelect",
-        "Image": "SkinSelectImage",
-        "Layer": 2,
-        "NextScene": "SkinSelect",
-        "SelectIndex": 2,
-        "Rect": {
-          "Left": 0.31,
-          "Top": 0.61,
-          "Right": 0.69,
-          "Bottom": 0.69
-        }
-      },
-      {
-        "Name": "Setting",
-        "Image": "SettingImage",
-        "Layer": 2,
-        "NextScene": "Setting",
-        "SelectIndex": 3,
-        "Rect": {
-          "Left": 0.31,
-          "Top": 0.71,
-          "Right": 0.49,
-          "Bottom": 0.79
-        }
-      },
-      {
-        "Name": "Exit",
-        "Image": "ExitImage",
-        "Layer": 2,
-        "NextScene": "Exit",
-        "SelectIndex": 4,
-        "Rect": {
-          "Left": 0.51,
-          "Top": 0.71,
-          "Right": 0.69,
-          "Bottom": 0.79
-        }
-      }
-    ]
-  }
+	"Logo": {
+		"List":[
+			{
+				"Name": "BackImage",
+				"Image": "TitleBackImage",
+				"Layer": 0,
+				"Position": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			},
+			{
+				"Name": "TitleLogo",
+				"Image": "TitleLogoImage",
+				"Layer": 1,
+				"Position": {
+					"x": 0.5,
+					"y": 0.2
+				}
+			}
+		]
+	},
+	"Buttons": {
+		"Color": {
+			"Normal": {
+				"Back": {
+					"r": 0.5,
+					"g": 0.5,
+					"b": 0.5
+				},
+				"Text": {
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0
+				}
+			},
+			"Selected": {
+				"Back": {
+					"r": 0.7,
+					"g": 0.7,
+					"b": 0.7
+				},
+				"Text": {
+					"r": 1.0,
+					"g": 1.0,
+					"b": 0.0
+				}
+			},
+			"Pressed": {
+				"Back": {
+					"r": 0.3,
+					"g": 0.3,
+					"b": 0.3
+				},
+				"Text": {
+					"r": 1.0,
+					"g": 1.0,
+					"b": 1.0
+				}
+			},
+			"OutLine": {
+				"Black": {
+					"r": 0.0,
+					"g": 0.0,
+					"b": 0.0,
+					"Thickness" : 3.0
+				},
+				"Light": {
+					"r": 0.7,
+					"g": 0.7,
+					"b": 0.7,
+					"Thickness": 2.0
+				},
+				"Dark": {
+					"r": 0.2,
+					"g": 0.2,
+					"b": 0.2,
+					"Thickness": 2.0
+				}
+			}
+		},
+		"List": [
+			{
+				"Name": "GameStart",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "ゲームプレイ",
+						"Englesh": "Game Start"
+					}
+				},
+				"Layer": 2,
+				"NextScene": "Game",
+				"SelectIndex": 0,
+				"Rect": {
+					"Left": 0.31,
+					"Top": 0.41,
+					"Right": 0.69,
+					"Bottom": 0.49
+				}
+			},
+			{
+				"Name": "SkinCreate",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "スキン作成",
+						"Englesh": "Create Skin"
+					}
+				},
+				"Layer": 2,
+				"NextScene": "SkinCreate",
+				"SelectIndex": 1,
+				"Rect": {
+					"Left": 0.31,
+					"Top": 0.51,
+					"Right": 0.69,
+					"Bottom": 0.59
+				}
+			},
+			{
+				"Name": "SkinSelect",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "スキン選択",
+						"Englesh": "Select Skin"
+					}
+				},
+				"Layer": 2,
+				"NextScene": "SkinSelect",
+				"SelectIndex": 2,
+				"Rect": {
+					"Left": 0.31,
+					"Top": 0.61,
+					"Right": 0.69,
+					"Bottom": 0.69
+				}
+			},
+			{
+				"Name": "Setting",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "設定",
+						"Englesh": "Setting"
+					}
+				},
+				"Layer": 2,
+				"NextScene": "Setting",
+				"SelectIndex": 3,
+				"Rect": {
+					"Left": 0.31,
+					"Top": 0.71,
+					"Right": 0.49,
+					"Bottom": 0.79
+				}
+			},
+			{
+				"Name": "Exit",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "終了",
+						"Englesh": "Exit Game"
+					}
+				},
+				"Layer": 2,
+				"NextScene": "Exit",
+				"SelectIndex": 4,
+				"Rect": {
+					"Left": 0.51,
+					"Top": 0.71,
+					"Right": 0.69,
+					"Bottom": 0.79
+				}
+			}
+		]
+	}
 }

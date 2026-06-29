@@ -6,6 +6,7 @@
 #include "Sound/Sound2DResource.h"
 #include "Sound/Sound3DResource.h"
 #include "ShaderResource.h"
+#include "FontResource.h"
 #include "Resource.h"
 
 Resource::Resource(nlohmann::json json)	: json_(json)
@@ -63,4 +64,10 @@ std::shared_ptr<ShaderResource> Resource::CastToShaderResource(std::shared_ptr<R
 {
 	std::shared_ptr<ShaderResource> shaderResource = std::dynamic_pointer_cast<ShaderResource>(resource);
 	return shaderResource;
+}
+
+std::shared_ptr<FontResource> Resource::CastToFontResource(std::shared_ptr<Resource> resource)
+{
+	std::shared_ptr<FontResource> fontResource = std::dynamic_pointer_cast<FontResource>(resource);
+	return fontResource;
 }

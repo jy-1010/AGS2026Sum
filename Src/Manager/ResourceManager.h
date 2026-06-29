@@ -34,6 +34,7 @@ public:
 	std::weak_ptr<Sound2DResource> GetSound2DResource(const std::string& key);
 	std::weak_ptr<Sound3DResource> GetSound3DResource(const std::string& key);
 	std::weak_ptr<ShaderResource> GetShaderResource(const std::string& key);
+	std::weak_ptr<FontResource> GetFontResource(const std::string& key);
 
 private:
 	// 静的インスタンス

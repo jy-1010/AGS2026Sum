@@ -11,6 +11,7 @@ ShaderResource::ShaderResource(nlohmann::json json) : Resource(json)
 
 ShaderResource::~ShaderResource(void)
 {
+	DeleteShader(handleId_);
 }
 
 bool ShaderResource::Load(void)

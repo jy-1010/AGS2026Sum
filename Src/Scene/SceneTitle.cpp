@@ -8,6 +8,7 @@
 #include "../Manager/Camera.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/Resource/JsonResource.h"
+#include "../Manager/Resource/FontResource.h"
 #include "../Manager/Resource/ImageResource.h"
 #include "SceneTitle.h"
 
@@ -27,13 +28,13 @@ SceneTitle::~SceneTitle(void)
 
 }
 
-//‰Šú‰»ˆ—(‰‰ñ‚Ì1“x‚Ì‚İÀs‚³‚ê‚é)
+//åˆæœŸåŒ–å‡¦ç†(åˆå›ã®1åº¦ã®ã¿å®Ÿè¡Œã•ã‚Œã‚‹)
 bool SceneTitle::Init(void)
 {
 	return true;
 }
 
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 void SceneTitle::Update(void)
 {
 	if (GetASyncLoadNum() > 0)
@@ -66,7 +67,7 @@ void SceneTitle::Update(void)
 		ChangeScene();
 	}
 }
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void SceneTitle::Draw(void)
 {
 	for (int i = 0; i <= maxLayerNum_; i++)
@@ -76,7 +77,7 @@ void SceneTitle::Draw(void)
 		{
 			int x = static_cast<int>(logo.pos.x * Application::SCREEN_SIZE_X);
 			int y = static_cast<int>(logo.pos.y * Application::SCREEN_SIZE_Y);
-			//ƒƒS‚Ì•`‰æ
+			//ãƒ­ã‚´ã®æç”»
 			DrawRotaGraph(x, y, 1.0f, 0.0f, logo.imageHandle, true);
 		}
 		auto buttons = GetButtonInfoToLayer(i);
@@ -106,7 +107,7 @@ void SceneTitle::LoadJson(void)
 void SceneTitle::LoadLogo(void)
 {
 	auto& logosJson = json_["Logo"];
-	//ƒƒS‚Ìî•ñ‚ğæ“¾
+	//ãƒ­ã‚´ã®æƒ…å ±ã‚’å–å¾—
 	for (int i = 0; i < logosJson["List"].size();i++)
 	{
 		LogoInfo info;
@@ -125,7 +126,7 @@ void SceneTitle::LoadColor(void)
 {
 	auto& buttonsJson = json_["Buttons"];
 	auto& buttonColor = buttonsJson["Color"];
-	//Fî•ñ‚Ìæ“¾
+	//è‰²æƒ…å ±ã®å–å¾—
 	buttonBackColor_[ButtonState::NORMAL] = JsonUtility::GetColorFloat(buttonColor["Normal"]["Back"]);
 	buttonBackColor_[ButtonState::SELECT] = JsonUtility::GetColorFloat(buttonColor["Selected"]["Back"]);
 	buttonBackColor_[ButtonState::PRESS] = JsonUtility::GetColorFloat(buttonColor["Pressed"]["Back"]);
@@ -133,7 +134,7 @@ void SceneTitle::LoadColor(void)
 	buttonTextColor_[ButtonState::SELECT] = JsonUtility::GetColorFloat(buttonColor["Selected"]["Text"]);
 	buttonTextColor_[ButtonState::PRESS] = JsonUtility::GetColorFloat(buttonColor["Pressed"]["Text"]);
 
-	//ƒAƒEƒgƒ‰ƒCƒ“‚ÌF‚ğæ“¾
+	//ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã®è‰²ã‚’å–å¾—
 	auto& outlineColor = buttonColor["OutLine"];
 	blackInfo_.color = JsonUtility::GetColorFloat(outlineColor["Black"]);
 	blackInfo_.thickness = outlineColor["Black"]["Thickness"];
@@ -146,20 +147,21 @@ void SceneTitle::LoadColor(void)
 void SceneTitle::LoadButton(void)
 {
 	auto& buttonsJson = json_["Buttons"];
-	//ƒ{ƒ^ƒ“‚Ìî•ñ
+	//ãƒœã‚¿ãƒ³ã®æƒ…å ±
 	for (int i = 0; i < buttonsJson["List"].size();i++)
 	{
 		ButtonInfo info;
 		auto& buttonJson = buttonsJson["List"][i];
 		info.state = ButtonState::NORMAL;
 		info.name = buttonJson["Name"];
-		info.imageKey = buttonJson["Image"];
+		//info.imageKey = buttonJson["Image"];
+		info.drawStrigInfo = LoadDrawStringInfo(buttonJson["String"]);
 		info.nextScene = buttonJson["NextScene"];
 		info.selectIndex = buttonJson["SelectIndex"];
 		info.layer = buttonJson["Layer"];
 		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
-		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
-		//lŠp‚Ìî•ñ
+		//info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
+		//å››è§’ã®æƒ…å ±
 		auto& rectJson = buttonJson["Rect"];
 		info.rect.leftPer = rectJson["Left"];
 		info.rect.topPer = rectJson["Top"];
@@ -171,6 +173,18 @@ void SceneTitle::LoadButton(void)
 		info.rect.bottomScreen = Application::SCREEN_SIZE_Y * info.rect.bottomPer;
 		buttonInfo_.push_back(info);
 	}
+}
+
+SceneTitle::DrawStringInfo SceneTitle::LoadDrawStringInfo(nlohmann::json stringJson)
+{
+	DrawStringInfo ret;
+	ret.fontKey = stringJson["Font"];
+	ret.fonthandle = ResourceManager::GetInstance().GetFontResource(ret.fontKey).lock()->GetHandleId();
+	for (auto& str : stringJson["DrawString"].items())
+	{
+		ret.drawString.emplace(str.key(), str.value());
+	}
+	return ret;
 }
 
 std::vector<SceneTitle::ButtonInfo> SceneTitle::GetButtonInfoToLayer(int layerNum)
@@ -228,7 +242,7 @@ void SceneTitle::ChangeScene(void)
 	}
 	else if (next == "Setting")
 	{
-		//Œ»İÀ‘•‚È‚µ
+		//ç¾åœ¨å®Ÿè£…ãªã—
 		return;
 		sceneManager.ChangeScene(SceneManager::SCENE_ID::SETTING, true);
 		return;
@@ -248,28 +262,38 @@ void SceneTitle::DrawButton(ButtonInfo button)
 		static_cast<int>(((button.rect.topScreen + button.rect.bottomScreen) / 2))
 	};
 	DrawOutLine(button.rect, button.state);
-	//ƒ{ƒ^ƒ“‚ÌƒeƒLƒXƒg•`‰æ
-	DrawRotaGraph(center.x, center.y, 1.0f, 0.0f, button.imageHandle, true);
+	//ãƒœã‚¿ãƒ³ã®ãƒ†ã‚­ã‚¹ãƒˆæç”»
+	auto& resourceManager = ResourceManager::GetInstance();
+	const auto& resource = resourceManager.GetFontResource(button.drawStrigInfo.fontKey).lock();
+	//ãƒ•ã‚©ãƒ³ãƒˆã®ã‚µã‚¤ã‚ºã‚’å–å¾—
+	int size = resource->GetSize();
+	//ãƒ•ã‚©ãƒ³ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—
+	int fontHandle = resource->GetHandleId();
+	int col = ColorUtility::ColorChange(buttonTextColor_[button.state]);
+	std::string str = button.drawStrigInfo.drawString["Japanese"];
+	//æ–‡å­—åˆ—ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
+	int width = GetDrawStringWidthToHandle(str.c_str(), static_cast<int>(str.size()), fontHandle);
+	DrawStringToHandle(center.x - width / 2, center.y - size / 2, str.c_str(), col, fontHandle);
 }
 
 void SceneTitle::DrawOutLine(Rect rect, ButtonState state)
 {
-	//F‚ğ•ÏŠ·‚·‚é
+	//è‰²ã‚’å¤‰æ›ã™ã‚‹
 	int black = ColorUtility::ColorChange(blackInfo_.color);
 	int light = ColorUtility::ColorChange(lightInfo_.color);
 	int dark = ColorUtility::ColorChange(darkInfo_.color);
 	int back = ColorUtility::ColorChange(buttonBackColor_[state]);
 
-	//À•W•ÔŠÒ
+	//åº§æ¨™è¿”é‚„
 
-	//‘åŠO‚Ì•‚ğ•`‰æ
+	//å¤§å¤–ã®é»’ã‚’æç”»
 	DrawBoxAA(rect.leftScreen, rect.topScreen, rect.rightScreen, rect.bottomScreen, black, false, blackInfo_.thickness);
-	//‚¤‚¿‚Ì–¾‚é‚¢•”•ª‚ğ•`‰æ
+	//ã†ã¡ã®æ˜ã‚‹ã„éƒ¨åˆ†ã‚’æç”»
 	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.rightScreen - 1, rect.topScreen + 1, light, lightInfo_.thickness);
 	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.leftScreen + 1, rect.bottomScreen - 1, light, lightInfo_.thickness);
-	//‚¤‚¿‚ÌˆÃ‚¢•”•ª‚ğ•`‰æ
+	//ã†ã¡ã®æš—ã„éƒ¨åˆ†ã‚’æç”»
 	DrawLine(rect.leftScreen + 1, rect.bottomScreen - 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
 	DrawLine(rect.rightScreen - 1, rect.topScreen + 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
-	//”wŒiF‚Ì•`‰æ
+	//èƒŒæ™¯è‰²ã®æç”»
 	DrawBox(rect.leftScreen + 2, rect.topScreen + 2, rect.rightScreen - 2, rect.bottomScreen - 2, back, true);
 }

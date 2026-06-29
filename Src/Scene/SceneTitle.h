@@ -6,27 +6,27 @@ class SceneTitle: public SceneBase
 {
 public:
 
-	//ƒƒ“ƒo[ŠÖ”
+	//ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°
 	//-----------------------------------------------------------
 	SceneTitle(void);
 
 	~SceneTitle(void) override;
 
-	//‰Šú‰»ˆ—(‰‰ñ‚Ì1“x‚Ì‚İÀs‚³‚ê‚é)
+	//åˆæœŸåŒ–å‡¦ç†(åˆå›ã®1åº¦ã®ã¿å®Ÿè¡Œã•ã‚Œã‚‹)
 	bool Init(void)override;
 
-	//XVˆ—
+	//æ›´æ–°å‡¦ç†
 	void Update(void) override;
 
-	//•`‰æˆ—
+	//æç”»å‡¦ç†
 	void Draw(void) override;
 
-	//ƒ[ƒh
+	//ãƒ­ãƒ¼ãƒ‰
 	void Load(void)override;
 
 private:
 
-	//lŠp
+	//å››è§’
 	struct Rect
 	{
 		float leftPer;
@@ -39,24 +39,33 @@ private:
 		int bottomScreen;
 	};
 
-	//ƒ{ƒ^ƒ“‚Ìó‘Ô
+	//ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹
 	enum class ButtonState
 	{
-		NORMAL,	//’Êí
-		SELECT,	//‘I‘ğ’†
-		PRESS,	//Œˆ’è
+		NORMAL,	//é€šå¸¸
+		SELECT,	//é¸æŠä¸­
+		PRESS,	//æ±ºå®š
 	};
 
-	//ƒ{ƒ^ƒ“‚Ìî•ñ
+
+	struct DrawStringInfo
+	{
+		std::string fontKey;	//ãƒ•ã‚©ãƒ³ãƒˆã®ã‚­ãƒ¼
+		int fonthandle;			//ãƒ•ã‚©ãƒ³ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ID
+		std::map<std::string, std::string> drawString;	//è¨€èªã”ã¨ã®æç”»æ–‡å­—
+	};
+
+	//ãƒœã‚¿ãƒ³ã®æƒ…å ±
 	struct ButtonInfo
 	{
-		ButtonState state = ButtonState::NORMAL;	//ó‘Ô
-		std::string name = "";	//–¼‘O
-		std::string imageKey = "";	//‰æ‘œ‚ÌƒL[
-		std::string nextScene = "";	//Ÿ‚ÌƒV[ƒ“
-		int imageHandle = -1;	//‰æ‘œ‚Ìƒnƒ“ƒhƒ‹
-		Rect rect;			//lŠp‚Ìî•ñ
-		int selectIndex = -1;	//”z—ñ”Ô†
+		ButtonState state = ButtonState::NORMAL;	//çŠ¶æ…‹
+		std::string name = "";	//åå‰
+		//std::string imageKey = "";	//ç”»åƒã®ã‚­ãƒ¼
+		DrawStringInfo drawStrigInfo;	//æç”»ã™ã‚‹æ–‡å­—ã®æƒ…å ±
+		std::string nextScene = "";	//æ¬¡ã®ã‚·ãƒ¼ãƒ³
+		//int imageHandle = -1;	//ç”»åƒã®ãƒãƒ³ãƒ‰ãƒ«
+		Rect rect;			//å››è§’ã®æƒ…å ±
+		int selectIndex = -1;	//é…åˆ—ç•ªå·
 		int layer = -1;
 	};
 
@@ -71,32 +80,32 @@ private:
 
 	struct OutLineInfo
 	{
-		VECTOR color = {};	//F
-		float thickness =  -1.0f;	//‘¾‚³
+		VECTOR color = {};	//è‰²
+		float thickness =  -1.0f;	//å¤ªã•
 	};
 
-	//ƒ{ƒ^ƒ“”wŒiF
+	//ãƒœã‚¿ãƒ³èƒŒæ™¯è‰²
 	std::map<ButtonState, VECTOR> buttonBackColor_;
-	//ƒ{ƒ^ƒ“ƒeƒLƒXƒgF
+	//ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆè‰²
 	std::map<ButtonState, VECTOR> buttonTextColor_;
 
-	//ƒ{ƒ^ƒ“‚Ìî•ñ
+	//ãƒœã‚¿ãƒ³ã®æƒ…å ±
 	std::vector<ButtonInfo> buttonInfo_;
 
-	//ƒƒS‚Ìî•ñ
+	//ãƒ­ã‚´ã®æƒ…å ±
 	std::vector<LogoInfo> logoInfo_;
 
 	int maxLayerNum_;
 	
 
-	//ƒAƒEƒgƒ‰ƒCƒ“‚ÌF
+	//ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã®è‰²
 	OutLineInfo blackInfo_;
 	OutLineInfo lightInfo_;
 	OutLineInfo darkInfo_;
 
 	nlohmann::json json_;
 
-	//Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é‚à‚Ì
+	//ç¾åœ¨é¸æŠã•ã‚Œã¦ã„ã‚‹ã‚‚ã®
 	int selectIndex_;
 
 	void LoadJson(void);
@@ -104,14 +113,14 @@ private:
 	void LoadLogo(void);
 	void LoadColor(void);
 	void LoadButton(void);
-
-	//ƒŒƒCƒ„[‚É‘Î‰‚·‚éƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
+	DrawStringInfo LoadDrawStringInfo(nlohmann::json stringJson);
+	//ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å¯¾å¿œã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
 	std::vector<ButtonInfo> GetButtonInfoToLayer(int layerNum);
 	std::vector<LogoInfo> GetLogoInfoToLayer(int layerNum);
 
 	void ChangeScene(void);
 
-	//ƒ{ƒ^ƒ“‚ÌDraw
+	//ãƒœã‚¿ãƒ³ã®Draw
 	void DrawOutLine(Rect rect, ButtonState state);
 	void DrawButton(ButtonInfo button);
 };
