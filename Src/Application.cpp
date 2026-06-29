@@ -46,6 +46,9 @@ void Application::Init(void)
 	// ウィンドウサイズ
 	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 32);
 	ChangeWindowMode(true);
+
+	SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
+
 	fpsController_ = std::make_unique<FpsController>(60.0f);
 
 	// DxLibの初期化

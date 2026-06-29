@@ -136,7 +136,7 @@ std::weak_ptr<ShaderResource> ResourceManager::GetShaderResource(const std::stri
 std::weak_ptr<FontResource> ResourceManager::GetFontResource(const std::string& key)
 {
 	auto resource = GetResource(key);
-	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::SHADER)
+	if (resource == nullptr || resource->GetResourceType() != Resource::TYPE::FONT)
 	{
 		return std::weak_ptr<FontResource>();
 	}

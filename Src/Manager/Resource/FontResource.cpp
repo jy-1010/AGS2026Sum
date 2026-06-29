@@ -5,9 +5,9 @@ FontResource::FontResource(nlohmann::json json) : Resource(json)
 	LoadResourceInfo();
 	if (IsPreLoad())
 	{
-		SetUseASyncLoadFlag(true);
+		//SetUseASyncLoadFlag(true);
 		Load();
-		SetUseASyncLoadFlag(false);
+		//SetUseASyncLoadFlag(false);
 	}
 }
 
@@ -39,6 +39,11 @@ bool FontResource::Load(void)
 	return true;
 }
 
+bool FontResource::IsLoaded(void) const
+{
+	return handleId_ != -1;
+}
+
 void FontResource::LoadResourceInfo(void)
 {
 	Init();
@@ -54,4 +59,5 @@ void FontResource::Init(void)
 	thick_ = DEFAULT_THICK;
 	handleId_ = -1;
 	isLoadError_ = false;
+	resourceType_ = TYPE::FONT;
 }

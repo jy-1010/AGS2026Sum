@@ -16,9 +16,13 @@ public:
 	// ハンドルIDを取得する
 	const int GetHandleId(void) const { return handleId_; }
 
+	// ロードされているか
+	bool IsLoaded(void) const override;
+
 	//ロードエラーがあるか　あればtrue
 	bool IsLoadError(void) { return isLoadError_; }
 
+	const int GetSize(void) { return size_; }
 private:
 
 	bool isLoadError_;
