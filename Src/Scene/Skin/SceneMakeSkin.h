@@ -28,6 +28,13 @@ private:
 
 	static constexpr int UI_OFFSET_X = 30;
 
+	static constexpr int HsvRingPosX = 900;
+	static constexpr int HsvRingPosY = 552;
+	static constexpr int SvAreaPosX = 867;
+	static constexpr int SvAreaPosY = 518;
+
+	static constexpr int flashing = 250;
+
 	std::shared_ptr<Polygon2DMaterial>canvasMaterial_;
 	std::shared_ptr<Polygon2DRenderer>canvasRenderer_;
 	Polygon2DRenderer::PolygonInfo canvasPolygonInfo_;

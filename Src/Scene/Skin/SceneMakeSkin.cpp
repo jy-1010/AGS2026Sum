@@ -69,12 +69,12 @@ bool SceneMakeSkin::Init(void)
 		offset_.y);
 
 	hsvRing_->SetPosition(
-		900,
-		552);
+		HsvRingPosX,
+		HsvRingPosY);
 
 	svArea_->SetPosition(
-		867,
-		518);
+		SvAreaPosX,
+		SvAreaPosY);
 
 	return true;
 }
@@ -297,6 +297,7 @@ void SceneMakeSkin::Draw(void)
 
 
 	DrawString(offset_.x * 2, offset_.y / 4, "右クリック：スポイト", GetColor(255, 255, 255));
+	DrawString(offset_.x , offset_.y / 2, "Q/E : ペンサイズ変更", GetColor(255, 255, 255));
 
 	if (paintTool_->IsPen())
 	{
@@ -356,7 +357,7 @@ void SceneMakeSkin::Draw(void)
 			size * SkinRenderer::PIXEL_SIZE;
 
 		bool blink =
-			(GetNowCount() / 250) % 2 == 0;
+			(GetNowCount() / flashing) % 2 == 0;
 
 		if (blink)
 		{
