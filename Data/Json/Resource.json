@@ -24,6 +24,13 @@
       "Preload": true
     },
 
+    "EnemyDragonModel": {
+      "Type": "Model",
+      "Path": "Model/Enemy/Dragon/Dragon.mv1",
+      "Preload": true
+    },
+
+
     "BlocksJson": {
       "Type": "Json",
       "Path": "Json/Blocks.json",
@@ -66,9 +73,22 @@
       "Preload": true
     },
 
+    "EnemyDragonJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/EnemyDragon.json",
+      "Preload": true
+    },
+
+    "EnemyDragonAttackJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/EnemyDragonAttack.json",
+      "Preload": true
+    },
+
+
     "ToolsJson": {
       "Type": "Json",
-      "Path": "Json/Tools.json",
+      "Path": "Json/Tool/Tools.json",
       "Preload": true
     },
 

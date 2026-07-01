@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\Dragon.cpp" />
     <ClCompile Include="Src\Manager\Resource\FontResource.cpp" />
     <ClCompile Include="Src\Object\Common\Geometry\AABB.cpp" />
     <ClCompile Include="Src\Object\Stage\Chunk.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\Dragon.h" />
     <ClInclude Include="Src\Manager\Resource\FontResource.h" />
     <ClInclude Include="Src\Object\Common\Geometry\AABB.h" />
     <ClInclude Include="Src\Object\Stage\Chunk.h" />
