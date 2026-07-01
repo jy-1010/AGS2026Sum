@@ -1,0 +1,89 @@
+{
+  "StartId": 1,
+
+  "Pattern": [
+    {
+      "Id": 1,
+      "Name": "FlyMove",
+      "Duration": 5,
+      "Next": [
+        {
+          "Id": 1,
+          "Weight": 50
+        },
+        {
+          "Id": 2,
+          "Weight": 30
+        },
+        {
+          "Id": 3,
+          "Weight": 20
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "FlyMoveBreathAttack",
+      "Duration": 3,
+      "Next": [
+        {
+          "Id": 1,
+          "Weight": 80
+        },
+        {
+          "Id": 3,
+          "Weight": 20
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Name": "Landing",
+      "Duration": 10,
+      "Next": [
+        {
+          "Id": 3,
+          "Weight": 80
+        },
+        {
+          "Id": 4,
+          "Weight": 10
+        },
+        {
+          "Id": 5,
+          "Weight": 10
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Name": "LandingAttack",
+      "Duration": 3,
+      "Next": [
+        {
+          "Id": 3,
+          "Weight": 90
+        },
+        {
+          "Id": 5,
+          "Weight": 10
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "Name": "TakeFlight",
+      "Duration": 10,
+      "Next": [
+        {
+          "Id": 1,
+          "Weight": 90
+        },
+        {
+          "Id": 2,
+          "Weight": 10
+        }
+      ]
+    }
+  ]
+}

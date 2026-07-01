@@ -1,0 +1,12 @@
+{
+  "DefaultScale": 1.0,
+
+  "Status": {
+    "Health": 100.0,
+    "MaxHealth": 100.0
+  },
+
+  "Model": "EnemyDragonModel",
+
+  "AttackPattern": "EnemyDragonAttackJson"
+}

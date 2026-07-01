@@ -30,7 +30,7 @@ public:
 	/// デストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	~Player(void);
+	~Player(void)override;
 
 	/// <summary>
 	/// 初期化
