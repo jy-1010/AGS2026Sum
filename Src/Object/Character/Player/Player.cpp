@@ -131,7 +131,10 @@ void Player::UpdateMove(void)
 	auto stick2D = (keycon.GetKnockLStickSize(KeyConfig::JOYPAD_NO::PAD1));
 	if (stick2D.x == 0.0f && stick2D.y == 0.0f)
 	{
-		SetAnimation("Idle", true);
+		if (!model_->IsAnimIdle())
+		{
+			SetAnimation("Idle", true);
+		}
 		return;
 	}
 	SetAnimation("Walk", false);

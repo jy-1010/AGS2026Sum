@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Character\CharacterModelBase.cpp" />
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\DragonModel.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Dragon.cpp" />
     <ClCompile Include="Src\Manager\Resource\FontResource.cpp" />
     <ClCompile Include="Src\Object\Common\Geometry\AABB.cpp" />
@@ -98,6 +100,8 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Character\CharacterModelBase.h" />
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\DragonModel.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Dragon.h" />
     <ClInclude Include="Src\Manager\Resource\FontResource.h" />
     <ClInclude Include="Src\Object\Common\Geometry\AABB.h" />
@@ -193,6 +197,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Src\Shader\Model\DragonPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Src\Shader\Model\DragonVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

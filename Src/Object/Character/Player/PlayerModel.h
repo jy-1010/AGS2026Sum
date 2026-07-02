@@ -1,14 +1,10 @@
 #pragma once
-#include <string>
-#include <memory>
-#include <vector>
-#include "../../../Lib/nlohmann/json.hpp"
-#include "../../../Renderer/Polygon3DRenderer.h"
-#include "../../../Common/Vector.h"
+#include "../CharacterModelBase.h"
+#include "../../Renderer/Polygon3DRenderer.h"
 
 class PlayerAnimationManager;
 
-class PlayerModel
+class PlayerModel : public CharacterModelBase
 {
 public:
 
@@ -18,13 +14,6 @@ public:
 		bool isRot = false;
 		bool isPos = false;
 		const bool IsAffect(void)const { return isRot || isPos; }
-	};
-
-	//シェーダー情報
-	struct ShaderInfo
-	{
-		std::string VSKey;	// 頂点シェーダーのリソースキー
-		std::string PSKey;	// ピクセルシェーダーのリソースキー
 	};
 
 	//キューブ情報
@@ -62,31 +51,31 @@ public:
 	/// デストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	~PlayerModel(void);
+	~PlayerModel(void)override;
 
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
 	/// <param name=""></param>
-	void Init(void);
+	void Init(void)override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
 	/// <param name=""></param>
-	void Update(void);
+	void Update(void)override;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
 	/// <param name=""></param>
-	void Draw(void);
+	void Draw(void)override;
 
 	/// <summary>
 	/// UIの描画処理
 	/// </summary>
 	/// <param name=""></param>
-	void UIDraw(void);
+	void UIDraw(void)override;
 
 	/// <summary>
 	/// スキンのハンドルを適用
@@ -109,24 +98,22 @@ public:
 	/// <param name="scale">大きさ</param>
 	void ApplayVertexPos(VECTOR pos, VECTOR rot,float scale);
 	
+	/// <summary>
+	/// アイドルアニメーションを再生中かどうか
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	bool IsAnimIdle(void)const;
+
 private:
 	//アニメーションマネージャー
 	std::unique_ptr<PlayerAnimationManager> animationManager_;
-
-	//アニメーションのkey
-	std::string animationKey_;
 
 	//ピクセル数
 	int pixelNum_;
 
 	//スキンのハンドル
 	int skinHandle_;
-
-	//プレイヤーモデルのパラメータ
-	nlohmann::json& params_;
-
-	//モデルの情報
-	nlohmann::json modelInfo_;
 
 	//テクスチャのサイズ
 	FloatVector2 textureSize_;
@@ -148,11 +135,8 @@ private:
 	//ポリゴンレンダラー
 	std::shared_ptr<Polygon3DRenderer> renderer_;
 
-	//シェーダの情報
-	ShaderInfo shaderInfo_;
-
 	//モデルの情報を読み込む
-	void LoadModelInfo(void);
+	void LoadModelInfo(void)override;
 
 	//スキンを読み込む
 	void LoadSkin(std::string skinName);
@@ -161,7 +145,7 @@ private:
 	void MakePokygonInfo(void);
 
 	//シェーダの情報を設定する
-	void SetRendererInfo(void);
+	void SetRendererInfo(void)override;
 
 	//座標を適用
 	void ApplyPosition(VECTOR pos);

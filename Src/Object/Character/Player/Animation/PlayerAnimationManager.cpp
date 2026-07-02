@@ -46,16 +46,27 @@ void PlayerAnimationManager::SetAnimation(std::string name)
 		//すでにアニメーションがセットされている場合は何もしない
 		return;
 	}
+	std::vector<std::string> eraseNames;
 	for (auto& animationName : animationNames)
 	{
 		//同じレイヤーかつ優先度が同じか低いアニメーションを停止する
-		if (animations[name]->GetLayer() == animations[animationName]->GetLayer() && animations[name]->GetPriority() <= animations[animationName]->GetPriority())
+		if (animations[name]->GetPriority() <= animations[animationName]->GetPriority()&&
+			animations[name]->GetLayer() == animations[animationName]->GetLayer())
 		{
 			return;
 		}
-		else
+		else if (animations[name]->GetLayer() == animations[animationName]->GetLayer())
 		{
-			continue;
+			StopAnimation(animationName);
+			eraseNames.push_back(animationName);
+		}
+	}
+	for (auto& eraseName : eraseNames)
+	{
+		auto iter = std::find(animationNames.begin(), animationNames.end(), eraseName);
+		if (iter != animationNames.end())
+		{
+			animationNames.erase(iter);
 		}
 	}
 	animationNames.push_back(name);

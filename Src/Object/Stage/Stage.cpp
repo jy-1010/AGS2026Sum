@@ -60,6 +60,13 @@ VECTOR Stage::GetPlayerSpawnPos(void)
     return ret;
 }
 
+VECTOR Stage::GetEnemySpawnPos(void)
+{
+    VECTOR ret;
+    ret = IntVector3(jsonInput_.enemySpawnMapPos * blockInfo_->GetSize()).ToVECTOR();
+    return ret;
+}
+
 void Stage::LoadJsonData(void)
 {
     auto& resManager = ResourceManager::GetInstance();

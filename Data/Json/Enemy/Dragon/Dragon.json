@@ -6,7 +6,7 @@
     "MaxHealth": 100.0
   },
 
-  "Model": "EnemyDragonModel",
+  "Model": "EnemyDragonModelJson",
 
   "AttackPattern": "EnemyDragonAttackJson"
 }

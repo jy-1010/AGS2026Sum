@@ -26,8 +26,8 @@
 
     "EnemyDragonModel": {
       "Type": "Model",
-      "Path": "Model/Enemy/Dragon/Dragon.mv1",
-      "Preload": true
+      "Path": "Model/Dragon/Dragon.mv1",
+      "Preload": false
     },
 
 
@@ -75,13 +75,25 @@
 
     "EnemyDragonJson": {
       "Type": "Json",
-      "Path": "Json/Enemy/EnemyDragon.json",
+      "Path": "Json/Enemy/Dragon/Dragon.json",
+      "Preload": true
+    },
+
+    "DragonAnimationJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/DragonAnimation.json",
       "Preload": true
     },
 
     "EnemyDragonAttackJson": {
       "Type": "Json",
-      "Path": "Json/Enemy/EnemyDragonAttack.json",
+      "Path": "Json/Enemy/Dragon/DragonAttack.json",
+      "Preload": true
+    },
+
+    "EnemyDragonModelJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/DragonModel.json",
       "Preload": true
     },
 
@@ -151,6 +163,20 @@
       "ShaderType": "Pixel",
       "Preload": true
     },
+
+    "DragonVS": {
+      "Type": "Shader",
+      "Path": "Shader/DragonVS.cso",
+      "ShaderType": "Vertex",
+      "Preload": true
+    },
+    "DragonPS": {
+      "Type": "Shader",
+      "Path": "Shader/DragonPS.cso",
+      "ShaderType": "Pixel",
+      "Preload": true
+    },
+
     "CanvasPS": {
       "Type": "Shader",
       "Path": "Shader/Canvas.cso",
