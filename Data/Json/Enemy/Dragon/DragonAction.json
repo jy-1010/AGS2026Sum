@@ -13,11 +13,15 @@
         },
         {
           "Id": 2,
-          "Weight": 30
+          "Weight": 20
         },
         {
           "Id": 3,
           "Weight": 20
+        },
+        {
+          "Id": 6,
+          "Weight": 10
         }
       ]
     },
@@ -77,11 +81,30 @@
       "Next": [
         {
           "Id": 1,
-          "Weight": 90
+          "Weight": 80
         },
         {
           "Id": 2,
           "Weight": 10
+        },
+        {
+          "Id": 6,
+          "Weight": 10
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "Name": "PlayerAttack",
+      "Duration": 30,
+      "Next": [
+        {
+          "Id": 1,
+          "Weight": 80
+        },
+        {
+          "Id": 3,
+          "Weight": 20
         }
       ]
     }
