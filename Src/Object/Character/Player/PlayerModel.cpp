@@ -10,7 +10,7 @@
 #include "Skin/Skin.h"
 #include "PlayerModel.h"
 
-PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : params_(params)
+PlayerModel::PlayerModel(std::string skinName, nlohmann::json& params) : CharacterModelBase(params)
 {
 	LoadModelInfo();
 	SetRendererInfo();
@@ -66,6 +66,19 @@ void PlayerModel::ApplayVertexPos(VECTOR pos, VECTOR rot,float scale)
 	ApplyScale(scale);
 	ApplyRotation(rot);
 	ApplyPosition(pos);
+}
+
+bool PlayerModel::IsAnimIdle(void) const
+{
+	auto& current = animationManager_->GetCurrentAnimationNames();
+	for (auto& name : current)
+	{
+		if (name == "Idle")
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void PlayerModel::LoadModelInfo(void)

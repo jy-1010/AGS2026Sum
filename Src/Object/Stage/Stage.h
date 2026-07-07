@@ -34,6 +34,7 @@ public:
 	void Draw(void) override;
 	void UIDraw(void) override;
 	VECTOR GetPlayerSpawnPos(void);
+	VECTOR GetEnemySpawnPos(void);
 
 	const JsonInput& GetJsonInput(void)const { return jsonInput_; }
 

@@ -10,6 +10,20 @@ ModelMaterial::ModelMaterial(
 	shaderVS_ = LoadVertexShader(
 		(Application::PATH_SHADER + shaderFileNameVS).c_str());
 
+	// ピクセルシェーダのロード
+	shaderPS_ = LoadPixelShader(
+		(Application::PATH_SHADER + shaderFileNamePS).c_str());
+
+	ModelMaterial(shaderVS_, constBufFloat4SizeVS, shaderPS_, constBufFloat4SizePS);
+
+}
+
+ModelMaterial::ModelMaterial(int shaderHandleVS, int constBufFloat4SizeVS, int shaderHandlePS, int constBufFloat4SizePS)
+{
+
+	// 頂点シェーダのロード
+	shaderVS_ = shaderHandleVS;
+
 	// 頂点定数バッファの確保サイズ(FLOAT4をいくつ作るか)
 	constBufFloat4SizeVS_ = constBufFloat4SizeVS;
 
@@ -19,8 +33,7 @@ ModelMaterial::ModelMaterial(
 
 
 	// ピクセルシェーダのロード
-	shaderPS_ = LoadPixelShader(
-		(Application::PATH_SHADER + shaderFileNamePS).c_str());
+	shaderPS_ = shaderHandlePS;
 
 	// ピクセル定数バッファの確保サイズ(FLOAT4をいくつ作るか)
 	constBufFloat4SizePS_ = constBufFloat4SizePS;
@@ -32,7 +45,6 @@ ModelMaterial::ModelMaterial(
 
 	// テクスチャアドレス
 	texAddress_ = TEXADDRESS::CLAMP;
-
 }
 
 void ModelMaterial::AddConstBufVS(const FLOAT4& contBuf)

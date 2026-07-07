@@ -8,6 +8,7 @@
 #include"../Manager/Camera.h"
 #include "../Object/Stage/Stage.h"
 #include "../Object/Character/Player/Player.h"
+#include "../Object/Character/Enemy/Dragon/Dragon.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
 #include "../Object/Item/Block/BlockInfo.h"
 #include"SceneGame.h"
@@ -17,6 +18,8 @@ SceneGame::SceneGame(void)
 	stage_ = std::make_unique<Stage>();
 	player_ = std::make_unique<Player>(SkinManager::GetInstance().GetSelectedSkinName(), stage_->GetBlockSize());
 	player_->SetPos(stage_->GetPlayerSpawnPos());
+	dragon_ = std::make_unique<Dragon>();
+	dragon_->SetPos(stage_->GetEnemySpawnPos());
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	camera.ChangeMode(Camera::MODE::FOLLOW);
 	camera.SetFollow(player_->GetTransform().lock());
@@ -42,7 +45,7 @@ void SceneGame::Update(void)
 	KeyConfig& ins = KeyConfig::GetInstance();
 	player_->Update();
 	stage_->Update();
-
+	dragon_->Update();
 	player_->ApplyVertex();
 }
 
@@ -50,6 +53,7 @@ void SceneGame::Update(void)
 void SceneGame::Draw(void)
 {
 	player_->Draw();
+	dragon_->Draw();
 	stage_->Draw();
 }
 

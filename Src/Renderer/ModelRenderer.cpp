@@ -32,7 +32,7 @@ void ModelRenderer::Draw(void)
 	SetTextureAddressModeUV(texAType, texAType);
 
 	// 描画
-	MV1DrawModel(modelId_);
+	int ret = MV1DrawModel(modelId_);
 
 	// テクスチャアドレスタイプを元に戻す
 	SetTextureAddressModeUV(DX_TEXADDRESS_CLAMP, DX_TEXADDRESS_CLAMP);

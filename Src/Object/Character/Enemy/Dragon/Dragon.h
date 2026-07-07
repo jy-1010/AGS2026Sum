@@ -1,8 +1,19 @@
 #pragma once
 #include "../../../ObjectBase.h"
+
+class DragonModel;
+
 class Dragon :  public ObjectBase
 {
 public:
+
+	struct Param
+	{
+		float DEFAULT_SCALE;	//通常サイズ
+		float MAX_HEALTH;	//最大体力
+		float health;		//体力
+	};
+
 
 	/// <summary>
 	/// コンストラクタ
@@ -47,6 +58,15 @@ public:
 	void SetPos(VECTOR pos) { transform_->pos = pos; }
 
 private:
+
+	//ドラゴンの情報json 
+	nlohmann::json paramsJson_;
+
+	std::unique_ptr<DragonModel> model_;
+
+	Param params_;
+
+	void LoadDragonInfo(void);
 
 };
 
