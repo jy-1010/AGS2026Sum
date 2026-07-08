@@ -105,6 +105,13 @@ public:
 	/// <returns></returns>
 	bool IsAnimIdle(void)const;
 
+	/// <summary>
+	/// 指定のアニメーションが再生中かどうか
+	/// </summary>
+	/// <param name="name">アニメーションの名前</param>
+	/// <returns></returns>
+	bool IsPlayAnim(std::string name)const;
+
 private:
 	//アニメーションマネージャー
 	std::unique_ptr<PlayerAnimationManager> animationManager_;

@@ -82,6 +82,7 @@
     <ClCompile Include="Src\Object\Character\CharacterModelBase.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\DragonAction.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\DragonActionManager.cpp" />
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Src\Object\Character\CharacterModelBase.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\DragonAction.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\DragonActionManager.h" />
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateBase.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

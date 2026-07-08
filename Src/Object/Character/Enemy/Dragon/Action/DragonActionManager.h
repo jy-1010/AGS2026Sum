@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "../../../../Common/Transform.h"
 
 class DragonAction;
 
@@ -14,7 +15,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	DragonActionManager(void);
+	DragonActionManager(std::string key,std::shared_ptr<Transform> transform);
 
 	/// <summary>
 	/// デストラクタ
@@ -48,11 +49,19 @@ public:
 
 private:
 
+	std::weak_ptr<Transform> transform_;
+
+	// アクションの情報jsonのキー
+	std::string key_;
+
 	//アクションのリスト
 	std::map<int,std::shared_ptr<DragonAction>> actions_;
 
 	//現在のアクションのID
-	int currentActionId_;	
+	int currentActionId_;
 
+	std::vector<int> actionData_;
+
+	void LoadJsonData(void);
 };
 

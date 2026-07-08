@@ -37,7 +37,6 @@ void PlayerModel::Update(void)
 void PlayerModel::Draw(void)
 {
 	renderer_->Draw();
-	//DrawGraph(0, 0, skinHandle_, true);
 }
 
 void PlayerModel::UIDraw(void)
@@ -74,6 +73,19 @@ bool PlayerModel::IsAnimIdle(void) const
 	for (auto& name : current)
 	{
 		if (name == "Idle")
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool PlayerModel::IsPlayAnim(std::string name) const
+{
+	auto& current = animationManager_->GetCurrentAnimationNames();
+	for (auto& currentname : current)
+	{
+		if (currentname == name)
 		{
 			return true;
 		}

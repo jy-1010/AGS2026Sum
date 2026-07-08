@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include "../../../../../Lib/nlohmann/json.hpp"
+#include "../../../../Common/Transform.h"
 
 class DragonAction
 {
@@ -22,7 +24,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	DragonAction(void);
+	DragonAction(nlohmann::json jsonData,std::shared_ptr<Transform> transform);
 
 	/// <summary>
 	/// デストラクタ
@@ -54,6 +56,34 @@ public:
 	/// <param name=""></param>
 	void UIDraw(void);
 
+	/// <summary>
+	/// IDを取得する
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	int GetId(void) const { return id_; }
+
+	/// <summary>
+	/// 次のアクションのIDを取得する
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	int GetNextActionId(void) const { return nextActionId_; }
+
+	/// <summary>
+	/// アクションが終了したか
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	bool IsEnd(void) const { return duration_ < time_; }
+
+	/// <summary>
+	/// 名前を取得する
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	std::string GetName(void) { return name_; }
+
 private:
 
 	struct NextActionInfo
@@ -62,6 +92,12 @@ private:
 		int weight;	//次のアクションの重み(優先度)
 		Action nextAction;	//次のアクションの
 	};
+
+	// ドラゴンのトランスフォーム
+	std::weak_ptr<Transform> transform_;
+
+	// アクションの情報json
+	nlohmann::json jsonData_;
 
 	// アクションのID
 	int id_;
@@ -84,8 +120,20 @@ private:
 	// 次のアクションの重みの合計
 	int sumWeight_;	
 
+	//次のアクションのID
+	int nextActionId_;
+
 	// アクションの更新処理
 	std::function<void(void)> updateFunc_;
+
+	// 次のアクションのIDを設定する
+	void SetNextActionId(void);
+
+	// アクションデータを取得する
+	void LoadJsonData(void);
+
+	// アクションの更新処理を設定する
+	void SetUpdateFunc(Action action);
 
 	// 各種アクションの更新処理
 	void UpdateFlyMove(void);

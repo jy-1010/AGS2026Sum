@@ -17,7 +17,7 @@
         },
         {
           "Id": 3,
-          "Weight": 20
+          "Weight": 30
         },
         {
           "Id": 6,
@@ -28,7 +28,7 @@
     {
       "Id": 2,
       "Name": "FlyMoveBreathAttack",
-      "Duration": 3,
+      "Duration": 5,
       "Next": [
         {
           "Id": 1,
@@ -47,15 +47,15 @@
       "Next": [
         {
           "Id": 3,
-          "Weight": 80
+          "Weight": 60
         },
         {
           "Id": 4,
-          "Weight": 10
+          "Weight": 20
         },
         {
           "Id": 5,
-          "Weight": 10
+          "Weight": 20
         }
       ]
     },
