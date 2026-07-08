@@ -1,8 +1,5 @@
 {
   "MoveSpeed": 9.0,
   "RotationSpeed": 360,
-  "Height": 86,
-  "BreathSpeed": 6.0,
-  "BreathFlyTime": 10.0,
-  "BreathDuration": 6.0
+  "Height": 86
 }

@@ -91,6 +91,42 @@
       "Preload": true
     },
 
+    "EnemyDragonActionFlyMoveJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/FlyMove.json",
+      "Preload": true
+    },
+
+    "EnemyDragonActionFlyMoveBreathAttackJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/FlyMoveBreathAttack.json",
+      "Preload": true
+    },
+
+    "EnemyDragonActionLandingJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/Landing.json",
+      "Preload": true
+    },
+
+    "EnemyDragonActionLandingAttackJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/LandingAttack.json",
+      "Preload": true
+    },
+
+    "EnemyDragonActionTakeFlightJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/TakeFlight.json",
+      "Preload": true
+    },
+
+    "EnemyDragonActionPlayerAttackJson": {
+      "Type": "Json",
+      "Path": "Json/Enemy/Dragon/Action/PlayerAttack.json",
+      "Preload": true
+    },
+
     "EnemyDragonModelJson": {
       "Type": "Json",
       "Path": "Json/Enemy/Dragon/DragonModel.json",

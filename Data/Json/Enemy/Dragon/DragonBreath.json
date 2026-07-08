@@ -1,0 +1,8 @@
+{
+  "Speed": 6.0,
+  "FlyTime": 10.0,
+  "Duration": 6.0,
+  "Radius": 5.0,
+  "DrawEffectNum": 30,
+  "EffectImageKey": "BreathAttackImage"
+}

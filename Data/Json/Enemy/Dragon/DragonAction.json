@@ -5,6 +5,7 @@
     {
       "Id": 1,
       "Name": "FlyMove",
+      "Json": "EnemyDragonActionFlyMoveJson",
       "Duration": 5,
       "Next": [
         {
@@ -28,6 +29,7 @@
     {
       "Id": 2,
       "Name": "FlyMoveBreathAttack",
+      "Json": "EnemyDragonActionFlyMoveBreathAttackJson",
       "Duration": 5,
       "Next": [
         {
@@ -43,6 +45,7 @@
     {
       "Id": 3,
       "Name": "Landing",
+      "Json": "EnemyDragonActionLandingJson",
       "Duration": 10,
       "Next": [
         {
@@ -62,6 +65,7 @@
     {
       "Id": 4,
       "Name": "LandingAttack",
+      "Json": "EnemyDragonActionLandingAttackJson",
       "Duration": 3,
       "Next": [
         {
@@ -77,6 +81,7 @@
     {
       "Id": 5,
       "Name": "TakeFlight",
+      "Json": "EnemyDragonActionTakeFlightJson",
       "Duration": 10,
       "Next": [
         {
@@ -96,6 +101,7 @@
     {
       "Id": 6,
       "Name": "PlayerAttack",
+      "Json": "EnemyDragonActionPlayerAttackJson",
       "Duration": 30,
       "Next": [
         {

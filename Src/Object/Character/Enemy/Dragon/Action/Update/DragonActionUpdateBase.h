@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <string>
+#include "../../../../../../Lib/nlohmann/json.hpp"
 #include "../../../../../Common/Transform.h"
 
 class DragonActionUpdateBase
@@ -10,7 +12,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="dragonTrans">ドラゴンのトランスフォーム</param>
-	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans);
+	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans,nlohmann::json json);
 
 	/// <summary>
 	/// デストラクタ
@@ -24,7 +26,12 @@ public:
 	/// <param name=""></param>
 	virtual void Update(void) = 0;
 
-private:
+protected:
+
+	//ドラゴンのトランスフォーム
+	std::weak_ptr<Transform>dragonTrans_;
+
+	// アクション別のJSON
+	nlohmann::json json_;
 
 };
-

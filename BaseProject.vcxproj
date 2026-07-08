@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\Breath\DragonBreath.cpp" />
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateFlyMove.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateBase.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\DragonActionManager.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\DragonAction.cpp" />
@@ -105,6 +107,8 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\Breath\DragonBreath.h" />
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateFlyMove.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateBase.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\DragonActionManager.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\DragonAction.h" />
