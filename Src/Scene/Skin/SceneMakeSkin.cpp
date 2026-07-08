@@ -1,4 +1,5 @@
 #include <DxLib.h>
+#include <algorithm>
 #include "../Application.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/KeyConfig.h"
@@ -355,6 +356,14 @@ void SceneMakeSkin::Draw(void)
 		int bottom =
 			top +
 			size * SkinRenderer::PIXEL_SIZE;
+
+		right = std::min(
+			right,
+			offset_.x + SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
+
+		bottom = std::min(
+			bottom,
+			offset_.y + SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
 
 		bool blink =
 			(GetNowCount() / flashing) % 2 == 0;

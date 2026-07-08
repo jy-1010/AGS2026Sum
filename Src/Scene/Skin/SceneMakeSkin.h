@@ -33,7 +33,7 @@ private:
 	static constexpr int SvAreaPosX = 867;
 	static constexpr int SvAreaPosY = 518;
 
-	static constexpr int flashing = 250;
+	static constexpr int flashing = 400;
 
 	std::shared_ptr<Polygon2DMaterial>canvasMaterial_;
 	std::shared_ptr<Polygon2DRenderer>canvasRenderer_;
