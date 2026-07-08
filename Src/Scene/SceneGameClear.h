@@ -22,5 +22,16 @@ public:
 
 	//ロード
 	void Load(void)override;
+
+private:
+
+	//ボタンの状態
+	enum class ButtonState
+	{
+		NORMAL,	//通常
+		SELECT,	//選択中
+		PRESS,	//決定
+	};
+
 };
 
