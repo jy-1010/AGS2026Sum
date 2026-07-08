@@ -55,6 +55,10 @@ void SceneGame::Draw(void)
 	player_->Draw();
 	dragon_->Draw();
 	stage_->Draw();
+
+	player_->UIDraw();
+	dragon_->UIDraw();
+	stage_->UIDraw();
 }
 
 void SceneGame::DebugDraw(void)

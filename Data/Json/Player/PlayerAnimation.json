@@ -20,6 +20,10 @@
     {
       "Name": "Swing",
       "Path": "Swing.json"
+    },
+    {
+      "Name": "Dash",
+      "Path": "Dash.json"
     }
   ]
 }

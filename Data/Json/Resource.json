@@ -85,9 +85,9 @@
       "Preload": true
     },
 
-    "EnemyDragonAttackJson": {
+    "EnemyDragonActionJson": {
       "Type": "Json",
-      "Path": "Json/Enemy/Dragon/DragonAttack.json",
+      "Path": "Json/Enemy/Dragon/DragonAction.json",
       "Preload": true
     },
 
