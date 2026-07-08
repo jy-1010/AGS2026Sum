@@ -2,6 +2,7 @@
 #include "../../../ObjectBase.h"
 
 class DragonModel;
+class DragonActionManager;
 
 class Dragon :  public ObjectBase
 {
@@ -68,5 +69,6 @@ private:
 
 	void LoadDragonInfo(void);
 
+	std::unique_ptr<DragonActionManager> actionManager_;
 };
 

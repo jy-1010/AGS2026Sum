@@ -84,8 +84,10 @@ void Player::UpdateMove(void)
 
 	//移動量
 	float moveSpeed = 0.0f;
+	bool isDash = false;
 	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PLAYER_MOVE_DASH))
 	{
+		isDash = true;
 		moveSpeed = params_.SPRINT_SPEED * blockSize_ * SceneManager::GetInstance().GetDeltaTime();
 	}
 	else
@@ -123,7 +125,21 @@ void Player::UpdateMove(void)
 		dir = VNorm(dir);
 		transform_->pos = VAdd(transform_->pos, VScale(VNorm(dir), moveSpeed));
 		transform_->rot = CalcRot(dir);
-		SetAnimation("Walk", false);
+		if (isDash)
+		{
+			SetAnimation("Dash", false);
+		}
+		else
+		{
+			if (model_->IsPlayAnim("Walk"))
+			{
+				SetAnimation("Walk", false);
+			}
+			else
+			{
+				SetAnimation("Walk", true);
+			}
+		}
 		return;
 	}
 

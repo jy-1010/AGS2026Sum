@@ -1,6 +1,7 @@
 #include "../../../../Manager/ResourceManager.h"
 #include "../../../../Manager/Resource/JsonResource.h"
 #include "DragonModel.h"
+#include "Action/DragonActionManager.h"
 #include "Dragon.h"
 
 Dragon::Dragon(void)
@@ -8,6 +9,7 @@ Dragon::Dragon(void)
 	LoadDragonInfo();
 	transform_ = std::make_shared<Transform>();
 	model_ = std::make_unique<DragonModel>(transform_, paramsJson_);
+	actionManager_ = std::make_unique<DragonActionManager>(paramsJson_["ActionPattern"],transform_);
 }
 
 Dragon::~Dragon(void)
@@ -20,16 +22,19 @@ void Dragon::Init(void)
 
 void Dragon::Update(void)
 {
+	actionManager_->Update();
 	model_->Update();
 }
 
 void Dragon::Draw(void)
 {
+	actionManager_->Draw();
 	model_->Draw();
 }
 
 void Dragon::UIDraw(void)
 {
+	actionManager_->UIDraw();
 	model_->UIDraw();
 }
 

@@ -8,5 +8,5 @@
 
   "Model": "EnemyDragonModelJson",
 
-  "AttackPattern": "EnemyDragonAttackJson"
+  "ActionPattern": "EnemyDragonActionJson"
 }
