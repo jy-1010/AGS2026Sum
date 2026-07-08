@@ -124,6 +124,7 @@ void SceneMakeSkin::Update(void)
 		colorPicker_->SetColor(
 			quickPalette_->GetSelectedColor());
 	}
+
 	// “ü—ÍŽæ“¾
 	char keys[256];
 	GetHitKeyStateAll(keys);
