@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../Lib/nlohmann/json.hpp"
+#include "../Common/Vector.h"
 #include "Common/Collider.h"
 #include "Common/Transform.h"
 

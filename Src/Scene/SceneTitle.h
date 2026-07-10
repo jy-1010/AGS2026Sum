@@ -123,4 +123,9 @@ private:
 	//ボタンのDraw
 	void DrawOutLine(Rect rect, ButtonState state);
 	void DrawButton(ButtonInfo button);
+
+	//マウスと四角形の当たり判定処理と選択変更
+	bool ColCheckMouse(bool isCheakMove = true);
+
+	void UpdateSelectIndex(void);
 };

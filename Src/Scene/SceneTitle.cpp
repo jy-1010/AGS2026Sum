@@ -3,6 +3,7 @@
 #include "../Application.h"
 #include "../Utility/JsonUtility.h"
 #include "../Utility/ColorUtility.h"
+#include "../Utility/CollisionUtility.h"
 #include "../Manager/Scenemanager.h"
 #include "../Manager/KeyConfig.h"
 #include "../Manager/Camera.h"
@@ -50,21 +51,19 @@ void SceneTitle::Update(void)
 	{
 		selectIndex_++;
 	}
-	selectIndex_ = (selectIndex_ +static_cast<int>(buttonInfo_.size())) % static_cast<int>(buttonInfo_.size());
-	for (auto& button : buttonInfo_)
+	bool isInBox = ColCheckMouse();
+	UpdateSelectIndex();
+	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER_MOUSE) && isInBox)
 	{
-		if (button.selectIndex == selectIndex_)
-		{
-			button.state = ButtonState::SELECT;
-		}
-		else
-		{
-			button.state = ButtonState::NORMAL;
-		}
+		ColCheckMouse(false);
+		UpdateSelectIndex();
+		ChangeScene();
+		return;
 	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
 		ChangeScene();
+		return;
 	}
 }
 //描画処理
@@ -274,6 +273,42 @@ void SceneTitle::DrawButton(ButtonInfo button)
 	//文字列の長さを取得する
 	int width = GetDrawStringWidthToHandle(str.c_str(), static_cast<int>(str.size()), fontHandle);
 	DrawStringToHandle(center.x - width / 2, center.y - size / 2, str.c_str(), col, fontHandle);
+}
+
+bool SceneTitle::ColCheckMouse(bool isCheakMove)
+{
+	KeyConfig& keycon = KeyConfig::GetInstance();
+	IntVector2 mouseMove = keycon.GetMouseMove();
+	IntVector2 mousePos = keycon.GetMousePos();
+	for (auto& button : buttonInfo_)
+	{
+		Rect rect = button.rect;
+		if (CollisionUtility::IsColRect2Point(IntVector2(rect.leftScreen, rect.topScreen), IntVector2(rect.rightScreen, rect.bottomScreen), mousePos))
+		{
+			if ((mouseMove.x != 0 || mouseMove.y != 0)|| !isCheakMove)
+			{
+				selectIndex_ = button.selectIndex;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+void SceneTitle::UpdateSelectIndex(void)
+{
+	selectIndex_ = (selectIndex_ + static_cast<int>(buttonInfo_.size())) % static_cast<int>(buttonInfo_.size());
+	for (auto& button : buttonInfo_)
+	{
+		if (button.selectIndex == selectIndex_)
+		{
+			button.state = ButtonState::SELECT;
+		}
+		else
+		{
+			button.state = ButtonState::NORMAL;
+		}
+	}
 }
 
 void SceneTitle::DrawOutLine(Rect rect, ButtonState state)

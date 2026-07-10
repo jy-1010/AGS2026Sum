@@ -81,6 +81,7 @@ public:
 	enum class CONTROL_TYPE //操作の種類	
 	{
 		ENTER,					//決定
+		ENTER_MOUSE,			//決定マウス
 		CANCEL,					//キャンセル
 
 		OPEN_MENU,				//メニューを開く

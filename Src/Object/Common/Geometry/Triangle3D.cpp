@@ -1,4 +1,5 @@
 #include "../../Utility/Utility.h"
+#include "../../Utility/CollisionUtility.h"
 #include "Sphere.h"
 #include "Capsule.h"
 #include "Line3D.h"
@@ -34,7 +35,7 @@ const bool Triangle3D::IsHit(Sphere& _sphere, VECTOR& _hitPos)
 {
 	VECTOR pos = _sphere.GetPos();
 	float radius = _sphere.GetRadius();
-	bool ret = Utility::IsColSphere2Triangle(pos, radius, pos1_, pos2_, pos3_, _hitPos);
+	bool ret = CollisionUtility::IsColSphere2Triangle(pos, radius, pos1_, pos2_, pos3_, _hitPos);
 	return ret;
 }
 
@@ -47,7 +48,7 @@ const bool Triangle3D::IsHit(Line3D& _line, VECTOR& _hitPos)
 {
 	VECTOR pos1 = _line.GetPos1();
 	VECTOR pos2 = _line.GetPos2();
-	bool ret = Utility::IsColTriangle2Line(pos1_, pos2_, pos3_, pos1, pos2, _hitPos);
+	bool ret = CollisionUtility::IsColTriangle2Line(pos1_, pos2_, pos3_, pos1, pos2, _hitPos);
 	return ret;
 }
 

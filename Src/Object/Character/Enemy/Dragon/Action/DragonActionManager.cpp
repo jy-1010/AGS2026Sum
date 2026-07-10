@@ -1,12 +1,15 @@
 #include "../../../../../Manager/ResourceManager.h"
 #include "../../../../../Manager/Resource/JsonResource.h"
+#include "../../../Player/Player.h"
+#include "../Breath/DragonBreath.h"
 #include "DragonAction.h"
 #include "DragonActionManager.h"
 
-DragonActionManager::DragonActionManager(std::string key,std::shared_ptr<Transform> transform)
+DragonActionManager::DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player):player_(player)
 {
 	key_ = key;
 	transform_ = transform;
+	breath_ = std::make_unique<DragonBreath>();
 	actionData_.clear();
 	LoadJsonData();
 }
@@ -38,6 +41,7 @@ void DragonActionManager::Draw(void)
 
 void DragonActionManager::UIDraw(void)
 {
+	//行動パターンの描画
 	const int OFFSET = 10;
 	const int SIZE_Y = 20;
 	int size = static_cast<int>(actionData_.size());
@@ -45,6 +49,11 @@ void DragonActionManager::UIDraw(void)
 	{
 		DrawString(OFFSET, i * SIZE_Y + OFFSET, actions_[actionData_[i]]->GetName().c_str(), 0xffffff);
 	}
+}
+
+void DragonActionManager::CreateBreath(void)
+{
+	breath_->CreateBreath(transform_.lock()->pos, player_.GetTransform().lock()->pos);
 }
 
 void DragonActionManager::LoadJsonData(void)

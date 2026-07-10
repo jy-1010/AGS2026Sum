@@ -3,6 +3,7 @@
 
 class DragonModel;
 class DragonActionManager;
+class Player;
 
 class Dragon :  public ObjectBase
 {
@@ -20,7 +21,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	Dragon(void);
+	Dragon(const Player& player, float blockSize = -1.0f);
 
 	/// <summary>
 	/// デストラクタ
@@ -59,6 +60,12 @@ public:
 	void SetPos(VECTOR pos) { transform_->pos = pos; }
 
 private:
+	
+	//１ブロックの大きさ
+	float blockSize_;
+
+	// プレイヤー
+	const Player& player_;
 
 	//ドラゴンの情報json 
 	nlohmann::json paramsJson_;

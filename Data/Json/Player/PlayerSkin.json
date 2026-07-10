@@ -1,24 +1,40 @@
 {
-    "Default": "Steve",
-    "Info": [
-        {
-            "Name": "Steve",
-            "Path": "Steve.png"
-        },
-        {
-            "Name": "Alex",
-            "Path": "Alex.png"
-        },
-        {
-            "Name": "PigMan",
-            "Path": "PigMan.png"
-        },
-        {
-            "Name": "Chicken",
-            "Path": "Chicken.png"
-        }
-    ],
-    "Preload": true,
-    "RootPath": "Image/PlayerSkin/",
-    "Type": "Image"
+  "Default": "Steve",
+  "Info": [
+    {
+      "Name": "Steve",
+      "Path": "Steve.png"
+    },
+    {
+      "Name": "Alex",
+      "Path": "Alex.png"
+    },
+    {
+      "Name": "PigMan",
+      "Path": "PigMan.png"
+    },
+    {
+      "Name": "Chicken",
+      "Path": "Chicken.png"
+    },
+    {
+      "Name": "EnderMan",
+      "Path": "EnderMan.png"
+    },
+    {
+      "Name": "Zangief",
+      "Path": "Zangief.png"
+    },
+    {
+      "Name": "Zombie",
+      "Path": "Zombie.png"
+    },
+    {
+      "Name": "Ikeda",
+      "Path": "Ikeda.png"
+    }
+  ],
+  "Preload": true,
+  "RootPath": "Image/PlayerSkin/",
+  "Type": "Image"
 }

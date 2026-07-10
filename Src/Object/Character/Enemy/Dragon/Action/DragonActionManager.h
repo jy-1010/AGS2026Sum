@@ -6,6 +6,8 @@
 #include "../../../../Common/Transform.h"
 
 class DragonAction;
+class DragonBreath;
+class Player;
 
 class DragonActionManager
 {
@@ -15,7 +17,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	DragonActionManager(std::string key,std::shared_ptr<Transform> transform);
+	DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player);
 
 	/// <summary>
 	/// デストラクタ
@@ -47,15 +49,28 @@ public:
 	/// <param name=""></param>
 	void UIDraw(void);
 
+	/// <summary>
+	/// ブレスを作成する
+	/// </summary>
+	/// <param name=""></param>
+	void CreateBreath(void);
+
 private:
 
+	//ドラゴンの情報
 	std::weak_ptr<Transform> transform_;
+
+	//プレイヤー
+	const Player& player_;
 
 	// アクションの情報jsonのキー
 	std::string key_;
 
 	//アクションのリスト
 	std::map<int,std::shared_ptr<DragonAction>> actions_;
+
+	//ブレス
+	std::unique_ptr<DragonBreath> breath_;
 
 	//現在のアクションのID
 	int currentActionId_;

@@ -1,4 +1,5 @@
 #include "../../Utility/Utility.h"
+#include "../../Utility/CollisionUtility.h"
 #include "Sphere.h"
 #include "Capsule.h"
 #include "Line3D.h"
@@ -56,7 +57,7 @@ const bool Cylinder::IsHit(Cylinder& _circle, VECTOR& _hitPos)
 {
 	VECTOR pos = _circle.GetPos();
 	float radius = _circle.GetRadius();
-	bool ret =Utility::IsColCylinder2Cylinder(pos_, radius_, pos, radius, _hitPos);
+	bool ret = CollisionUtility::IsColCylinder2Cylinder(pos_, radius_, pos, radius, _hitPos);
 	return ret;
 }
 
