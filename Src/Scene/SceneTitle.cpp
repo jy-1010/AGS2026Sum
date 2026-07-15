@@ -18,6 +18,7 @@ SceneTitle::SceneTitle(void)
 {
 	auto& resManager = ResourceManager::GetInstance();
 	auto titleJson = resManager.GetJsonResource("TitleJson");
+	time_ = 0.0f;
 	selectIndex_ = 0;
 	maxLayerNum_ = -1;
 	json_ = titleJson.lock()->GetData();
@@ -42,6 +43,7 @@ void SceneTitle::Update(void)
 	{
 		return;
 	}
+	time_ += SceneManager::GetInstance().GetDeltaTime();
 	auto& keyConfig = KeyConfig::GetInstance();
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::SELECT_UP, KeyConfig::JOYPAD_NO::PAD1))
 	{
@@ -84,6 +86,11 @@ void SceneTitle::Draw(void)
 		{
 			DrawButton(button);
 		}
+		auto virsions = GetVirsionInfoToLayer(i);
+		for (auto& virsion : virsions)
+		{
+			DrawVirsion(virsion);
+		}
 	}
 }
 
@@ -100,6 +107,7 @@ void SceneTitle::LoadJson(void)
 {
 	LoadLogo();
 	LoadColor();
+	LoadVirsion();
 	LoadButton();
 }
 
@@ -174,6 +182,32 @@ void SceneTitle::LoadButton(void)
 	}
 }
 
+void SceneTitle::LoadVirsion(void)
+{
+	auto& virsionsJson = json_["Virsion"];
+	//ボタンの情報
+	for (int i = 0; i < virsionsJson["List"].size();i++)
+	{
+		VirsionInfo info;
+		auto& virsionJson = virsionsJson["List"][i];
+		info.virsion = virsionJson["Virsion"];
+		info.drawStrigInfo = LoadDrawStringInfo(virsionJson["String"]);
+		info.color = JsonUtility::GetColorFloat(virsionJson["Color"]);
+		info.edgeColor = JsonUtility::GetColorFloat(virsionJson["EdgeColor"]);
+		info.layer = virsionJson["Layer"];
+		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
+		info.sizeMin = virsionJson["Size"]["Min"];
+		info.sizeMax = virsionJson["Size"]["Max"];
+		info.sizeChangeRate = virsionJson["Size"]["ChangeRate"];
+		info.rotation = Utility::Deg2RadF(virsionJson["Rotation"]);
+
+		info.centerPos = JsonUtility::GetPosTo2D(virsionJson["CenterPos"]);
+		info.centerPosScreen.x = info.centerPos.x * Application::SCREEN_SIZE_X;
+		info.centerPosScreen.y = info.centerPos.y * Application::SCREEN_SIZE_Y;
+		virsionInfo_.push_back(info);
+	}
+}
+
 SceneTitle::DrawStringInfo SceneTitle::LoadDrawStringInfo(nlohmann::json stringJson)
 {
 	DrawStringInfo ret;
@@ -207,6 +241,19 @@ std::vector<SceneTitle::LogoInfo> SceneTitle::GetLogoInfoToLayer(int layerNum)
 		if (logo.layer = layerNum)
 		{
 			ret.push_back(logo);
+		}
+	}
+	return ret;
+}
+
+std::vector<SceneTitle::VirsionInfo> SceneTitle::GetVirsionInfoToLayer(int layerNum)
+{
+	std::vector<VirsionInfo>ret;
+	for (auto& virsion : virsionInfo_)
+	{
+		if (virsion.layer = layerNum)
+		{
+			ret.push_back(virsion);
 		}
 	}
 	return ret;
@@ -273,6 +320,25 @@ void SceneTitle::DrawButton(ButtonInfo button)
 	//文字列の長さを取得する
 	int width = GetDrawStringWidthToHandle(str.c_str(), static_cast<int>(str.size()), fontHandle);
 	DrawStringToHandle(center.x - width / 2, center.y - size / 2, str.c_str(), col, fontHandle);
+}
+
+void SceneTitle::DrawVirsion(VirsionInfo virsion)
+{
+	auto& resourceManager = ResourceManager::GetInstance();
+	const auto& resource = resourceManager.GetFontResource(virsion.drawStrigInfo.fontKey).lock();
+	//フォントのサイズを取得
+	//フォントのハンドルを取得
+	int fontHandle = resource->GetHandleId();
+	//色を取得
+	int col = ColorUtility::ColorChange(virsion.color);
+	int edgeCol = ColorUtility::ColorChange(virsion.edgeColor);
+	std::string str = virsion.drawStrigInfo.drawString["Japanese"] + virsion.virsion;
+	//float sizeRate = sin(time_) * ((virsion.sizeMax - virsion.sizeMin) / (1.0f - -1.0f)) + (virsion.sizeMax - virsion.sizeMin) / 2;
+	float sizeRate = virsion.sizeMin + (virsion.sizeMax - virsion.sizeMin) * ((sinf(time_* virsion.sizeChangeRate) + 1.0f) * 0.5f);
+	float width = GetDrawStringWidthToHandle(str.c_str(), static_cast<int>(str.size()), fontHandle);
+	float size = resource->GetSize();
+	//DrawRotaStringToHandle(center.x - width / 2, center.y - size / 2, sizeRate,sizeRate,center.x,center.y,virsion.rotation,col,fontHandle,col,true, str.c_str());
+	DrawRotaStringToHandle(virsion.centerPosScreen.x, virsion.centerPosScreen.y, sizeRate, sizeRate,width * 0.5,size * 0.5, virsion.rotation, col, fontHandle, edgeCol, false, str.c_str());
 }
 
 bool SceneTitle::ColCheckMouse(bool isCheakMove)

@@ -4,6 +4,8 @@
 #include "../../../../../../Lib/nlohmann/json.hpp"
 #include "../../../../../Common/Transform.h"
 
+class DragonAction;
+
 class DragonActionUpdateBase
 {
 public:
@@ -12,7 +14,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="dragonTrans">ドラゴンのトランスフォーム</param>
-	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans,nlohmann::json json);
+	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans,nlohmann::json json,std::weak_ptr<DragonAction>parent);
 
 	/// <summary>
 	/// デストラクタ
@@ -28,10 +30,15 @@ public:
 
 protected:
 
+	//親クラス
+	std::weak_ptr<DragonAction> parent_;
+
 	//ドラゴンのトランスフォーム
 	std::weak_ptr<Transform>dragonTrans_;
 
 	// アクション別のJSON
 	nlohmann::json json_;
 
+	// jsonのデータをロードする
+	virtual void Load(void) = 0;
 };

@@ -108,6 +108,7 @@ public:
 		PLAYER_MOVE_DASH,		//プレイヤーのダッシュ移動
 		PLAYER_ATTACK,			//プレイヤー攻撃
 		PLAYER_JUMP,			//プレイヤージャンプ
+
 		MAX,
 	};
 

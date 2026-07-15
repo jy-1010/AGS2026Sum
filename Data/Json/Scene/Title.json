@@ -5,7 +5,7 @@
 	],
 
 	"Logo": {
-		"List":[
+		"List": [
 			{
 				"Name": "BackImage",
 				"Image": "TitleBackImage",
@@ -22,6 +22,41 @@
 				"Position": {
 					"x": 0.5,
 					"y": 0.2
+				}
+			}
+		]
+	},
+	"Virsion": {
+		"List": [
+			{
+				"Virsion": "0.0.0",
+				"String": {
+					"Font": "TitleFont",
+					"DrawString": {
+						"Japanese": "バージョン",
+						"Englesh": "Virsion"
+					}
+				},
+				"Color": {
+					"r": 1.0,
+					"g": 1.0,
+					"b": 0.0
+				},
+				"EdgeColor": {
+					"r": 0.0,
+					"g": 0.0,
+					"b": 1.0
+				},
+				"Layer": 3,
+				"Size": {
+					"Min": 1.0,
+					"Max": 2.0,
+					"ChangeRate": 3.0
+				},
+				"Rotation": -15.0,
+				"CenterPos": {
+					"x": 0.7,
+					"y": 0.21
 				}
 			}
 		]

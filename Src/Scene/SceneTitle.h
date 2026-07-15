@@ -84,6 +84,21 @@ private:
 		float thickness =  -1.0f;	//太さ
 	};
 
+	struct VirsionInfo
+	{
+		std::string virsion = "";
+		DrawStringInfo drawStrigInfo;	//描画する文字の情報
+		VECTOR color = {};
+		VECTOR edgeColor = {};
+		int layer = -1;
+		float sizeMin = 1.0f;
+		float sizeMax = 1.0f;
+		float sizeChangeRate = 1.0f;
+		float rotation = 0.0f;
+		FloatVector2 centerPos = {};
+		IntVector2 centerPosScreen = {};
+	};
+
 	//ボタン背景色
 	std::map<ButtonState, VECTOR> buttonBackColor_;
 	//ボタンテキスト色
@@ -95,9 +110,12 @@ private:
 	//ロゴの情報
 	std::vector<LogoInfo> logoInfo_;
 
+	//バージョン情報
+	std::vector<VirsionInfo> virsionInfo_;
+
+	//最大のレイヤー数
 	int maxLayerNum_;
 	
-
 	//アウトラインの色
 	OutLineInfo blackInfo_;
 	OutLineInfo lightInfo_;
@@ -108,21 +126,26 @@ private:
 	//現在選択されているもの
 	int selectIndex_;
 
+	float time_;
+
 	void LoadJson(void);
 	
 	void LoadLogo(void);
 	void LoadColor(void);
 	void LoadButton(void);
+	void LoadVirsion(void);
 	DrawStringInfo LoadDrawStringInfo(nlohmann::json stringJson);
 	//レイヤーに対応するオブジェクトを取得する
 	std::vector<ButtonInfo> GetButtonInfoToLayer(int layerNum);
 	std::vector<LogoInfo> GetLogoInfoToLayer(int layerNum);
+	std::vector<VirsionInfo> GetVirsionInfoToLayer(int layerNum);
 
 	void ChangeScene(void);
 
 	//ボタンのDraw
 	void DrawOutLine(Rect rect, ButtonState state);
 	void DrawButton(ButtonInfo button);
+	void DrawVirsion(VirsionInfo virsion);
 
 	//マウスと四角形の当たり判定処理と選択変更
 	bool ColCheckMouse(bool isCheakMove = true);

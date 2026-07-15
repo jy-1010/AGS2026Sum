@@ -15,7 +15,7 @@ public:
 	virtual void Draw(void);
 	virtual void Load(void);
 protected:
-
+	void UpdateIsPose(void);
 private:
 
 	

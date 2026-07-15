@@ -70,4 +70,34 @@ float SceneGame::GetBlockSize(void)
 	return stage_->GetBlockSize();
 }
 
+IntVector3 SceneGame::WorldPosToMapPos(const VECTOR& worldPos) const
+{
+	return stage_->WorldPosToMapPos(worldPos);
+}
+
+IntVector3 SceneGame::MapPosToChunkPos(const IntVector3& mapPos) const
+{
+	return stage_->MapPosToChunkPos(mapPos);
+}
+
+IntVector3 SceneGame::WorldPosToChunkPos(const VECTOR& worldPos) const
+{
+	return stage_->WorldPosToChunkPos(worldPos);
+}
+
+VECTOR SceneGame::MapPosToWorldPos(const IntVector3& mapPos) const
+{
+	return stage_->MapPosToWorldPos(mapPos);
+}
+
+IntVector3 SceneGame::ChunkPosToMapPos(const IntVector3& chunkPos) const
+{
+	return stage_->ChunkPosToMapPos(chunkPos);
+}
+
+VECTOR SceneGame::ChunkPosToWorldPos(const IntVector3& chunkPos) const
+{
+	return stage_->ChunkPosToWorldPos(chunkPos);
+}
+
 

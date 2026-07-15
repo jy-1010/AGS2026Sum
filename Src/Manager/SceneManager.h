@@ -18,13 +18,11 @@ public:
 		,TITLE
 		,MAKE_SKIN
 		,SELECT_SKIN
-		,SELECT
 		,GAME
 		,GAMEOVER
 		,GAMECLEAR
 		,MENU
 		,SETTING
-		,CHACK_PAD
 	};
 	//ÉÅÉìÉoÅ[ä÷êî
 	//-----------------------------------------------------------

@@ -88,6 +88,8 @@
     <ClCompile Include="Src\Scene\SceneGameClear.cpp" />
     <ClCompile Include="Src\Scene\SceneGameOver.cpp" />
     <ClCompile Include="Src\Utility\CollisionUtility.cpp" />
+    <ClCompile Include="Src\Scene\SceneMenu.cpp" />
+    <ClCompile Include="Src\Object\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h" />
@@ -188,6 +190,8 @@
     <ClInclude Include="Src\Scene\SceneGameClear.h" />
     <ClInclude Include="Src\Scene\SceneGameOver.h" />
     <ClInclude Include="Src\Utility\CollisionUtility.h" />
+    <ClInclude Include="Src\Scene\SceneMenu.h" />
+    <ClInclude Include="Src\Object\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Polygon\BasePolygonVS.hlsl" />

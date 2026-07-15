@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Button.cpp" />
+    <ClCompile Include="Src\Scene\SceneMenu.cpp" />
     <ClCompile Include="Src\Utility\CollisionUtility.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Breath\DragonBreath.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateFlyMove.cpp" />
@@ -108,6 +110,8 @@
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Button.h" />
+    <ClInclude Include="Src\Scene\SceneMenu.h" />
     <ClInclude Include="Src\Utility\CollisionUtility.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Breath\DragonBreath.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateFlyMove.h" />

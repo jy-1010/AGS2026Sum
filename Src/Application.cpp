@@ -84,7 +84,7 @@ void Application::Run(void)
 	auto& sceneManager = SceneManager::GetInstance();
 
 	// ƒQ[ƒ€ƒ‹[ƒv
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !isExit_)
+	while (ProcessMessage() == 0 &&  !isExit_)
 	{
 
 		keyConfig.Update();

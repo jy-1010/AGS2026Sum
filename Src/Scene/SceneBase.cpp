@@ -29,3 +29,12 @@ void SceneBase::Draw(void)
 void SceneBase::Load(void)
 {
 }
+
+void SceneBase::UpdateIsPose(void)
+{
+	auto& keycon = KeyConfig::GetInstance();
+	if (keycon.IsTrgDown(KeyConfig::CONTROL_TYPE::OPEN_MENU))
+	{
+		SceneManager::GetInstance().PushScene(SceneManager::SCENE_ID::MENU);
+	}
+}

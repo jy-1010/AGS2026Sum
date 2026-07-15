@@ -10,7 +10,7 @@ public:
 	/// </summary>
 	/// <param name="dragonTrans">ドラゴンのトランスフォーム</param>
 	/// <param name="json">行動のjson</param>
-	DragonActionUpdateFlyMove(std::weak_ptr<Transform>dragonTrans, nlohmann::json json);
+	DragonActionUpdateFlyMove(std::weak_ptr<Transform>dragonTrans, nlohmann::json json, std::weak_ptr<DragonAction>parent);
 
 	/// <summary>
 	/// デストラクタ
@@ -26,6 +26,7 @@ public:
 
 private:
 
-
+	// jsonのデータをロードする
+	void Load(void)override;
 };
 

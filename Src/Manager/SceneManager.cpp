@@ -9,6 +9,9 @@
 #include"../Common/Fader.h"
 #include"../Scene/SceneTitle.h"
 #include"../Scene/SceneGame.h"
+#include"../Scene/SceneGame.h"
+#include"../Scene/SceneGameOver.h"
+#include"../Scene/SceneGameClear.h"
 #include"../Scene/Skin/SceneMakeSkin.h"
 #include"../Scene/Skin/SceneSelectSkin.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
@@ -54,6 +57,15 @@ std::unique_ptr<SceneBase> SceneManager::MakeScene(SCENE_ID id)
 		scene = std::make_unique<SceneSelectSkin>();
 		break;
 	case SCENE_ID::GAME:
+		scene = std::make_unique<SceneGame>();
+		break;
+	case SCENE_ID::GAMEOVER:
+		scene = std::make_unique<SceneGameOver>();
+		break;
+	case SCENE_ID::GAMECLEAR:
+		scene = std::make_unique<SceneGameClear>();
+		break;
+	case SCENE_ID::MENU:
 		scene = std::make_unique<SceneGame>();
 		break;
 	}

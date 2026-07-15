@@ -26,6 +26,15 @@ public:
 	void DebugDraw(void);
 
 	float GetBlockSize(void);
+
+	//ç¿ïWï‘ä“
+	IntVector3 WorldPosToMapPos(const VECTOR& worldPos)const;
+	IntVector3 MapPosToChunkPos(const IntVector3& mapPos) const;
+	IntVector3 WorldPosToChunkPos(const VECTOR& worldPos)const;
+	VECTOR MapPosToWorldPos(const IntVector3& mapPos)const;
+	IntVector3 ChunkPosToMapPos(const IntVector3& chunkPos)const;
+	VECTOR ChunkPosToWorldPos(const IntVector3& chunkPos)const;
+
 protected:
 	std::unique_ptr<Stage> stage_;
 	std::unique_ptr<Player> player_;

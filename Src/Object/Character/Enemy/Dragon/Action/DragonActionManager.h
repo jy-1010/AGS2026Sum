@@ -16,7 +16,9 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name=""></param>
+	/// <param name="key">アクションのリソースキー</param>
+	/// <param name="transform">ドラゴンのトランスフォーム</param>
+	/// <param name="player">プレイヤー情報</param>
 	DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player);
 
 	/// <summary>
