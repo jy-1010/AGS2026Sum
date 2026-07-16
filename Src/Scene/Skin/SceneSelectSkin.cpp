@@ -1,6 +1,8 @@
 #include "../../Application.h"
 #include "../../Utility/ColorUtility.h"
 #include "../../Manager/SceneManager.h"
+#include "../../Manager/ResourceManager.h"
+#include "../../Manager/Resource/FontResource.h"
 #include "../../Manager/KeyConfig.h"
 #include "../../Manager/Camera.h"
 #include "../../Object/Character/Player/Skin/SkinManager.h"
@@ -63,6 +65,7 @@ void SceneSelectSkin::Update(void)
 
 void SceneSelectSkin::Draw(void)
 {
+	int font = ResourceManager::GetInstance().GetFontResource("TitleFont").lock()->GetHandleId();
 	for (auto& screen : skinPreviewScreens_)
 	{
 		if (!screen.isDraw)
@@ -84,6 +87,12 @@ void SceneSelectSkin::Draw(void)
 			//今選択中のもの
 			DrawBoxAA(0, 0, screenSize_.x, screenSize_.y, ColorUtility::YELLOW, false, SELECT_EDGE_SIZE);
 		}
+		//int width =GetDrawStringWidth(screen.skinName.c_str(), GetStringLength(screen.skinName.c_str()));
+		std::string str = screen.skinName;
+
+		int width =GetDrawStringWidthToHandle(screen.skinName.c_str(), GetStringLength(screen.skinName.c_str()),font);
+		DrawStringToHandle(screenSize_.x / 2 - width / 2, 30, screen.skinName.c_str(), 0xffffff,font);
+
 		//メインスクリーンに描画
 		SetDrawScreen(SceneManager::GetInstance().GetMainScreen());
 		DrawGraph(screen.pos.x, screen.pos.y, screen.screenHandle, true);

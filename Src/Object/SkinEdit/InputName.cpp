@@ -1,5 +1,6 @@
 #include "../../Application.h"
 #include "../../Utility/Utility.h"
+#include "../../Utility/StringUtility.h"
 #include "../../Utility/ColorUtility.h"
 #include "../../Manager/KeyConfig.h"
 #include "../../Manager/SceneManager.h"
@@ -72,9 +73,21 @@ void InputName::InputUpdate(void)
 	auto& keycon = KeyConfig::GetInstance();
 	std::vector<int> pushKey;
 	pushKey = keycon.GetPushBtns();
+	bool pushShift = false;
+	if (keycon.IsNew(KeyConfig::CONTROL_TYPE::PUSH_SHIFT))
+	{
+		pushShift = true;
+	}
 	for (auto& key : pushKey)
 	{
-		inputData_ += Utility::KeyCodeToString(key);
+		if (pushShift)
+		{
+			inputData_ += StringUtility::KeyCodeToStringBigAlpabet(key);
+		}
+		else
+		{
+			inputData_ += StringUtility::KeyCodeToStringSmallAlpabet(key);
+		}
 		switch (key)
 		{
 		case KEY_INPUT_BACK:
@@ -104,13 +117,13 @@ void InputName::CheckDraw(void)
 	{
 		checkstr += "Is this name OK?";
 	}
-	Utility::DrawStringPlace(checkstr, screenSize_.x / 2, screenSize_.y / 4, ColorUtility::BLACK, Utility::STRING_PLACE::CENTER);
-	Utility::DrawStringPlace("Yes : SPACE ENTER", screenSize_.x / 4, screenSize_.y / 2, ColorUtility::BLACK, Utility::STRING_PLACE::CENTER);
-	Utility::DrawStringPlace("No : BACKSPACE LCONTROL",screenSize_.x - screenSize_.x / 4, screenSize_.y / 2, ColorUtility::BLACK, Utility::STRING_PLACE::CENTER);
+	StringUtility::DrawStringPlace(checkstr, screenSize_.x / 2, screenSize_.y / 4, ColorUtility::BLACK, StringUtility::STRING_PLACE::CENTER);
+	StringUtility::DrawStringPlace("Yes : SPACE ENTER", screenSize_.x / 4, screenSize_.y / 2, ColorUtility::BLACK, StringUtility::STRING_PLACE::CENTER);
+	StringUtility::DrawStringPlace("No : BACKSPACE LCONTROL",screenSize_.x - screenSize_.x / 4, screenSize_.y / 2, ColorUtility::BLACK, StringUtility::STRING_PLACE::CENTER);
 }
 
 void InputName::InputDraw(void)
 {
 	DrawBox(0, 0, screenSize_.x, screenSize_.y, ColorUtility::WHITE, true);
-	Utility::DrawStringPlace("Input Name \n" + inputData_, screenSize_.x / 4, screenSize_.y / 4, ColorUtility::BLACK, Utility::STRING_PLACE::LEFT);
+	StringUtility::DrawStringPlace("Input Name \n" + inputData_, screenSize_.x / 4, screenSize_.y / 4, ColorUtility::BLACK, StringUtility::STRING_PLACE::LEFT);
 }

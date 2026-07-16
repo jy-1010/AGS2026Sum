@@ -108,6 +108,7 @@
     <ClCompile Include="Src\Common\Vector.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\Undo.cpp" />
     <ClCompile Include="Src\Object\SkinEdit\SVArea.cpp" />
+    <ClCompile Include="Src\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Button.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Src\Common\Vector.h" />
     <ClInclude Include="Src\Object\SkinEdit\Undo.h" />
     <ClInclude Include="Src\Object\SkinEdit\SVArea.h" />
+    <ClInclude Include="Src\Utility\StringUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Shader\Image\Canvas.hlsl">

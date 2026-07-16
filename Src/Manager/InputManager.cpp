@@ -368,11 +368,11 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(KeyConfig::JOYPAD_
 		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::SELECT_BUTTON);
 		ret.ButtonsNew[idx] = d.Buttons[6]; // SELECT
 
-		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::LEFTBUTTON_TOP);
-		ret.ButtonsNew[idx] = x.Buttons[0]; // LEFTBUTTON_TOP
+		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::LEFTBUTTON_UP);
+		ret.ButtonsNew[idx] = x.Buttons[0]; // LEFTBUTTON_UP
 
-		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::LEFTBUTTON_DOWN);
-		ret.ButtonsNew[idx] = x.Buttons[1]; // LEFTBUTTON_DOWN
+		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::LEFTBUTTON_BOTTOM);
+		ret.ButtonsNew[idx] = x.Buttons[1]; // LEFTBUTTON_BOTTOM
 
 		idx = static_cast<int>(KeyConfig::JOYPAD_BTN::LEFTBUTTON_LEFT);
 		ret.ButtonsNew[idx] = x.Buttons[2]; // LEFTBUTTON_LEFT

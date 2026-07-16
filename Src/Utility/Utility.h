@@ -15,13 +15,6 @@ class Utility
 
 public:
 
-	enum class STRING_PLACE	//文字列を揃える位置
-	{
-		LEFT,		//左揃え
-		CENTER,		//中央揃え
-		RIGHT,		//右揃え
-	};
-
 	// ラジアン(rad)・度(deg)変換用
 	static constexpr float RAD2DEG = (180.0f / DX_PI_F);
 	static constexpr float DEG2RAD = (DX_PI_F / 180.0f);
@@ -146,16 +139,6 @@ public:
 	static bool IsTimeOver(float& totalTime, const float& waitTime);
 
 	/// <summary>
-	/// 文字列を指定位置に揃えて描画
-	/// </summary>
-	/// <param name="_str">描画する文字列</param>
-	/// <param name="_line">揃えるX座標　左揃え：左の座標　中央揃え：中央の座標　右揃え：右の座標</param>
-	/// <param name="_posY">描画するY座標</param>
-	/// <param name="_color">描画する色コード</param>
-	/// <param name="_place">揃える位置</param>
-	static void DrawStringPlace(std::string _str, int _line, int _posY, int _color, STRING_PLACE _place);
-
-	/// <summary>
 	/// とある点からとある点までの移動ベクトルを返す
 	/// </summary>
 	/// <param name="_start">狙う側</param>
@@ -199,8 +182,6 @@ public:
 	/// <param name="_radius"></param>
 	/// <returns></returns>
 	static bool IsPointInRectCircle(const IntVector2& _pos, const IntVector2& _circlePos, const float _radius);
-
-	static VECTOR GetWorldPosAtScreen(const IntVector2 screenPos, const float distance, const VECTOR cameraPos, const VECTOR cameraDir);
 
 	//符号を返す
 	static int GetSign(float f);
@@ -291,17 +272,6 @@ public:
 	static int GetDigitCount(const int _value);
 
 	/// <summary>
-	/// JSON保存ダイアログを表示し、パスをUTF-8文字列で返す
-	/// </summary>
-	/// <returns>文字列を返す</returns>
-	static std::string ShowSaveJsonDialog();
-
-	/// <summary>
-	/// ワイド文字列をUTF-8に変換する
-	/// </summary>
-	static std::string WideToUtf8(const std::wstring& wstr);
-
-	/// <summary>
 	/// 値を上下に動かす処理
 	/// </summary>
 	/// <param name="_value">現在の値</param>
@@ -329,20 +299,6 @@ public:
 	/// <param name="vertexNum">円の頂点数</param>
 	/// <param name="fillFlag">塗りつぶすかどうか</param>
 	static void DrawCircle3DXZ(VECTOR center, float radius, int vertexNum,int color, bool fillFlag);
-
-	/// <summary>
-	/// ボタンの名前の文字列を取得
-	/// </summary>
-	/// <param name="btn">ボタンの種類</param>
-	/// <returns>ボタンの文字列</returns>
-	static std::string GetBtnName(KeyConfig::JOYPAD_BTN btn);
-
-	/// <summary>
-	/// ボタンの画像を取得
-	/// </summary>
-	/// <param name="btn">ボタンの種類</param>
-	/// <returns>画像のハンドルID</returns>
-	static int GetBtnImage(KeyConfig::JOYPAD_BTN btn);
 
 	/// <summary>
 	/// COLOR_FからFLOAT4に変換
@@ -424,13 +380,6 @@ public:
 	/// <param name="rad">回転角度（ラジアン）</param>
 	/// <returns>回転後の座標</returns>
 	static VECTOR RotateZ(VECTOR localPos, float rad);
-
-	/// <summary>
-	/// キーコードをstringに変換
-	/// </summary>
-	/// <param name="keycode">キーコード</param>
-	/// <returns></returns>
-	static std::string KeyCodeToString(int keyCode);
 
 	/// <summary>
 	/// vector配列の中のnullptrを削除する

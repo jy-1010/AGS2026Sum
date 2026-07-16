@@ -43,8 +43,8 @@ public:
 		L_BUTTON,				// L_BUTTON
 		START_BUTTON,			// START_BUTTON
 		SELECT_BUTTON,			// SELECT_BUTTON
-		LEFTBUTTON_TOP,			// 上
-		LEFTBUTTON_DOWN,		// 下
+		LEFTBUTTON_UP,			// 上
+		LEFTBUTTON_BOTTOM,		// 下
 		LEFTBUTTON_LEFT,		// 左
 		LEFTBUTTON_RIGHT,		// 右
 		LEFT_STICK,				// 左スティック押し込み
@@ -108,6 +108,8 @@ public:
 		PLAYER_MOVE_DASH,		//プレイヤーのダッシュ移動
 		PLAYER_ATTACK,			//プレイヤー攻撃
 		PLAYER_JUMP,			//プレイヤージャンプ
+
+		PUSH_SHIFT,
 
 		MAX,
 	};

@@ -1,8 +1,10 @@
 #pragma once
-#include "ObjectBase.h"
-class Button :   public ObjectBase
+
+class Button 
 {
 public:
+
+private:
 
 };
 
