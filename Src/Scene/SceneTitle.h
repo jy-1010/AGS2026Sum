@@ -26,84 +26,6 @@ public:
 
 private:
 
-	//四角
-	struct Rect
-	{
-		float leftPer;
-		float topPer;
-		float rightPer;
-		float bottomPer;
-		int leftScreen;
-		int topScreen;
-		int rightScreen;
-		int bottomScreen;
-	};
-
-	//ボタンの状態
-	enum class ButtonState
-	{
-		NORMAL,	//通常
-		SELECT,	//選択中
-		PRESS,	//決定
-	};
-
-
-	struct DrawStringInfo
-	{
-		std::string fontKey;	//フォントのキー
-		int fonthandle;			//フォントのハンドルID
-		std::map<std::string, std::string> drawString;	//言語ごとの描画文字
-	};
-
-	//ボタンの情報
-	struct ButtonInfo
-	{
-		ButtonState state = ButtonState::NORMAL;	//状態
-		std::string name = "";	//名前
-		//std::string imageKey = "";	//画像のキー
-		DrawStringInfo drawStrigInfo;	//描画する文字の情報
-		std::string nextScene = "";	//次のシーン
-		//int imageHandle = -1;	//画像のハンドル
-		Rect rect;			//四角の情報
-		int selectIndex = -1;	//配列番号
-		int layer = -1;
-	};
-
-	struct LogoInfo
-	{
-		std::string name = "";
-		std::string imageKey = "";
-		int imageHandle = -1;
-		FloatVector2 pos;
-		int layer = -1;
-	};
-
-	struct OutLineInfo
-	{
-		VECTOR color = {};	//色
-		float thickness =  -1.0f;	//太さ
-	};
-
-	struct VirsionInfo
-	{
-		std::string virsion = "";
-		DrawStringInfo drawStrigInfo;	//描画する文字の情報
-		VECTOR color = {};
-		VECTOR edgeColor = {};
-		int layer = -1;
-		float sizeMin = 1.0f;
-		float sizeMax = 1.0f;
-		float sizeChangeRate = 1.0f;
-		float rotation = 0.0f;
-		FloatVector2 centerPos = {};
-		IntVector2 centerPosScreen = {};
-	};
-
-	//ボタン背景色
-	std::map<ButtonState, VECTOR> buttonBackColor_;
-	//ボタンテキスト色
-	std::map<ButtonState, VECTOR> buttonTextColor_;
-
 	//ボタンの情報
 	std::vector<ButtonInfo> buttonInfo_;
 
@@ -115,11 +37,6 @@ private:
 
 	//最大のレイヤー数
 	int maxLayerNum_;
-	
-	//アウトラインの色
-	OutLineInfo blackInfo_;
-	OutLineInfo lightInfo_;
-	OutLineInfo darkInfo_;
 
 	nlohmann::json json_;
 
@@ -131,7 +48,6 @@ private:
 	void LoadJson(void);
 	
 	void LoadLogo(void);
-	void LoadColor(void);
 	void LoadButton(void);
 	void LoadVirsion(void);
 	DrawStringInfo LoadDrawStringInfo(nlohmann::json stringJson);
@@ -143,7 +59,6 @@ private:
 	void ChangeScene(void);
 
 	//ボタンのDraw
-	void DrawOutLine(Rect rect, ButtonState state);
 	void DrawButton(ButtonInfo button);
 	void DrawVirsion(VirsionInfo virsion);
 

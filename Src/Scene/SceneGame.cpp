@@ -47,6 +47,7 @@ void SceneGame::Update(void)
 	stage_->Update();
 	dragon_->Update();
 	player_->ApplyVertex();
+	UpdateIsPose();
 }
 
 //•`‰æˆ—

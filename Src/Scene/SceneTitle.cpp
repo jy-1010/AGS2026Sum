@@ -106,7 +106,6 @@ void SceneTitle::Load(void)
 void SceneTitle::LoadJson(void)
 {
 	LoadLogo();
-	LoadColor();
 	LoadVirsion();
 	LoadButton();
 }
@@ -129,28 +128,6 @@ void SceneTitle::LoadLogo(void)
 	}
 }
 
-void SceneTitle::LoadColor(void)
-{
-	auto& buttonsJson = json_["Buttons"];
-	auto& buttonColor = buttonsJson["Color"];
-	//色情報の取得
-	buttonBackColor_[ButtonState::NORMAL] = JsonUtility::GetColorFloat(buttonColor["Normal"]["Back"]);
-	buttonBackColor_[ButtonState::SELECT] = JsonUtility::GetColorFloat(buttonColor["Selected"]["Back"]);
-	buttonBackColor_[ButtonState::PRESS] = JsonUtility::GetColorFloat(buttonColor["Pressed"]["Back"]);
-	buttonTextColor_[ButtonState::NORMAL] = JsonUtility::GetColorFloat(buttonColor["Normal"]["Text"]);
-	buttonTextColor_[ButtonState::SELECT] = JsonUtility::GetColorFloat(buttonColor["Selected"]["Text"]);
-	buttonTextColor_[ButtonState::PRESS] = JsonUtility::GetColorFloat(buttonColor["Pressed"]["Text"]);
-
-	//アウトラインの色を取得
-	auto& outlineColor = buttonColor["OutLine"];
-	blackInfo_.color = JsonUtility::GetColorFloat(outlineColor["Black"]);
-	blackInfo_.thickness = outlineColor["Black"]["Thickness"];
-	lightInfo_.color = JsonUtility::GetColorFloat(outlineColor["Light"]);
-	lightInfo_.thickness = outlineColor["Light"]["Thickness"];
-	darkInfo_.color = JsonUtility::GetColorFloat(outlineColor["Dark"]);
-	darkInfo_.thickness = outlineColor["Dark"]["Thickness"];
-}
-
 void SceneTitle::LoadButton(void)
 {
 	auto& buttonsJson = json_["Buttons"];
@@ -159,7 +136,7 @@ void SceneTitle::LoadButton(void)
 	{
 		ButtonInfo info;
 		auto& buttonJson = buttonsJson["List"][i];
-		info.state = ButtonState::NORMAL;
+		info.state = Button::State::NORMAL;
 		info.name = buttonJson["Name"];
 		//info.imageKey = buttonJson["Image"];
 		info.drawStrigInfo = LoadDrawStringInfo(buttonJson["String"]);
@@ -303,23 +280,15 @@ void SceneTitle::ChangeScene(void)
 
 void SceneTitle::DrawButton(ButtonInfo button)
 {
-	IntVector2 center = {
-		static_cast<int>(((button.rect.leftScreen + button.rect.rightScreen) / 2)),
-		static_cast<int>(((button.rect.topScreen + button.rect.bottomScreen) / 2))
-	};
-	DrawOutLine(button.rect, button.state);
 	//ボタンのテキスト描画
 	auto& resourceManager = ResourceManager::GetInstance();
 	const auto& resource = resourceManager.GetFontResource(button.drawStrigInfo.fontKey).lock();
-	//フォントのサイズを取得
-	int size = resource->GetSize();
 	//フォントのハンドルを取得
 	int fontHandle = resource->GetHandleId();
-	int col = ColorUtility::ColorChange(buttonTextColor_[button.state]);
-	std::string str = button.drawStrigInfo.drawString["Japanese"];
-	//文字列の長さを取得する
-	int width = GetDrawStringWidthToHandle(str.c_str(), static_cast<int>(str.size()), fontHandle);
-	DrawStringToHandle(center.x - width / 2, center.y - size / 2, str.c_str(), col, fontHandle);
+
+	Button::GetInstance().Draw(IntVector2(button.rect.leftScreen, button.rect.topScreen),
+		IntVector2(button.rect.rightScreen, button.rect.bottomScreen),
+		button.state, fontHandle, button.drawStrigInfo.drawString["Japanese"]);
 }
 
 void SceneTitle::DrawVirsion(VirsionInfo virsion)
@@ -368,33 +337,11 @@ void SceneTitle::UpdateSelectIndex(void)
 	{
 		if (button.selectIndex == selectIndex_)
 		{
-			button.state = ButtonState::SELECT;
+			button.state = Button::State::SELECT;
 		}
 		else
 		{
-			button.state = ButtonState::NORMAL;
+			button.state = Button::State::NORMAL;
 		}
 	}
-}
-
-void SceneTitle::DrawOutLine(Rect rect, ButtonState state)
-{
-	//色を変換する
-	int black = ColorUtility::ColorChange(blackInfo_.color);
-	int light = ColorUtility::ColorChange(lightInfo_.color);
-	int dark = ColorUtility::ColorChange(darkInfo_.color);
-	int back = ColorUtility::ColorChange(buttonBackColor_[state]);
-
-	//座標返還
-
-	//大外の黒を描画
-	DrawBoxAA(rect.leftScreen, rect.topScreen, rect.rightScreen, rect.bottomScreen, black, false, blackInfo_.thickness);
-	//うちの明るい部分を描画
-	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.rightScreen - 1, rect.topScreen + 1, light, lightInfo_.thickness);
-	DrawLine(rect.leftScreen + 1, rect.topScreen + 1, rect.leftScreen + 1, rect.bottomScreen - 1, light, lightInfo_.thickness);
-	//うちの暗い部分を描画
-	DrawLine(rect.leftScreen + 1, rect.bottomScreen - 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
-	DrawLine(rect.rightScreen - 1, rect.topScreen + 1, rect.rightScreen - 1, rect.bottomScreen - 1, dark, darkInfo_.thickness);
-	//背景色の描画
-	DrawBox(rect.leftScreen + 2, rect.topScreen + 2, rect.rightScreen - 2, rect.bottomScreen - 2, back, true);
 }

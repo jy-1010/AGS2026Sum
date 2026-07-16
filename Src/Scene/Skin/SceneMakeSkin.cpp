@@ -261,6 +261,7 @@ void SceneMakeSkin::Update(void)
 	{
 		inputName_->SetFase(InputName::Fase::FIRST_CHECK);
 	}
+	UpdateIsPose();
 }
 
 void SceneMakeSkin::Draw(void)

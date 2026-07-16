@@ -9,12 +9,13 @@
 #include"../Common/Fader.h"
 #include"../Scene/SceneTitle.h"
 #include"../Scene/SceneGame.h"
-#include"../Scene/SceneGame.h"
+#include"../Scene/SceneMenu.h"
 #include"../Scene/SceneGameOver.h"
 #include"../Scene/SceneGameClear.h"
 #include"../Scene/Skin/SceneMakeSkin.h"
 #include"../Scene/Skin/SceneSelectSkin.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
+#include "../Object/Button.h"
 
 SceneManager* SceneManager::instance_ = nullptr;
 
@@ -35,6 +36,8 @@ SceneManager::SceneManager(void)
 	CollisionManager::CreateInstance();
 	//スキンマネージャー
 	SkinManager::CreateInstance();
+	//ボタン
+	Button::CreateInstance();
 }
 
 SceneManager::~SceneManager(void)
@@ -66,7 +69,7 @@ std::unique_ptr<SceneBase> SceneManager::MakeScene(SCENE_ID id)
 		scene = std::make_unique<SceneGameClear>();
 		break;
 	case SCENE_ID::MENU:
-		scene = std::make_unique<SceneGame>();
+		scene = std::make_unique<SceneMenu>();
 		break;
 	}
 	SetUseASyncLoadFlag(true);
@@ -119,11 +122,6 @@ void SceneManager::Init3D(void)
 //更新処理
 void SceneManager::Update(void)
 {
-
-	oldPushSpace = nowPushSpace;
-	nowPushSpace = CheckHitKey(KEY_INPUT_SPACE);
-
-
 	fader_->Update();
 	//フェードの状態確認
 	if (isSceneChanging_ == true)

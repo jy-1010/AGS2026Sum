@@ -61,11 +61,12 @@ void SceneSelectSkin::Update(void)
 		SkinManager::GetInstance().SetSelectedSkinName(GetSelectSkinName());
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME,true);
 	}
+	UpdateIsPose();
 }
 
 void SceneSelectSkin::Draw(void)
 {
-	int font = ResourceManager::GetInstance().GetFontResource("TitleFont").lock()->GetHandleId();
+	int font = ResourceManager::GetInstance().GetFontResource("DefaultFont").lock()->GetHandleId();
 	for (auto& screen : skinPreviewScreens_)
 	{
 		if (!screen.isDraw)

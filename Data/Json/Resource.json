@@ -43,6 +43,12 @@
       "Preload": true
     },
 
+    "MenuJson": {
+      "Type": "Json",
+      "Path": "Json/Scene/Menu.json",
+      "Preload": true
+    },
+
     "CubeTemplateJson": {
       "Type": "Json",
       "Path": "Json/CubeTemplate.json",
@@ -64,6 +70,12 @@
     "PlayerSkinJson": {
       "Type": "Json",
       "Path": "Json/Player/PlayerSkin.json",
+      "Preload": true
+    },
+
+    "ButtonJson": {
+      "Type": "Json",
+      "Path": "Json/Button.json",
       "Preload": true
     },
 
@@ -220,7 +232,7 @@
       "Preload": true
     },
 
-    "TitleFont": {
+    "DefaultFont": {
       "Type": "Font",
       "Path": "Font/PixelMplus12.ttf",
       "Name": "PixelMplus12",
