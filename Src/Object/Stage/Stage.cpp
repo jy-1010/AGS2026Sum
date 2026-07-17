@@ -17,17 +17,18 @@
 Stage::Stage(void)
 {
 	//LoadStageData(SelectStageFilePath());
+    isLoading_ = true;
     blockInfo_ = std::make_unique<BlockInfo>();
     listNameAndID_ = blockInfo_->GetPairNameAndID();
     size_ = blockInfo_->GetSize();
     LoadJsonData();
     InitRenderer();
-    MakeStage();
-    Update();
+    loadThread_ = std::thread(&Stage::CreateStage, this);
 }
 
 Stage::~Stage(void)
 {
+    loadThread_.join();
 }
 
 void Stage::Init(void)
@@ -36,6 +37,11 @@ void Stage::Init(void)
 
 void Stage::Update(void)
 {
+    if (isLoading_)
+    {
+        //ロード中
+        return;
+    }
     for (auto& chunk : chunkDatas_)
     {
         chunk.second->Update();
@@ -351,6 +357,14 @@ void Stage::DrawChankGaid(void)
         high = ChunkPosToWorldPos(draw + IntVector3{ 1,1,1 });
         DrawCube3D(low, high, ColorUtility::WHITE, ColorUtility::WHITE, false);
     }
+}
+
+void Stage::CreateStage(void)
+{
+    MakeStage();
+    Update();
+
+    isLoading_ = false;
 }
 
 IntVector3 Stage::WorldPosToMapPos(const VECTOR& worldPos) const

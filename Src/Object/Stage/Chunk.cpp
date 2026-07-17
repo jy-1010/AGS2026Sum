@@ -64,6 +64,7 @@ void Chunk::InitCheckList(void)
 
 void Chunk::UpdatePolygonInfo(void)
 {
+    polygonInfo_.clear();
     std::map<unsigned short, BlockInfo::Param> params;
     
     for (auto& id : inBlockID_)

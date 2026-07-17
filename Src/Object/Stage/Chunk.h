@@ -94,7 +94,7 @@ private:
 	ChunkCube chunkCube_;
 
 	//マップのデータ
-	std::map<IntVector3, unsigned short>mapData_;
+	std::unordered_map<IntVector3, unsigned short>mapData_;
 
 	//チャンクに含まれているブロックの種類
 	std::set<unsigned short> inBlockID_;

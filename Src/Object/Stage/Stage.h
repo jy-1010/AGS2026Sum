@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <thread>
 #include "../ObjectBase.h"
 #include "../../Common/vector.h"
 #include "../../Renderer/Polygon3DRenderer.h"
@@ -49,6 +50,9 @@ public:
 	bool IsBlock(const IntVector3& mapPos)const;
 
 	float GetBlockSize(void);
+
+	bool IsLoading(void) { return isLoading_; }
+
 private:
 
 	//描画に必要な情報
@@ -67,6 +71,12 @@ private:
 	};
 
 	std::vector<PillarData> pillars_;
+
+	//ロード中か
+	bool isLoading_;
+
+	//ロード用スレッド
+	std::thread loadThread_;
 
 	int size_;
 
@@ -87,7 +97,7 @@ private:
 	//std::unordered_map<IntVector3, unsigned short> stageData_;
 
 	//ステージデータチャンク毎
-	std::map<IntVector3, std::shared_ptr<Chunk>> chunkDatas_;
+	std::unordered_map<IntVector3, std::shared_ptr<Chunk>> chunkDatas_;
 
 	//ブロックの情報
 	std::unique_ptr<BlockInfo> blockInfo_;
@@ -125,4 +135,6 @@ private:
 	void UpdatePolygon(void);
 
 	void DrawChankGaid(void);
+
+	void CreateStage(void);
 };
