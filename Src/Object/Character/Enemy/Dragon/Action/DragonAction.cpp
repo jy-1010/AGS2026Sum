@@ -4,6 +4,7 @@
 #include "Update/DragonActionUpdateBase.h"
 #include "Update/DragonActionUpdateFlyMove.h"
 #include "Update/DragonActionUpdateLanding.h"
+#include "Update/DragonActionUpdateTakeFlight.h"
 #include "DragonAction.h"
 
 DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform,float blockSize)
@@ -101,7 +102,7 @@ void DragonAction::SetUpdateFunc(Action action)
 		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::TAKE_FLIGHT:
-		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
+		update_ = std::make_unique<DragonActionUpdateTakeFlight>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::FLY_PLAYER_ATTACK:
 		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
