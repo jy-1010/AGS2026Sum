@@ -1,3 +1,4 @@
+#include "../../../../Utility/Utility.h"
 #include "../../../../Manager/ResourceManager.h"
 #include "../../../../Manager/Resource/JsonResource.h"
 #include "../../Player/Player.h"
@@ -10,8 +11,9 @@ Dragon::Dragon(const Player& player, float blockSize):player_(player)
 	blockSize_ = blockSize;
 	LoadDragonInfo();
 	transform_ = std::make_shared<Transform>();
+	transform_->quaRotLocal = Quaternion::Euler(VGet(0.0f, Utility::Deg2RadF(180.0f), 0.0f));
 	model_ = std::make_unique<DragonModel>(transform_, paramsJson_);
-	actionManager_ = std::make_unique<DragonActionManager>(paramsJson_["ActionPattern"],transform_,player_);
+	actionManager_ = std::make_unique<DragonActionManager>(paramsJson_["ActionPattern"],transform_,player_,blockSize_);
 }
 
 Dragon::~Dragon(void)

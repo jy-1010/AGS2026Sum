@@ -1,10 +1,9 @@
 #include "DragonActionUpdateBase.h"
 
-DragonActionUpdateBase::DragonActionUpdateBase(std::weak_ptr<Transform> dragonTrans, nlohmann::json json, std::weak_ptr<DragonAction>parent)
+DragonActionUpdateBase::DragonActionUpdateBase(std::weak_ptr<Transform> dragonTrans, nlohmann::json json, DragonAction& parent):parent_(parent)
 {
 	dragonTrans_ = dragonTrans;
 	json_ = json;
-	parent_ = parent;
 }
 
 DragonActionUpdateBase::~DragonActionUpdateBase(void)

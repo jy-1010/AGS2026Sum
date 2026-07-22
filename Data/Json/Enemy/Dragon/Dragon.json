@@ -1,8 +1,6 @@
 {
   "DefaultScale": 1.0,
 
-  "MoveRadius": 60,
-
   "Status": {
     "Health": 100.0,
     "MaxHealth": 100.0

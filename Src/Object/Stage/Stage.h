@@ -124,6 +124,8 @@ private:
 	void CreateIronBarCages(void);
 	//プレイヤーのスポーン地点を作る
 	void CreatePlayerSpawnPoint(void);
+	//中央を作成
+	void CreateCenterPoint(void);
 
 	//ブロックを設置する
 	void SetBlock(const IntVector3& pos, std::string blockName);

@@ -5,6 +5,8 @@
 #include "../../../../../Lib/nlohmann/json.hpp"
 #include "../../../../Common/Transform.h"
 
+class DragonActionUpdateBase;
+
 class DragonAction
 {
 public:
@@ -24,7 +26,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	DragonAction(nlohmann::json jsonData,std::shared_ptr<Transform> transform);
+	DragonAction(nlohmann::json jsonData,std::shared_ptr<Transform> transform,float blockSize);
 
 	/// <summary>
 	/// デストラクタ
@@ -84,6 +86,11 @@ public:
 	/// <returns></returns>
 	std::string GetName(void) { return name_; }
 
+	/// <summary>
+	/// ブロックの大きさを取得
+	/// </summary>
+	const float GetBlockSize(void) const { return blockSize_; }
+
 private:
 
 	struct NextActionInfo
@@ -96,8 +103,13 @@ private:
 	// ドラゴンのトランスフォーム
 	std::weak_ptr<Transform> transform_;
 
+	std::unique_ptr< DragonActionUpdateBase>update_;
+
 	// アクションの情報json
 	nlohmann::json jsonData_;
+
+	//ブロックの大きさ
+	float blockSize_;
 
 	// アクションのID
 	int id_;
@@ -123,9 +135,6 @@ private:
 	//次のアクションのID
 	int nextActionId_;
 
-	// アクションの更新処理
-	std::function<void(void)> updateFunc_;
-
 	// 次のアクションのIDを設定する
 	void SetNextActionId(void);
 
@@ -134,13 +143,4 @@ private:
 
 	// アクションの更新処理を設定する
 	void SetUpdateFunc(Action action);
-
-	// 各種アクションの更新処理
-	void UpdateFlyMove(void);
-	void UpdateFlyBreathAttack(void);
-	void UpdateLanding(void);
-	void UpdateLandAttack(void);
-	void UpdateTakeFlight(void);
-	void UpdateFlyPlayerAttack(void);
-
 };

@@ -5,8 +5,9 @@
 #include "DragonAction.h"
 #include "DragonActionManager.h"
 
-DragonActionManager::DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player):player_(player)
+DragonActionManager::DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player,float blockSize):player_(player)
 {
+	blockSize_ = blockSize;
 	key_ = key;
 	transform_ = transform;
 	breath_ = std::make_unique<DragonBreath>();
@@ -65,7 +66,7 @@ void DragonActionManager::LoadJsonData(void)
 	actionData_.push_back(currentActionId_);
 	for (auto& pattern : json["Pattern"])
 	{
-		std::shared_ptr<DragonAction> action = std::make_shared<DragonAction>(pattern,transform_.lock());
+		std::shared_ptr<DragonAction> action = std::make_shared<DragonAction>(pattern,transform_.lock(),blockSize_);
 		actions_.emplace(action->GetId(), action);
 	}
 }

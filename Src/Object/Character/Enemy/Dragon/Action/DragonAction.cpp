@@ -1,12 +1,17 @@
 #include "../../../../../Manager/SceneManager.h"
+#include "../../../../../Manager/ResourceManager.h"
+#include "../../../../../Manager/Resource/JsonResource.h"
+#include "Update/DragonActionUpdateBase.h"
+#include "Update/DragonActionUpdateFlyMove.h"
 #include "DragonAction.h"
 
-DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform)
+DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform,float blockSize)
 {
 	sumWeight_ = 0;
 	transform_ = transform;
 	time_  = 0.0f;
 	jsonData_ = jsonData;
+	blockSize_ = blockSize;
 	LoadJsonData();
 	Init();
 }
@@ -23,7 +28,7 @@ void DragonAction::Init(void)
 
 void DragonAction::Update(void)
 {
-	updateFunc_();
+	update_->Update();
 	time_ += SceneManager::GetInstance().GetDeltaTime();
 }
 
@@ -73,53 +78,30 @@ void DragonAction::LoadJsonData(void)
 
 void DragonAction::SetUpdateFunc(Action action)
 {
+	auto& resourceManager = ResourceManager::GetInstance();
 	switch (action)
 	{
 	case DragonAction::Action::NONE:
 		break;
 	case DragonAction::Action::FLY_MOVE:
-		updateFunc_ = std::bind(&DragonAction::UpdateFlyMove, this);
+		update_ = std::make_unique<DragonActionUpdateFlyMove>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::FLY_BREATH_ATTACK:
-		updateFunc_ = std::bind(&DragonAction::UpdateFlyBreathAttack, this);
+		//updateFunc_ = std::bind(&DragonAction::UpdateFlyBreathAttack, this);
 		break;
 	case DragonAction::Action::LANDING:
-		updateFunc_ = std::bind(&DragonAction::UpdateLanding, this);
+		//updateFunc_ = std::bind(&DragonAction::UpdateLanding, this);
 		break;
 	case DragonAction::Action::LAND_ATTACK:
-		updateFunc_ = std::bind(&DragonAction::UpdateLandAttack, this);
+		//updateFunc_ = std::bind(&DragonAction::UpdateLandAttack, this);
 		break;
 	case DragonAction::Action::TAKE_FLIGHT:
-		updateFunc_ = std::bind(&DragonAction::UpdateTakeFlight, this);
+		//updateFunc_ = std::bind(&DragonAction::UpdateTakeFlight, this);
 		break;
 	case DragonAction::Action::FLY_PLAYER_ATTACK:
-		updateFunc_ = std::bind(&DragonAction::UpdateFlyPlayerAttack, this);
+		//updateFunc_ = std::bind(&DragonAction::UpdateFlyPlayerAttack, this);
 		break;
 	default:
 		break;
 	}
-}
-
-void DragonAction::UpdateFlyMove(void)
-{
-}
-
-void DragonAction::UpdateFlyBreathAttack(void)
-{
-}
-
-void DragonAction::UpdateLanding(void)
-{
-}
-
-void DragonAction::UpdateLandAttack(void)
-{
-}
-
-void DragonAction::UpdateTakeFlight(void)
-{
-}
-
-void DragonAction::UpdateFlyPlayerAttack(void)
-{
 }

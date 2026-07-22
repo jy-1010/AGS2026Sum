@@ -1,4 +1,10 @@
 {
-  "MoveSpeed": 10.0,
-  "Height": 86
+  "MoveSpeed": 15.0,
+  "Height": 86,
+  "MoveRadius": 40,
+  "ChangeDIR": {
+    "Min": -20,
+    "Max": 20
+  },
+  "ReChangeDelay": 2.0
 }

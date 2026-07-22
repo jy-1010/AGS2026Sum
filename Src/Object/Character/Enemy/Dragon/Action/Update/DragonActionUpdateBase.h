@@ -14,7 +14,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="dragonTrans">ドラゴンのトランスフォーム</param>
-	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans,nlohmann::json json,std::weak_ptr<DragonAction>parent);
+	DragonActionUpdateBase(std::weak_ptr<Transform>dragonTrans,nlohmann::json json,DragonAction& parent);
 
 	/// <summary>
 	/// デストラクタ
@@ -31,7 +31,7 @@ public:
 protected:
 
 	//親クラス
-	std::weak_ptr<DragonAction> parent_;
+	DragonAction& parent_;
 
 	//ドラゴンのトランスフォーム
 	std::weak_ptr<Transform>dragonTrans_;

@@ -47,9 +47,10 @@ void Transform::Update(void)
 	matScl = MGetScale(scl);
 
 	// ‰ñ“]
-	rot = quaRot.ToEuler();
+	//rot = quaRot.ToEuler();
+	quaRot = Quaternion::Euler(rot);
 	matRot = quaRot.ToMatrix();
-
+	
 	// ˆÊ’u
 	matPos = MGetTranslate(VAdd(pos ,localPos));
 

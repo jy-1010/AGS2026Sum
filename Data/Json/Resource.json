@@ -30,6 +30,12 @@
       "Preload": true
     },
 
+    "PlayerHPImage": {
+      "Type": "Image",
+      "Path": "Image/UI/PlayerHP.png",
+      "Preload": true
+    },
+
     "EnemyDragonModel": {
       "Type": "Model",
       "Path": "Model/Dragon/Dragon.mv1",

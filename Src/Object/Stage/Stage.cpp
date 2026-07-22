@@ -57,6 +57,7 @@ void Stage::Draw(void)
 
 void Stage::UIDraw(void)
 {
+    DrawFormatString(10, 10, 0xffffff, "Polygon %d, Index %d", polygonInfo_.vertex.size(), polygonInfo_.Indices.size());
 }
 
 VECTOR Stage::GetPlayerSpawnPos(void)
@@ -110,6 +111,7 @@ void Stage::MakeStage(void)
 	CreateObsidianPillars();
 	CreateEndCrystals();
 	//CreateIronBarCages();
+    CreateCenterPoint();
     CreatePlayerSpawnPoint();
 }
 
@@ -264,6 +266,25 @@ void Stage::CreatePlayerSpawnPoint()
                 DeleteBlock(playerSpawnPos + IntVector3{ x,y,z });
             }
         }
+    }
+}
+
+void Stage::CreateCenterPoint(void)
+{
+    for (int x = -2; x <= 2; x++)
+    {
+        for (int z = -2; z <= 2; z++)
+        {
+            SetBlock( IntVector3{ x,jsonInput_.baseHeight,z }, "Bedrock");
+        }
+        SetBlock(IntVector3{ x,jsonInput_.baseHeight + 1,-3 }, "Bedrock");
+        SetBlock(IntVector3{ x,jsonInput_.baseHeight + 1,3 }, "Bedrock");
+        SetBlock(IntVector3{ -3,jsonInput_.baseHeight + 1,x }, "Bedrock");
+        SetBlock(IntVector3{ 3,jsonInput_.baseHeight + 1,-x }, "Bedrock");
+    }
+    for (int y = 1; y < 5; y++)
+    {
+        SetBlock(IntVector3{ 0,y + jsonInput_.baseHeight,0 }, "Bedrock");
     }
 }
 
