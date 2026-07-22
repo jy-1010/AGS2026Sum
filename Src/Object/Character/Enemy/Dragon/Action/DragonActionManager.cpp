@@ -31,7 +31,7 @@ void DragonActionManager::Update(void)
 	{
 		//アクションを変える
 		currentActionId_ = currentAction->GetNextActionId();
-		currentAction->Init();
+		actions_[currentActionId_]->Init();
 		actionData_.push_back(currentActionId_);
 	}
 }

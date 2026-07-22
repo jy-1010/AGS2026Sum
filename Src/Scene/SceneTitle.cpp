@@ -121,7 +121,7 @@ void SceneTitle::LoadLogo(void)
 		info.name = logoJson["Name"];
 		info.imageKey = logoJson["Image"];
 		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
-		info.pos = JsonUtility::GetPosTo2D(logoJson);
+		info.pos = JsonUtility::GetPosToFloat2D(logoJson);
 		info.layer = logoJson["Layer"];
 		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
 		logoInfo_.push_back(info);
@@ -178,7 +178,7 @@ void SceneTitle::LoadVirsion(void)
 		info.sizeChangeRate = virsionJson["Size"]["ChangeRate"];
 		info.rotation = Utility::Deg2RadF(virsionJson["Rotation"]);
 
-		info.centerPos = JsonUtility::GetPosTo2D(virsionJson["CenterPos"]);
+		info.centerPos = JsonUtility::GetPosToFloat2D(virsionJson["CenterPos"]);
 		info.centerPosScreen.x = info.centerPos.x * Application::SCREEN_SIZE_X;
 		info.centerPosScreen.y = info.centerPos.y * Application::SCREEN_SIZE_Y;
 		virsionInfo_.push_back(info);

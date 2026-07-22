@@ -20,14 +20,28 @@ public:
 	/// </summary>
 	/// <param name="json">json情報</param>
 	/// <returns>座標</returns>
-	static FloatVector2 GetPosTo2D(const nlohmann::json& json);
+	static FloatVector2 GetPosToFloat2D(const nlohmann::json& json);
+
+	/// <summary>
+	/// 2D座標情報を取得する
+	/// </summary>
+	/// <param name="json">json情報</param>
+	/// <returns>座標</returns>
+	static FloatVector2 GetPosToInt2D(const nlohmann::json& json);
 
 	/// <summary>
 	/// 3D座標情報を取得
 	/// </summary>
 	/// <param name="json">json情報</param>
 	/// <returns>座標</returns>
-	static VECTOR GetPosTo3D(const nlohmann::json& json);
+	static VECTOR GetPosToFloat3D(const nlohmann::json& json);
+
+	/// <summary>
+	/// 3D座標情報を取得
+	/// </summary>
+	/// <param name="json">json情報</param>
+	/// <returns>座標</returns>
+	static IntVector3 GetPosToInt3D(const nlohmann::json& json);
 
 	/// <summary>
 	/// 色情報をフロートで取得

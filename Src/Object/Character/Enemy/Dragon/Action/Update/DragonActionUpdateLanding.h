@@ -1,7 +1,8 @@
 #pragma once
 #include "DragonActionUpdateBase.h"
+#include "../../../../../../Common/Vector.h"
 
-class DragonActionUpdateFlyMove :    public DragonActionUpdateBase
+class DragonActionUpdateLanding :  public DragonActionUpdateBase
 {
 public:
 
@@ -10,13 +11,13 @@ public:
 	/// </summary>
 	/// <param name="dragonTrans">ドラゴンのトランスフォーム</param>
 	/// <param name="json">行動のjson</param>
-	DragonActionUpdateFlyMove(std::weak_ptr<Transform>dragonTrans, nlohmann::json json, DragonAction& parent);
+	DragonActionUpdateLanding(std::weak_ptr<Transform>dragonTrans, nlohmann::json json, DragonAction& parent);
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	~DragonActionUpdateFlyMove(void)override;
+	~DragonActionUpdateLanding(void)override;
 
 	/// <summary>
 	/// 初期化処理
@@ -34,25 +35,15 @@ private:
 
 	//移動速度
 	float moveSpeed_;
-	
-	//飛ぶ高さ
-	int height_;
 
-	//移動範囲
-	int moveRadius_;
+	IntVector3 destinationMapPos_;
 
-	//方向転換時の範囲
-	int minChangeDir_;
-	int maxChangeDir_;
+	VECTOR destinationPos_;
 
-	float reChangeDelay_;
-
-	float time_;
+	VECTOR moveDir_;
 
 	// jsonのデータをロードする
 	void Load(void)override;
-	//移動範囲外に出たか
-	bool IsMoveLimit(void);
 	//次の移動方向を決める
 	void CalcNextDir(void);
 	//移動処理

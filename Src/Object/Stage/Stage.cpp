@@ -90,8 +90,8 @@ void Stage::LoadJsonData(void)
     jsonInput_.chanckBlockNum = json["chunkBlockNum"];
     jsonInput_.chankMaxVertexNum = json["chunkMaxVertexNum"];
     jsonInput_.chankMaxIndexNum = json["chunkMaxIndexNum"];
-    jsonInput_.playerSpawnMapPos = JsonUtility::GetPosTo3D(json["SpawnPosition"]["Player"]);
-    jsonInput_.enemySpawnMapPos = JsonUtility::GetPosTo3D(json["SpawnPosition"]["Enemy"]);
+    jsonInput_.playerSpawnMapPos = JsonUtility::GetPosToFloat3D(json["SpawnPosition"]["Player"]);
+    jsonInput_.enemySpawnMapPos = JsonUtility::GetPosToFloat3D(json["SpawnPosition"]["Enemy"]);
 }
 
 void Stage::InitRenderer(void)

@@ -23,6 +23,12 @@ public:
 	virtual ~DragonActionUpdateBase(void);
 
 	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	virtual void Init(void) = 0;
+
+	/// <summary>
 	/// 更新処理
 	/// </summary>
 	/// <param name=""></param>

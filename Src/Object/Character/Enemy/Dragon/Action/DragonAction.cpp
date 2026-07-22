@@ -3,6 +3,7 @@
 #include "../../../../../Manager/Resource/JsonResource.h"
 #include "Update/DragonActionUpdateBase.h"
 #include "Update/DragonActionUpdateFlyMove.h"
+#include "Update/DragonActionUpdateLanding.h"
 #include "DragonAction.h"
 
 DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform,float blockSize)
@@ -23,6 +24,10 @@ DragonAction::~DragonAction(void)
 void DragonAction::Init(void)
 {
 	time_ = 0.0f;
+	if (update_)
+	{
+		update_->Init();
+	}
 	SetNextActionId();
 }
 
@@ -87,19 +92,19 @@ void DragonAction::SetUpdateFunc(Action action)
 		update_ = std::make_unique<DragonActionUpdateFlyMove>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::FLY_BREATH_ATTACK:
-		//updateFunc_ = std::bind(&DragonAction::UpdateFlyBreathAttack, this);
+		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::LANDING:
-		//updateFunc_ = std::bind(&DragonAction::UpdateLanding, this);
+		update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::LAND_ATTACK:
-		//updateFunc_ = std::bind(&DragonAction::UpdateLandAttack, this);
+		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::TAKE_FLIGHT:
-		//updateFunc_ = std::bind(&DragonAction::UpdateTakeFlight, this);
+		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::FLY_PLAYER_ATTACK:
-		//updateFunc_ = std::bind(&DragonAction::UpdateFlyPlayerAttack, this);
+		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	default:
 		break;

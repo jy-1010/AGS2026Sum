@@ -114,7 +114,7 @@ void SceneMenu::LoadLogo(void)
 		info.name = logoJson["Name"];
 		info.imageKey = logoJson["Image"];
 		info.imageHandle = ResourceManager::GetInstance().GetImageResource(info.imageKey).lock()->GetHandleId();
-		info.pos = JsonUtility::GetPosTo2D(logoJson);
+		info.pos = JsonUtility::GetPosToFloat2D(logoJson);
 		info.layer = logoJson["Layer"];
 		maxLayerNum_ = maxLayerNum_ < info.layer ? info.layer : maxLayerNum_;
 		logoInfo_.push_back(info);

@@ -15,7 +15,7 @@ BlockInfo::BlockInfo(void)
 	shaderInfo_.VSKey = blocks["Shader"]["VS"];
 	shaderInfo_.PSKey = blocks["Shader"]["PS"];
 
-	textureSize_ = JsonUtility::GetPosTo2D(blocks["TextureSize"]);
+	textureSize_ = JsonUtility::GetPosToFloat2D(blocks["TextureSize"]);
 
 	imageHandle_ = resManager.GetImageResource(blocks["Image"]).lock()->GetHandleId();
 
@@ -97,6 +97,6 @@ std::map<std::string, Polygon3DRenderer::PolygonInfo> BlockInfo::MakePolygon(Par
 	cubeParam.cubeSize = IntVector3(cubeSize, cubeSize, cubeSize).ToVECTOR();
 	cubeParam.key = blocks["RenderTemplate"].get<std::string>();
 	cubeParam.startUV = param.uvOffset;
-	cubeParam.TextureSize = JsonUtility::GetPosTo2D(blocks["TextureSize"]);
+	cubeParam.TextureSize = JsonUtility::GetPosToFloat2D(blocks["TextureSize"]);
 	return VertexInfo::LoadFromFileAFace(cubeParam);
 }

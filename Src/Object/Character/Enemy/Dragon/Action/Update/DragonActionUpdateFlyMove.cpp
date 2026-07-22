@@ -14,6 +14,10 @@ DragonActionUpdateFlyMove::~DragonActionUpdateFlyMove(void)
 {
 }
 
+void DragonActionUpdateFlyMove::Init(void)
+{
+}
+
 void DragonActionUpdateFlyMove::Update(void)
 {
 	float deltaTime = SceneManager::GetInstance().GetDeltaTime();

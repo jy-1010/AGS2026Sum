@@ -1,6 +1,6 @@
 {
   "MoveSpeed": 15.0,
-  "Height": 86,
+  "Height": 80,
   "MoveRadius": 40,
   "ChangeDIR": {
     "Min": -20,
