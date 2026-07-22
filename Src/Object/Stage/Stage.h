@@ -51,7 +51,7 @@ public:
 
 	float GetBlockSize(void);
 
-	bool IsLoading(void) { return isLoading_; }
+	bool IsLoading(void) const { return isLoading_; }
 
 private:
 

@@ -18,6 +18,7 @@ Player::Player(std::string skinName,float blockSize)
 		skinName = SkinManager::GetInstance().GetDefaultSkinName();
 	}
 	transform_ = std::make_shared<Transform>();
+	headTrans_ = std::make_shared<Transform>();
 	model_ = std::make_unique<PlayerModel>(skinName, paramsJson_);
 }
 
@@ -33,6 +34,8 @@ void Player::Init(void)
 void Player::Update(void)
 {
 	UpdateMove();
+	UpdateAttack();
+	CalcHeadPos();
 	model_->Update();
 }
 
@@ -68,6 +71,7 @@ void Player::LoadPlayerInfo(void)
 	paramsJson_ = jsonResource->GetData();
 	params_.COLLISION_SIZE = FLOAT3(paramsJson_["Collision"]["Width"], paramsJson_["Collision"]["Height"], paramsJson_["Collision"]["Depth"]);
 	params_.MAX_HEALTH = paramsJson_["Status"]["MaxHealth"];
+	params_.HEAD_HEIGHT = paramsJson_["HeadHeight"];
 	params_.BLOCK_REACH = paramsJson_["Reach"]["Block"];
 	params_.ENTITY_REACH = paramsJson_["Reach"]["Entity"];
 	params_.WALK_SPEED = paramsJson_["Move"]["WalkSpeed"];
@@ -75,6 +79,15 @@ void Player::LoadPlayerInfo(void)
 	params_.JUMP_POWER = paramsJson_["Move"]["JumpVelocity"];
 	params_.health = paramsJson_["Status"]["Health"];
 	params_.DefaultScale = paramsJson_["DefaultScale"];
+}
+
+void Player::UpdateAttack(void)
+{
+	KeyConfig& keycon = KeyConfig::GetInstance();
+	if (keycon.IsTrgDown(KeyConfig::CONTROL_TYPE::PLAYER_ATTACK))
+	{
+		SetAnimation("Swing", false);
+	}
 }
 
 void Player::UpdateMove(void)
@@ -171,4 +184,12 @@ VECTOR Player::CalcRot(VECTOR dir)
 VECTOR Player::CalcRot(IntVector2 dir)
 {
 	return VECTOR(0, atan2f(dir.x, -dir.y) , 0);
+}
+
+void Player::CalcHeadPos(void)
+{
+	//高さ計算
+	float headHeight = blockSize_ * params_.HEAD_HEIGHT;
+	//足元座標から上方向に加算
+	headTrans_->pos = VAdd(transform_->pos, VScale(Utility::DIR_U, headHeight));
 }

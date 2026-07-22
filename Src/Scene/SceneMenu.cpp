@@ -23,6 +23,8 @@ SceneMenu::SceneMenu(void)
 
 SceneMenu::~SceneMenu(void)
 {
+	auto& camera = SceneManager::GetInstance().GetCamera();
+	camera.SetIsMousePos(false);
 }
 
 bool SceneMenu::Init(void)
@@ -54,12 +56,16 @@ void SceneMenu::Update(void)
 		ChangeScene();
 		return;
 	}
+	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::OPEN_MENU))
+	{
+		SceneManager::GetInstance().PopScene();
+		return;
+	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
 		ChangeScene();
 		return;
 	}
-
 }
 
 void SceneMenu::Draw(void)

@@ -12,6 +12,12 @@
       "Preload": true
     },
 
+    "MenuLogoImage": {
+      "Type": "Image",
+      "Path": "Image/Menu/MenuLogo.png",
+      "Preload": true
+    },
+
     "TitleBackImage": {
       "Type": "Image",
       "Path": "Image/Title/TitleBackImage.png",

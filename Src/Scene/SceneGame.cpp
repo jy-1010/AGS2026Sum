@@ -21,13 +21,15 @@ SceneGame::SceneGame(void)
 	dragon_ = std::make_unique<Dragon>(*player_,stage_->GetBlockSize());
 	dragon_->SetPos(stage_->GetEnemySpawnPos());
 	auto& camera = SceneManager::GetInstance().GetCamera();
-	camera.ChangeMode(Camera::MODE::FOLLOW);
-	camera.SetFollow(player_->GetTransform().lock());
+	camera.ChangeMode(Camera::MODE::FPS);
+	camera.SetFollow(player_->GetHeadTransform().lock());
+	camera.SetIsMousePos(true);
 }
 
 SceneGame::~SceneGame(void)
 {
-
+	auto& camera = SceneManager::GetInstance().GetCamera();
+	camera.SetIsMousePos(false);
 }
 
 
@@ -42,6 +44,16 @@ bool SceneGame::Init(void)
 //更新処理
 void SceneGame::Update(void)
 {
+	if (stage_->IsLoading())
+	{
+		//ロード中は更新しない
+		return;
+	}
+	auto& camera = SceneManager::GetInstance().GetCamera();
+	if (!camera.GetIsSetMousePos())
+	{
+		camera.SetIsMousePos(true);
+	}
 	KeyConfig& ins = KeyConfig::GetInstance();
 	player_->Update();
 	stage_->Update();
@@ -53,9 +65,16 @@ void SceneGame::Update(void)
 //描画処理
 void SceneGame::Draw(void)
 {
+	if (stage_->IsLoading())
+	{
+		//ロード中の描画処理
+		return;
+	}
 	player_->Draw();
 	dragon_->Draw();
 	stage_->Draw();
+
+	DrawSphere3D(player_->GetHeadTransform().lock()->pos, 10, 16, 0xffffff, 0xffffff, true);
 
 	player_->UIDraw();
 	dragon_->UIDraw();

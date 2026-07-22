@@ -16,6 +16,7 @@ public:
 
 	//アニメーションの初期化
 	void Init(void);
+	void Init(std::string name);
 
 	//アニメーションの更新
 	void Update(void);

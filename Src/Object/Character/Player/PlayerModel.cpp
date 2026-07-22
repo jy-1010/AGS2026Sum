@@ -53,7 +53,7 @@ void PlayerModel::SetAnimation(std::string animName, bool isCompulsion)
 {
 	if (isCompulsion)
 	{
-		animationManager_->Init();
+		animationManager_->Init(animName);
 	}
 	animationManager_->SetAnimation(animName);
 }

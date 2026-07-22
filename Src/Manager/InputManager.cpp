@@ -46,6 +46,7 @@ void InputManager::Init(void)
 	Add(KEY_INPUT_RSHIFT);
 	Add(KEY_INPUT_RETURN);
 	Add(KEY_INPUT_TAB);
+	Add(KEY_INPUT_ESCAPE);
 
 
 	InputManager::MouseInfo mouseInfo;

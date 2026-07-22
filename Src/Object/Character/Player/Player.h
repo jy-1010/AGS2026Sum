@@ -10,6 +10,7 @@ public:
 	struct Param
 	{
 		FLOAT3 COLLISION_SIZE;	//当たり判定の大きさ
+		float HEAD_HEIGHT;	//頭の高さ
 		float MAX_HEALTH;	//最大体力
 		float BLOCK_REACH;	//ブロックに対するリーチ
 		float ENTITY_REACH;	//エンティティに対するリーチ
@@ -80,7 +81,13 @@ public:
 	/// </summary>
 	/// <param name=""></param>
 	void ApplyVertex(void);
+
+	std::weak_ptr<Transform> GetHeadTransform(void) { return headTrans_; }
+
 private:
+
+	//頭座標のトランスフォーム
+	std::shared_ptr<Transform> headTrans_;
 
 	//モデル管理
 	std::unique_ptr<PlayerModel> model_;
@@ -94,11 +101,17 @@ private:
 	//プレイヤー情報の読み込み
 	void LoadPlayerInfo(void);
 
+	//攻撃処理
+	void UpdateAttack(void);
+
 	//移動処理
 	void UpdateMove(void);
 
 	//移動方向をもとに回転量を取得
 	VECTOR CalcRot(VECTOR dir);
 	VECTOR CalcRot(IntVector2 dir);
+
+	//頭座標を計算
+	void CalcHeadPos(void);
 };
 

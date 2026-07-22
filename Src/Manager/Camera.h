@@ -51,6 +51,10 @@ public:
 	static constexpr float LIMIT_X_UP_RAD = 85.0f * (DX_PI_F / 180.0f);
 	static constexpr float LIMIT_X_DW_RAD = 5.0f * (DX_PI_F / 180.0f);
 
+	// カメラのX回転上限度角FPS
+	static constexpr float LIMIT_X_UP_FPS_RAD = 85.0f * (DX_PI_F / 180.0f);
+	static constexpr float LIMIT_X_DW_FPS_RAD = -30.0f * (DX_PI_F / 180.0f);
+
 	//FPSの上限角
 	//static constexpr float FPS_LIMIT_X_UP_RAD = -80.0f * (DX_PI_F / 180.0f);
 	//static constexpr float FPS_LIMIT_X_DW_RAD = 70.0f * (DX_PI_F / 180.0f);
@@ -64,6 +68,9 @@ public:
 	// 2人同時追従の相対座標
 	static constexpr VECTOR TWO_TARGET_LOCAL_POS = { 50.0f, 100.0f, -200.0f };
 
+	// 追従回転のX軸
+	static constexpr float FOLLOW_ROTATION_ROT_X = -0.0f;
+
 	// カメラモード
 	enum class MODE
 	{
@@ -71,13 +78,11 @@ public:
 		FIXED_POINT,
 		FOLLOW,
 		FOLLOW_ROTATION,	//ついじゅうしながら自動回転操作不能
-		//SELF_SHOT,
-		//FPS,
-		//FREE_CONTROLL,
 		FIXED_UP,
 		FIXED_DIAGONAL,	//斜め固定
 		TWO_TARGET,	//2人同時追従中心
 		TWO_TARGET_FOLLOW, //2人同時追従でズーム操作可能1P追従
+		FPS,
 	};
 
 
@@ -120,10 +125,15 @@ public:
 	void SetAngles(VECTOR angles) { angles_ = angles; }
 	void SetTargetPos(VECTOR pos) { targetPos_ = pos; }
 	void SetCameraUp(VECTOR up) { cameraUp_ = up; }
+
+	void SetIsMousePos(bool isSetMousePos);
+	bool GetIsSetMousePos(void) const { return isSetMousePos_; }
 private:
 
 	static constexpr float POSITION_LERP_POWER = 0.2f;	// カメラ位置補間力
 	static constexpr VECTOR DEFAULT_ANGLE = { 30.0f,0.0f,0.0f }; // カメラの初期角度(度)
+
+	bool isSetMousePos_;
 
 	// カメラのローカル座標
 	VECTOR localPos_;
@@ -163,10 +173,11 @@ private:
 	void SyncFollow(void);
 
 	//FPS用の位置同期
-	//void SyncFollowFPS(void);
+	void SyncFollowFPS(void);
 
 	// カメラ操作
 	void ProcessRot(void);
+	void ProcessRotFPS(void);
 	void ProcessZoom(void);
 	//マウスでのカメラ操作
 	//void ProcessRotMause(float* x_m, float* y_m, const float fov_per = 1.0f);
@@ -174,9 +185,7 @@ private:
 	void SetBeforeDrawFixedPoint(void);
 	void SetBeforeDrawFollow(void);
 	void SetBeforeDrawFollowRotation(void);
-	//void SetBeforeDrawSelfShot(void);
-	//void SetBeforeDrawFPS(void);
-	//void SetBeforeDrawFreeControll(void);
+	void SetBeforeDrawFPS(void);
 	void SetBeforeDrawFixedUp(void);
 	void SetBeforeDrawFixedDiagonal(void);
 	void SetBeforeDrawTwoTarget(void);

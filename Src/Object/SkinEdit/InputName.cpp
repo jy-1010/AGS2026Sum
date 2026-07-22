@@ -42,6 +42,7 @@ void InputName::Draw(void)
 	{
 	case Fase::NONE:
 	case Fase::END:
+		SetDrawScreen(SceneManager::GetInstance().GetMainScreen());
 		return;
 	case Fase::FIRST_CHECK:
 	case Fase::SECOND_CHECK:

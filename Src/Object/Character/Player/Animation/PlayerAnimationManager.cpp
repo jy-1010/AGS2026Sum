@@ -30,16 +30,68 @@ void PlayerAnimationManager::Init(void)
 	SetAnimation(defaultAnimationName_);
 }
 
+void PlayerAnimationManager::Init(std::string name)
+{
+	std::vector<std::string> eraseNames;
+	int rayer = animations[name]->GetLayer();
+	for (auto& animationName : animationNames)
+	{
+		auto& animation = animations[animationName];
+		if (rayer != animation->GetLayer())
+		{
+			continue;
+		}
+		eraseNames.push_back(animationName);
+		animation->Init();
+	}
+	for (auto& eraseName : eraseNames)
+	{
+		auto iter = std::find(animationNames.begin(), animationNames.end(), eraseName);
+		if (iter != animationNames.end())
+		{
+			animationNames.erase(iter);
+		}
+	}
+	for (auto& animationName : animationNames)
+	{
+		auto& animation = animations[animationName];
+		if (animations[defaultAnimationName_]->GetLayer() == animation->GetLayer())
+		{
+			return;
+		}
+	}
+	SetAnimation(defaultAnimationName_);
+}
+
 void PlayerAnimationManager::Update(void)
 {
+	std::vector<std::string> eraseNames;
 	for(auto& animationName : animationNames)
 	{
+		if (animations[animationName]->IsEnd())
+		{
+			animations[animationName]->Init();
+			eraseNames.push_back(animationName);
+			continue;
+		}
 		animations[animationName]->Update();
+	}
+	for (auto& eraseName : eraseNames)
+	{
+		auto iter = std::find(animationNames.begin(), animationNames.end(), eraseName);
+		if (iter != animationNames.end())
+		{
+			animationNames.erase(iter);
+		}
 	}
 }
 
 void PlayerAnimationManager::SetAnimation(std::string name)
 {
+	if (name == "Dash")
+	{
+		int i = 0;
+	}
 	auto iter = std::find(animationNames.begin(), animationNames.end(), name);
 	if (iter != animationNames.end())
 	{
@@ -47,8 +99,14 @@ void PlayerAnimationManager::SetAnimation(std::string name)
 		return;
 	}
 	std::vector<std::string> eraseNames;
+	int i = 0;
 	for (auto& animationName : animationNames)
 	{
+		i++;
+		if (animationName == "")
+		{
+			continue;
+		}
 		//同じレイヤーかつ優先度が同じか低いアニメーションを停止する
 		if (animations[name]->GetPriority() <= animations[animationName]->GetPriority()&&
 			animations[name]->GetLayer() == animations[animationName]->GetLayer())
@@ -57,7 +115,6 @@ void PlayerAnimationManager::SetAnimation(std::string name)
 		}
 		else if (animations[name]->GetLayer() == animations[animationName]->GetLayer())
 		{
-			StopAnimation(animationName);
 			eraseNames.push_back(animationName);
 		}
 	}
@@ -80,7 +137,7 @@ void PlayerAnimationManager::StopAnimation(std::string name)
 		animations[name]->Init();
 		animationNames.erase(iter);
 	}
-	if (animationNames.size() == 0)
+	if (animationNames.size() == 0 && name != defaultAnimationName_)
 	{
 		SetAnimation(defaultAnimationName_);
 	}

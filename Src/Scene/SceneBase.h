@@ -18,6 +18,10 @@ public:
 	virtual void Load(void);
 protected:
 
+	//カメラ
+	static constexpr VECTOR CAMERA_POS = { 0.0f,0.0f,-1000.0f };
+	static constexpr VECTOR CAMERA_TARGET_POS = { 0.0f,0.0f,0.0f };
+
 	//四角
 	struct Rect
 	{

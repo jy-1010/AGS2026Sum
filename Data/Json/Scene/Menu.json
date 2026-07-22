@@ -16,8 +16,8 @@
         }
       },
       {
-        "Name": "TitleLogo",
-        "Image": "TitleLogoImage",
+        "Name": "MenuLogo",
+        "Image": "MenuLogoImage",
         "Layer": 1,
         "Position": {
           "x": 0.5,

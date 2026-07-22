@@ -13,6 +13,7 @@ PlayerAnimation::PlayerAnimation(std::string path)
 void PlayerAnimation::Init(void)
 {
 	currentTime_ = 0.0f;
+	isEnd_ = false;
 }
 
 void PlayerAnimation::Update(void)

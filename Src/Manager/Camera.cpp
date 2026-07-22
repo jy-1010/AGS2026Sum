@@ -15,6 +15,7 @@ Camera::Camera(int _playerNum)
 	targetPos_ = Utility::VECTOR_ZERO;
 	padNo_ = static_cast<KeyConfig::JOYPAD_NO>(_playerNum + 1);
 	localPos_ = Utility::VECTOR_ZERO;
+	isSetMousePos_ = false;
 }
 
 Camera::~Camera(void)
@@ -49,15 +50,6 @@ void Camera::SetBeforeDraw(void)
 	case Camera::MODE::FOLLOW_ROTATION:
 		SetBeforeDrawFollowRotation();
 		break;
-	//case Camera::MODE::SELF_SHOT:
-	//	SetBeforeDrawSelfShot();
-	//	break;
-	//case Camera::MODE::FPS:
-	//	SetBeforeDrawFPS();
-	//	break;
-	//case Camera::MODE::FREE_CONTROLL:
-	//	SetBeforeDrawFreeControll();
-		break;
 	case Camera::MODE::FIXED_UP:
 		SetBeforeDrawFixedUp();
 		break;
@@ -70,14 +62,22 @@ void Camera::SetBeforeDraw(void)
 	case Camera::MODE::TWO_TARGET_FOLLOW:
 		SetBeforeDrawTwoTargetFollow();
 		break;
+	case Camera::MODE::FPS:
+		SetBeforeDrawFPS();
+		break;
 	}
 
-	pos_ = VAdd(prePos, VScale(VSub(pos_, prePos), POSITION_LERP_POWER));
 	//カメラの設定
 	CameraSetting();
 
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
+
+	//画面中央にマウスを固定
+	if (isSetMousePos_)
+	{
+		KeyConfig::GetInstance().SetMousePos({ Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y });
+	}
 
 }
 
@@ -104,6 +104,19 @@ void Camera::SetFollow( std::shared_ptr<Transform> follow1,  std::shared_ptr<Tra
 {
 	followTransform1_ = follow1;
 	followTransform2_ = follow2;
+}
+
+void Camera::SetIsMousePos(bool isSetMousePos)
+{
+	isSetMousePos_ = isSetMousePos;
+	if (isSetMousePos_)
+	{
+		SetMouseDispFlag(false);
+	}
+	else
+	{
+		SetMouseDispFlag(true);
+	}
 }
 
 VECTOR Camera::GetPos(void) const
@@ -209,36 +222,20 @@ void Camera::SyncFollow(void)
 
 }
 
-//void Camera::SyncFollowFPS(void)
-//{
-//	auto gIns = GravityManager::GetInstance();
-//
-//	// 同期先の位置
-//	VECTOR pos = followTransform1_->pos;
-//
-//	// 重力の方向制御に従う
-//	//Quaternion gRot = gIns.GetTransform().quaRot;
-//
-//	// 正面から設定されたY軸分、回転させる
-//	//rotOutX_ = gRot.Mult(Quaternion::AngleAxis(angles_.y, Utility::AXIS_Y));
-//
-//	// 正面から設定されたX軸分、回転させる
-//	rot_ = rotOutX_.Mult(Quaternion::AngleAxis(angles_.x, Utility::AXIS_X));
-//
-//	VECTOR localPos;
-//
-//	// 注視点(通常重力でいうところのY値を追従対象と同じにする)
-//	//localPos = rotOutX_.PosAxis(LOCAL_F2T_POS);
-//	localPos = rot_.PosAxis(FPS_LOCAL_F2T_POS);
-//	targetPos_ = VAdd(pos, localPos);
-//
-//	// カメラ位置
-//	localPos = rotOutX_.PosAxis(FPS_LOCAL_F2C_POS);
-//	pos_ = VAdd(pos, localPos);
-//
-//	// カメラの上方向
-//	cameraUp_ = rot_.GetUp();
-//}
+void Camera::SyncFollowFPS(void)
+{
+	VECTOR forward;
+
+	forward.x = cosf(angles_.x) * sinf(angles_.y);
+	forward.y = sinf(angles_.x);
+	forward.z = cosf(angles_.x) * cosf(angles_.y);
+
+	const float Distance = 100.0f;
+
+	targetPos_ = VAdd(pos_, VScale(forward, Distance));
+	// カメラの上方向
+	cameraUp_ = Utility::DIR_U;
+}
 
 void Camera::ProcessRot(void)
 {
@@ -259,8 +256,6 @@ void Camera::ProcessRot(void)
 	rotPow = SPEED_MOUSE;
 	angles_.x += Utility::Deg2RadF(mouseMove.y * rotPow);
 	angles_.y += Utility::Deg2RadF(mouseMove.x * rotPow);
-	//画面中央にマウスを固定
-	KeyConfig::GetInstance().SetMousePos({ Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y });
 
 	if (angles_.x >= LIMIT_X_UP_RAD)
 	{
@@ -269,6 +264,36 @@ void Camera::ProcessRot(void)
 	else if (angles_.x <= LIMIT_X_DW_RAD)
 	{
 		angles_.x = LIMIT_X_DW_RAD;
+	}
+}
+
+void Camera::ProcessRotFPS(void)
+{
+	auto& ins = KeyConfig::GetInstance();
+	float rotPow = Utility::Deg2RadF(SPEED);
+	if (ins.IsNew(KeyConfig::CONTROL_TYPE::PLAY_CAMERA_MOVE_RIGHT, padNo_)) { angles_.y += rotPow; }
+	if (ins.IsNew(KeyConfig::CONTROL_TYPE::PLAY_CAMERA_MOVE_LEFT, padNo_)) { angles_.y -= rotPow; }
+	if (ins.IsNew(KeyConfig::CONTROL_TYPE::PLAY_CAMERA_MOVE_UP, padNo_)) { angles_.x += rotPow; }
+	if (ins.IsNew(KeyConfig::CONTROL_TYPE::PLAY_CAMERA_MOVE_DOWN, padNo_)) { angles_.x -= rotPow; }
+
+
+	auto rStick = ins.GetKnockRStickSize(padNo_);
+	rotPow = SPEED_PAD;
+	angles_.x -= Utility::Deg2RadF(rStick.y * rotPow);
+	angles_.y += Utility::Deg2RadF(rStick.x * rotPow);
+	//マウス
+	auto mouseMove = ins.GetMouseMove();
+	rotPow = SPEED_MOUSE;
+	angles_.x -= Utility::Deg2RadF(mouseMove.y * rotPow);
+	angles_.y += Utility::Deg2RadF(mouseMove.x * rotPow);
+
+	if (angles_.x >= LIMIT_X_UP_FPS_RAD)
+	{
+		angles_.x = LIMIT_X_UP_FPS_RAD;
+	}
+	else if (angles_.x <= LIMIT_X_DW_FPS_RAD)
+	{
+		angles_.x = LIMIT_X_DW_FPS_RAD;
 	}
 }
 
@@ -291,27 +316,6 @@ void Camera::ProcessZoom(void)
 	}
 }
 
-//void Camera::ProcessRotMause(float* x_m, float* y_m, const float fov_per)
-//{
-//	int x_t, y_t;
-//	GetMousePoint(&x_t, &y_t);
-//	*x_m += float(std::clamp(x_t - Application::SCREEN_SIZE_X / 2, -120, 120)) * fov_per / GetFPS();
-//	*y_m += float(std::clamp(y_t - Application::SCREEN_SIZE_Y / 2, -120, 120)) * fov_per / GetFPS();
-//	SetMousePoint(Application::SCREEN_SIZE_X / 2, Application::SCREEN_SIZE_Y / 2);
-//
-//	// マウスを表示状態にする
-//	SetMouseDispFlag(FALSE);
-//
-//	if (angles_.x <= FPS_LIMIT_X_UP_RAD)
-//	{
-//		angles_.x = FPS_LIMIT_X_UP_RAD;
-//	}
-//	if (angles_.x >= FPS_LIMIT_X_DW_RAD)
-//	{
-//		angles_.x = FPS_LIMIT_X_DW_RAD;
-//	}
-//}
-
 void Camera::SetBeforeDrawFixedPoint(void)
 {
 	// 何もしない
@@ -333,7 +337,7 @@ void Camera::SetBeforeDrawFollowRotation(void)
 {
 	const float SPEED_DEG = 1.5f;
 	angles_.y += Utility::Deg2RadF(SPEED_DEG);
-
+	angles_.x = FOLLOW_ROTATION_ROT_X;
 	auto vec = VNorm(VSub(LOCAL_F2T_POS, LOCAL_F2C_POS));
 	localPos_ = VAdd(localPos_, VScale(vec, ZOOM_SPEED));
 	if (Utility::Distance(LOCAL_F2C_POS, localPos_) > ZOOM_RADIUS)
@@ -346,99 +350,12 @@ void Camera::SetBeforeDrawFollowRotation(void)
 	SyncFollow();
 }
 
-//void Camera::SetBeforeDrawSelfShot(void)
-//{
-//	auto gIns = GravityManager::GetInstance();
-//
-//	// 同期先の位置
-//	VECTOR pos = followTransform1_->pos;
-//
-//
-//	// 正面から設定されたX軸分、回転させる
-//	rot_ = rotOutX_.Mult(Quaternion::AngleAxis(angles_.x, Utility::AXIS_X));
-//
-//	VECTOR localPos;
-//
-//	// 注視点(通常重力でいうところのY値を追従対象と同じにする)
-//	localPos = rotOutX_.PosAxis(LOCAL_F2T_POS);
-//	targetPos_ = VAdd(pos, localPos);
-//
-//	// カメラ位置
-//	localPos = rot_.PosAxis(LOCAL_F2C_POS);
-//	pos_ = VAdd(pos, localPos);
-//
-//
-//}
-//
-//void Camera::SetBeforeDrawFPS(void)
-//{
-//	//マウスでのカメラ操作
-//	ProcessRotMause(&angles_.y, &angles_.x, 0.2f);
-//
-//	// 追従対象との相対位置を同期
-//	SyncFollowFPS();
-//}
-
-//void Camera::SetBeforeDrawFreeControll(void)
-//{
-//	auto& ins = KeyConfig::GetInstance();
-//	float rotPow = Utility::Deg2RadF(SPEED);
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_ROT_RIGHT, padNo_)) { angles_.y += rotPow; }
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_ROT_LEFT, padNo_)) { angles_.y -= rotPow; }
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_ROT_UP, padNo_)) { angles_.x -= rotPow; }
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_ROT_DOWN, padNo_)) { angles_.x += rotPow; }
-//
-//	if (angles_.x <= FPS_LIMIT_X_UP_RAD)
-//	{
-//		angles_.x = FPS_LIMIT_X_UP_RAD;
-//	}
-//	if (angles_.x >= FPS_LIMIT_X_DW_RAD)
-//	{
-//		angles_.x = FPS_LIMIT_X_DW_RAD;
-//	}
-//	
-//	auto rStick = ins.GetKnockRStickSize(padNo_);
-//	rotPow = SPEED_PAD;
-//	angles_.x += Utility::Deg2RadF(rStick.y *rotPow);
-//	angles_.y += Utility::Deg2RadF(rStick.x *rotPow);
-//
-//	//if (ins.IsNew(KEY_INPUT_W)) 
-//	//{
-//	//	pos_ = VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetForward(), 3.0f));
-//	//}
-//	//if (ins.IsNew(KEY_INPUT_S))
-//	//{
-//	//	pos_ = VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetBack(), moveSpeed));
-//	//}
-//	static float moveSpeed = 10.0f;
-//	static float moveSpeedFB = 30.0f;
-//	pos_ = VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetForward(), ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_FRONT, padNo_) * moveSpeedFB));
-//	pos_ = VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetBack(), ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_BACK, padNo_) * moveSpeedFB));
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_LEFT, padNo_))
-//	{
-//		pos_ = VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetLeft(), moveSpeed));
-//	}
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_RIGHT, padNo_))
-//	{
-//		pos_ =VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetRight(), moveSpeed));
-//	}
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_UP, padNo_))
-//	{
-//		pos_ =VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetUp(), moveSpeed));
-//	}
-//	if (ins.IsNew(KeyConfig::CONTROL_TYPE::EDIT_CAMERA_MOVE_DOWN, padNo_))
-//	{
-//		pos_ =VAdd(pos_, VScale(Quaternion::Quaternion(angles_).GetDown(), moveSpeed));
-//	}
-//
-//	VECTOR localPos;
-//	rot_ =(Quaternion::Quaternion(angles_));
-//	// 注視点(通常重力でいうところのY値を追従対象と同じにする)
-//	localPos = rot_.PosAxis(LOCAL_F2T_POS);
-//	targetPos_ = VAdd(pos_, localPos);
-//
-//
-//}
+void Camera::SetBeforeDrawFPS(void)
+{
+	pos_ = followTransform1_->pos;
+	ProcessRotFPS();
+	SyncFollowFPS();
+}
 
 void Camera::SetBeforeDrawFixedUp(void)
 {
