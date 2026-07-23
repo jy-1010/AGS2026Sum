@@ -54,7 +54,12 @@ void DragonActionManager::UIDraw(void)
 
 void DragonActionManager::CreateBreath(void)
 {
-	breath_->CreateBreath(transform_.lock()->pos, player_.GetTransform().lock()->pos);
+	breath_->CreateBreath(transform_.lock()->pos,GetPlayerPos());
+}
+
+const VECTOR DragonActionManager::GetPlayerPos(void) const
+{
+	return  player_.GetTransform().lock()->pos;
 }
 
 void DragonActionManager::LoadJsonData(void)
@@ -66,7 +71,7 @@ void DragonActionManager::LoadJsonData(void)
 	actionData_.push_back(currentActionId_);
 	for (auto& pattern : json["Pattern"])
 	{
-		std::shared_ptr<DragonAction> action = std::make_shared<DragonAction>(pattern,transform_.lock(),blockSize_);
+		std::shared_ptr<DragonAction> action = std::make_shared<DragonAction>(pattern,transform_.lock(),blockSize_,*this);
 		actions_.emplace(action->GetId(), action);
 	}
 }

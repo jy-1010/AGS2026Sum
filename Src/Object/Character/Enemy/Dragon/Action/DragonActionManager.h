@@ -19,7 +19,7 @@ public:
 	/// <param name="key">アクションのリソースキー</param>
 	/// <param name="transform">ドラゴンのトランスフォーム</param>
 	/// <param name="player">プレイヤー情報</param>
-	DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& playe,float blockSizer);
+	DragonActionManager(std::string key,std::shared_ptr<Transform> transform, const Player& player,float blockSizer);
 
 	/// <summary>
 	/// デストラクタ
@@ -56,6 +56,13 @@ public:
 	/// </summary>
 	/// <param name=""></param>
 	void CreateBreath(void);
+
+	/// <summary>
+	/// プレイヤーの座標を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	const VECTOR GetPlayerPos(void)const;
 
 private:
 

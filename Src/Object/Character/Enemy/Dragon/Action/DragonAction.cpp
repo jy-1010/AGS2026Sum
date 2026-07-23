@@ -1,13 +1,15 @@
 #include "../../../../../Manager/SceneManager.h"
 #include "../../../../../Manager/ResourceManager.h"
 #include "../../../../../Manager/Resource/JsonResource.h"
+#include "DragonActionManager.h"
 #include "Update/DragonActionUpdateBase.h"
 #include "Update/DragonActionUpdateFlyMove.h"
 #include "Update/DragonActionUpdateLanding.h"
 #include "Update/DragonActionUpdateTakeFlight.h"
+#include "Update/DragonActionUpdatePlayerAttack.h"
 #include "DragonAction.h"
 
-DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform,float blockSize)
+DragonAction::DragonAction(nlohmann::json jsonData, std::shared_ptr<Transform> transform,float blockSize,const DragonActionManager& parent):parent_(parent)
 {
 	sumWeight_ = 0;
 	transform_ = transform;
@@ -44,6 +46,11 @@ void DragonAction::Draw(void)
 
 void DragonAction::UIDraw(void)
 {
+}
+
+const VECTOR DragonAction::GetPlayerPos(void) const
+{
+	return parent_.GetPlayerPos();
 }
 
 void DragonAction::SetNextActionId(void)
@@ -105,7 +112,7 @@ void DragonAction::SetUpdateFunc(Action action)
 		update_ = std::make_unique<DragonActionUpdateTakeFlight>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	case DragonAction::Action::FLY_PLAYER_ATTACK:
-		//update_ = std::make_unique<DragonActionUpdateLanding>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
+		update_ = std::make_unique<DragonActionUpdatePlayerAttack>(transform_, resourceManager.GetJsonResource(jsonData_["Json"]).lock()->GetData(), *this);
 		break;
 	default:
 		break;

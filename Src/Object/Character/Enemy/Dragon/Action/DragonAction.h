@@ -6,6 +6,7 @@
 #include "../../../../Common/Transform.h"
 
 class DragonActionUpdateBase;
+class DragonActionManager;
 
 class DragonAction
 {
@@ -26,7 +27,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name=""></param>
-	DragonAction(nlohmann::json jsonData,std::shared_ptr<Transform> transform,float blockSize);
+	DragonAction(nlohmann::json jsonData,std::shared_ptr<Transform> transform,float blockSize,const DragonActionManager& parent);
 
 	/// <summary>
 	/// デストラクタ
@@ -91,6 +92,13 @@ public:
 	/// </summary>
 	const float GetBlockSize(void) const { return blockSize_; }
 
+	/// <summary>
+	/// プレイヤーの座標を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	const VECTOR GetPlayerPos(void)const;
+
 private:
 
 	struct NextActionInfo
@@ -99,6 +107,8 @@ private:
 		int weight;	//次のアクションの重み(優先度)
 		Action nextAction;	//次のアクションの
 	};
+
+	const DragonActionManager& parent_;
 
 	// ドラゴンのトランスフォーム
 	std::weak_ptr<Transform> transform_;

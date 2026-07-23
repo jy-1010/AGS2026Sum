@@ -103,7 +103,7 @@
       "Id": 6,
       "Name": "PlayerAttack",
       "Json": "EnemyDragonActionPlayerAttackJson",
-      "Duration": 30,
+      "Duration": 12,
       "Next": [
         {
           "Id": 1,

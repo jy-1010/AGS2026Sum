@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdatePlayerAttack.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateTakeFlight.cpp" />
     <ClCompile Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateLanding.cpp" />
     <ClCompile Include="Src\Object\Button.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="Src\Utility\StringUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdatePlayerAttack.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateTakeFlight.h" />
     <ClInclude Include="Src\Object\Character\Enemy\Dragon\Action\Update\DragonActionUpdateLanding.h" />
     <ClInclude Include="Src\Object\Button.h" />
