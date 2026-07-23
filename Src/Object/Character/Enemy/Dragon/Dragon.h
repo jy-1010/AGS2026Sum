@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include "../../../ObjectBase.h"
 
 class DragonModel;
@@ -64,6 +65,8 @@ private:
 	//１ブロックの大きさ
 	float blockSize_;
 
+	std::unique_ptr<DragonActionManager> actionManager_;
+
 	// プレイヤー
 	const Player& player_;
 
@@ -74,8 +77,12 @@ private:
 
 	Param params_;
 
+	std::map<int, VECTOR> bornPos_;
+
 	void LoadDragonInfo(void);
 
-	std::unique_ptr<DragonActionManager> actionManager_;
+	void InitCollider(void);
+
+	void UpdateFramePos(void);
 };
 
