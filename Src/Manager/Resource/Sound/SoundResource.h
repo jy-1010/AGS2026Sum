@@ -28,6 +28,10 @@ public:
 	//ハンドルIDを取得する
 	const int GetHandleId(void) const { return handleId_; }
 
+	virtual void Play(void) = 0;
+
+	void Stop(void);
+
 protected:
 	// 音の種類
 	SOUND_TYPE soundType_;
@@ -41,6 +45,9 @@ protected:
 	int maxPlayNum_;
 	// ループ再生するかどうか
 	bool isLoop_;
+	
+	std::vector<int> playHandle_;
+
 	// 音の情報をロード
 	virtual void LoadResourceInfo(void) override;
 	// 音の完全初期化

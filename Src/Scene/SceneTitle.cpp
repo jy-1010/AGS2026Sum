@@ -11,6 +11,7 @@
 #include "../Manager/Resource/JsonResource.h"
 #include "../Manager/Resource/FontResource.h"
 #include "../Manager/Resource/ImageResource.h"
+#include "../Manager/Resource/Sound/Sound2DResource.h"
 #include "SceneTitle.h"
 
 
@@ -18,6 +19,7 @@ SceneTitle::SceneTitle(void)
 {
 	auto& resManager = ResourceManager::GetInstance();
 	auto titleJson = resManager.GetJsonResource("TitleJson");
+	resManager.GetSound2DResource("TitleBGM").lock()->Play();
 	time_ = 0.0f;
 	selectIndex_ = 0;
 	maxLayerNum_ = -1;
@@ -27,7 +29,8 @@ SceneTitle::SceneTitle(void)
 
 SceneTitle::~SceneTitle(void)
 {
-
+	auto& resManager = ResourceManager::GetInstance();
+	resManager.GetSound2DResource("TitleBGM").lock()->Stop();
 }
 
 //初期化処理(初回の1度のみ実行される)
@@ -39,10 +42,12 @@ bool SceneTitle::Init(void)
 //更新処理
 void SceneTitle::Update(void)
 {
+	auto& resManager = ResourceManager::GetInstance();
 	if (GetASyncLoadNum() > 0)
 	{
 		return;
 	}
+	int prevSelectIndex = selectIndex_;
 	time_ += SceneManager::GetInstance().GetDeltaTime();
 	auto& keyConfig = KeyConfig::GetInstance();
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::SELECT_UP, KeyConfig::JOYPAD_NO::PAD1))
@@ -55,8 +60,13 @@ void SceneTitle::Update(void)
 	}
 	bool isInBox = ColCheckMouse();
 	UpdateSelectIndex();
+	if (selectIndex_ != prevSelectIndex)
+	{
+		resManager.GetSound2DResource("MoveSelectSE").lock()->Play();
+	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER_MOUSE) && isInBox)
 	{
+		resManager.GetSound2DResource("EnterSE").lock()->Play();
 		ColCheckMouse(false);
 		UpdateSelectIndex();
 		ChangeScene();
@@ -64,6 +74,7 @@ void SceneTitle::Update(void)
 	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
+		resManager.GetSound2DResource("EnterSE").lock()->Play();
 		ChangeScene();
 		return;
 	}

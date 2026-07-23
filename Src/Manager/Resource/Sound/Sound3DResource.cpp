@@ -20,6 +20,10 @@ bool Sound3DResource::Load(void)
     return false;
 }
 
+void Sound3DResource::Play(void)
+{
+}
+
 void Sound3DResource::LoadResourceInfo(void)
 {
 	Init();

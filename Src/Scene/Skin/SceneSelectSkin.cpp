@@ -3,6 +3,7 @@
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/Resource/FontResource.h"
+#include "../../Manager/Resource/Sound/Sound2DResource.h"
 #include "../../Manager/KeyConfig.h"
 #include "../../Manager/Camera.h"
 #include "../../Object/Character/Player/Skin/SkinManager.h"
@@ -11,6 +12,8 @@
 
 SceneSelectSkin::SceneSelectSkin(void)
 {
+	auto& resManager = ResourceManager::GetInstance();
+	resManager.GetSound2DResource("SkinBGM").lock()->Play();
 	selectSkinNum_ = 1;
 	screenSize_ = { Application::SCREEN_SIZE_X / SCREEN_DRAW_NUM, Application::SCREEN_SIZE_Y };
 	auto& skinManager = SkinManager::GetInstance();
@@ -31,6 +34,8 @@ SceneSelectSkin::~SceneSelectSkin(void)
 	{
 		DeleteGraph(screen.screenHandle);
 	}
+	auto& resManager = ResourceManager::GetInstance();
+	resManager.GetSound2DResource("SkinBGM").lock()->Stop();
 }
 
 bool SceneSelectSkin::Init(void)
@@ -40,6 +45,8 @@ bool SceneSelectSkin::Init(void)
 
 void SceneSelectSkin::Update(void)
 {
+	auto& resManager = ResourceManager::GetInstance();
+	int prevSkinNum = selectSkinNum_;
 	previewPlayer_->Update();
 	auto& keyConfig = KeyConfig::GetInstance();
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::SELECT_LEFT, KeyConfig::JOYPAD_NO::PAD1))
@@ -51,6 +58,10 @@ void SceneSelectSkin::Update(void)
 		selectSkinNum_++;
 	}
 	selectSkinNum_ = (selectSkinNum_ + static_cast<int>(skinPreviewScreens_.size())) % static_cast<int>(skinPreviewScreens_.size());
+	if (selectSkinNum_ != prevSkinNum)
+	{
+		resManager.GetSound2DResource("MoveSelectSE").lock()->Play();
+	}
 	for (auto& info : skinPreviewScreens_)
 	{
 		info.isDraw = IsDrawScren(info.skinNum);
@@ -58,6 +69,7 @@ void SceneSelectSkin::Update(void)
 	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
+		resManager.GetSound2DResource("EnterSE").lock()->Play();
 		SkinManager::GetInstance().SetSelectedSkinName(GetSelectSkinName());
 		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAME,true);
 	}

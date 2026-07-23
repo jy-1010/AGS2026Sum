@@ -14,6 +14,14 @@ bool SoundResource::IsLoaded(void) const
 	return handleId_ != -1;
 }
 
+void SoundResource::Stop(void)
+{
+	for (auto& handle : playHandle_)
+	{
+		StopSoundMem(handle);
+	}
+}
+
 void SoundResource::LoadResourceInfo(void)
 {
 	Init();

@@ -11,6 +11,8 @@ public:
 	~Sound2DResource(void)override;
 	// ロード
 	bool Load(void) override;
+
+	void Play(void)override;
 private:
 	// 2D音響の情報をロード
 	void LoadResourceInfo(void) override;

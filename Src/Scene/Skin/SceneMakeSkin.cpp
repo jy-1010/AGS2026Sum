@@ -5,6 +5,7 @@
 #include "../Manager/KeyConfig.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/Resource/ShaderResource.h"
+#include "../Manager/Resource/Sound/Sound2DResource.h"
 #include "../Manager/Camera.h"
 #include "../Object/Character/Player/Player.h"
 #include "../Object/Character/Player/Skin/SkinManager.h"
@@ -22,6 +23,8 @@
 
 SceneMakeSkin::SceneMakeSkin(void)
 {
+	auto& resManager = ResourceManager::GetInstance();
+	resManager.GetSound2DResource("SkinBGM").lock()->Play();
 	previewPlayer_ = std::make_unique<Player>("");
 	previewScreen_ = MakeScreen(Application::SCREEN_HALF_X / 2, Application::SCREEN_SIZE_Y, true);
 	canvasScreen_ = MakeScreen(SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE, SkinCanvas::SIZE * SkinRenderer::PIXEL_SIZE);
@@ -44,6 +47,8 @@ SceneMakeSkin::SceneMakeSkin(void)
 
 SceneMakeSkin::~SceneMakeSkin(void)
 {
+	auto& resManager = ResourceManager::GetInstance();
+	resManager.GetSound2DResource("SkinBGM").lock()->Stop();
 }
 
 bool SceneMakeSkin::Init(void)

@@ -184,9 +184,9 @@
       "Pitch": 0.0
     },
 
-    "GameBGM": {
+    "SkinBGM": {
       "Type": "Sound2D",
-      "Path": "Sound/GameBGM.mp3",
+      "Path": "Sound/SkinBGM.mp3",
 
       "Preload": true,
       "Loop": true,
@@ -195,6 +195,62 @@
 
       "MaxVolume": 0.5,
       "MaxPlayNum": 1,
+      "Pitch": 0.0
+    },
+
+    "GameClearBGM": {
+      "Type": "Sound2D",
+      "Path": "Sound/GameClearBGM.mp3",
+
+      "Preload": true,
+      "Loop": true,
+
+      "SoundType": "BGM",
+
+      "MaxVolume": 0.5,
+      "MaxPlayNum": 1,
+      "Pitch": 0.0
+    },
+
+    "GameOverBGM": {
+      "Type": "Sound2D",
+      "Path": "Sound/GameOverBGM.mp3",
+
+      "Preload": true,
+      "Loop": true,
+
+      "SoundType": "BGM",
+
+      "MaxVolume": 0.5,
+      "MaxPlayNum": 1,
+      "Pitch": 0.0
+    },
+
+    "EnterSE": {
+      "Type": "Sound2D",
+      "Path": "Sound/EnterSE.mp3",
+
+      "Preload": true,
+      "Loop": false,
+
+      "SoundType": "SE",
+
+      "MaxVolume": 0.7,
+      "MaxPlayNum": 5,
+      "Pitch": 0.0
+    },
+
+    "MoveSelectSE": {
+      "Type": "Sound2D",
+      "Path": "Sound/MoveSelectSE.mp3",
+
+      "Preload": true,
+      "Loop": false,
+
+      "SoundType": "SE",
+
+      "MaxVolume": 0.7,
+      "MaxPlayNum": 10,
       "Pitch": 0.0
     },
 

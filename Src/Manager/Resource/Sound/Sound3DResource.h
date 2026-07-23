@@ -12,6 +12,7 @@ public:
 	// ロード
 	bool Load(void) override;
 
+	void Play(void)override;
 private:
 
 	float radius_; // 音が聞こえる範囲
