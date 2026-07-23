@@ -17,6 +17,8 @@ public:
 		float WALK_SPEED;	//歩くスピード
 		float SPRINT_SPEED;	//ダッシュスピード
 		float JUMP_POWER;	//ジャンプスピード
+		float SWORD_DAMAGE;	//剣のダメージ
+		float ARROW_DAMAGE;	//弓のダメージ
 		float health;		//体力
 		float DefaultScale;	//通常サイズ
 	};
@@ -84,6 +86,27 @@ public:
 
 	std::weak_ptr<Transform> GetHeadTransform(void) { return headTrans_; }
 
+	/// <summary>
+	/// ダメージを取得
+	/// </summary>
+	/// <param name="tag">どの武器のタグか</param>
+	/// <returns></returns>
+	const float GetDamage(Collider::TAG tag)const;
+
+	/// <summary>
+	/// 衝突時の反応
+	/// </summary>
+	/// <param name="_hitCol">当たった相手コライダー</param>
+	/// <param name="hitPos">当たった場所</param>
+	void OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)override;
+
+	/// <summary>
+	/// 体力を取得する
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	const float GetHP(void)const { return params_.health; }
+
 private:
 
 	//頭座標のトランスフォーム
@@ -113,5 +136,7 @@ private:
 
 	//頭座標を計算
 	void CalcHeadPos(void);
+
+	void InitCollider(void);
 };
 

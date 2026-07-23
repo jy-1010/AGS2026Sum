@@ -167,6 +167,78 @@ bool CollisionUtility::IsColCapsule2Sphere(VECTOR cPos1, VECTOR cPos2, float cRa
     return false;
 }
 
+bool CollisionUtility::IsColCapsule2Capsule(VECTOR c1Pos1, VECTOR c1Pos2, float c1Radius, VECTOR c2Pos1, VECTOR c2Pos2, float c2Radius, VECTOR& hitPos)
+{
+    constexpr float EPS = 1e-6f;
+
+    VECTOR d1 = VSub(c1Pos2, c1Pos1);
+    VECTOR d2 = VSub(c2Pos2, c2Pos1);
+    VECTOR r = VSub(c1Pos1, c2Pos1);
+
+    float a = VDot(d1, d1);
+    float e = VDot(d2, d2);
+    float b = VDot(d1, d2);
+    float c = VDot(d1, r);
+    float f = VDot(d2, r);
+
+    float s = 0.0f;
+    float t = 0.0f;
+
+    // 両方とも点
+    if (a <= EPS && e <= EPS)
+    {
+        hitPos = VScale(VAdd(c1Pos1, c2Pos1), 0.5f);
+        return VSize(VSub(c1Pos1, c2Pos1)) <= (c1Radius + c2Radius);
+    }
+
+    // カプセル1が点
+    if (a <= EPS)
+    {
+        s = 0.0f;
+        t = std::clamp(f / e, 0.0f, 1.0f);
+    }
+    // カプセル2が点
+    else if (e <= EPS)
+    {
+        t = 0.0f;
+        s = std::clamp(-c / a, 0.0f, 1.0f);
+    }
+    else
+    {
+        float denom = a * e - b * b;
+
+        if (fabsf(denom) > EPS)
+        {
+            s = std::clamp((b * f - c * e) / denom, 0.0f, 1.0f);
+        }
+
+        t = (b * s + f) / e;
+
+        if (t < 0.0f)
+        {
+            t = 0.0f;
+            s = std::clamp(-c / a, 0.0f, 1.0f);
+        }
+        else if (t > 1.0f)
+        {
+            t = 1.0f;
+            s = std::clamp((b - c) / a, 0.0f, 1.0f);
+        }
+    }
+
+    // 最近接点
+    VECTOR p1 = VAdd(c1Pos1, VScale(d1, s));
+    VECTOR p2 = VAdd(c2Pos1, VScale(d2, t));
+
+    // 衝突位置(中点)
+    hitPos = VScale(VAdd(p1, p2), 0.5f);
+
+    float distSq = VSquareSize(VSub(p1, p2));
+    float radius = c1Radius + c2Radius;
+
+    return distSq <= radius * radius;
+}
+
 bool CollisionUtility::IsColSphere2Triangle(VECTOR sPos, float radius, VECTOR tPos1, VECTOR tPos2, VECTOR tPos3, VECTOR& hitPos)
 {
     VECTOR n = VCross(VSub(tPos2, tPos1), VSub(tPos3, tPos1));

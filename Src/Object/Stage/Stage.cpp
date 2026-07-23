@@ -57,7 +57,7 @@ void Stage::Draw(void)
 
 void Stage::UIDraw(void)
 {
-    DrawFormatString(10, 10, 0xffffff, "Polygon %d, Index %d", polygonInfo_.vertex.size(), polygonInfo_.Indices.size());
+    //DrawFormatString(10, 10, 0xffffff, "Polygon %d, Index %d", polygonInfo_.vertex.size(), polygonInfo_.Indices.size());
 }
 
 VECTOR Stage::GetPlayerSpawnPos(void)

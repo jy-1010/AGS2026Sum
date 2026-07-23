@@ -134,7 +134,6 @@ void SceneManager::Update(void)
 	{
 		scenes_.back()->Update();
 	}
-
 }
 
 //•`‰æˆ—

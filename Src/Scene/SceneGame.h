@@ -27,13 +27,15 @@ public:
 
 	float GetBlockSize(void);
 
-	//ç¿ïWï‘ä“
+	//ç¿ïWïœä∑
 	IntVector3 WorldPosToMapPos(const VECTOR& worldPos)const;
 	IntVector3 MapPosToChunkPos(const IntVector3& mapPos) const;
 	IntVector3 WorldPosToChunkPos(const VECTOR& worldPos)const;
 	VECTOR MapPosToWorldPos(const IntVector3& mapPos)const;
 	IntVector3 ChunkPosToMapPos(const IntVector3& chunkPos)const;
 	VECTOR ChunkPosToWorldPos(const IntVector3& chunkPos)const;
+
+	bool IsBlock(const IntVector3& mapPos);
 
 protected:
 	std::unique_ptr<Stage> stage_;

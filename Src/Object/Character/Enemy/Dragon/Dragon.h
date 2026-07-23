@@ -60,6 +60,8 @@ public:
 	/// <param name="pos"></param>
 	void SetPos(VECTOR pos) { transform_->pos = pos; }
 
+	void OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)override;
+
 private:
 	
 	//１ブロックの大きさ
@@ -84,5 +86,7 @@ private:
 	void InitCollider(void);
 
 	void UpdateFramePos(void);
+
+	void Damage(float damage);
 };
 

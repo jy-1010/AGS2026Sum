@@ -49,7 +49,7 @@ public:
 
 	// カメラのX回転上限度角
 	static constexpr float LIMIT_X_UP_RAD = 85.0f * (DX_PI_F / 180.0f);
-	static constexpr float LIMIT_X_DW_RAD = 5.0f * (DX_PI_F / 180.0f);
+	static constexpr float LIMIT_X_DW_RAD = -30.0f * (DX_PI_F / 180.0f);
 
 	// カメラのX回転上限度角FPS
 	static constexpr float LIMIT_X_UP_FPS_RAD = 85.0f * (DX_PI_F / 180.0f);

@@ -70,6 +70,19 @@ public:
 	static bool IsColCapsule2Sphere(VECTOR cPos1, VECTOR cPos2, float cRadius, VECTOR sPos, float sRadius, VECTOR& hitPos);
 
 	/// <summary>
+	/// カプセルとカプセルの当たり判定
+	/// </summary>
+	/// <param name="c1Pos1">カプセル１の座標１</param>
+	/// <param name="c1Pos2">カプセル１の座標２</param>
+	/// <param name="c1Radius">カプセル１の半径</param>
+	/// <param name="c2Pos1">カプセル２の座標１</param>
+	/// <param name="c2Pos2">カプセル２の座標２</param>
+	/// <param name="c2Radius">カプセル２の半径</param>
+	/// <param name="hitPos">当たった座標(参照型)</param>
+	/// <returns>当たったらtrue</returns>
+	static bool IsColCapsule2Capsule(VECTOR c1Pos1, VECTOR c1Pos2, float c1Radius, VECTOR c2Pos1, VECTOR c2Pos2, float c2Radius, VECTOR& hitPos);
+
+	/// <summary>
 	/// 球と三角形の当たり判定
 	/// </summary>
 	/// <param name="sPos">球の座標</param>

@@ -38,16 +38,36 @@ void Dragon::Draw(void)
 {
 	actionManager_->Draw();
 	model_->Draw();
-	//for (auto& param : colParam_)
-	//{
-	//	param.geometry_->Draw();
-	//}
+	for (auto& param : colParam_)
+	{
+		param.geometry_->Draw();
+	}
 }
 
 void Dragon::UIDraw(void)
 {
 	actionManager_->UIDraw();
 	model_->UIDraw();
+}
+
+void Dragon::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
+{
+	std::shared_ptr<Collider> hitCol = _hitCol.lock();
+	Collider::TAG tag = hitCol->GetTag();
+	switch (tag)
+	{
+	case Collider::TAG::PLAYER_ATTACK_ARROW:
+	case Collider::TAG::PLAYER_ATTACK_SWORD:
+		break;
+	case Collider::TAG::PLAYER:
+	case Collider::TAG::ENEMY:
+	case Collider::TAG::ENEMY_ATTACK:
+		return;
+		break;
+	default:
+		break;
+	}
+	Damage(player_.GetDamage(tag));	
 }
 
 void Dragon::LoadDragonInfo(void)
@@ -96,4 +116,9 @@ void Dragon::UpdateFramePos(void)
 	{
 		bornPos.second = MV1GetFramePosition(modelId, bornPos.first);
 	}
+}
+
+void Dragon::Damage(float damage)
+{
+	params_.health -= damage;
 }

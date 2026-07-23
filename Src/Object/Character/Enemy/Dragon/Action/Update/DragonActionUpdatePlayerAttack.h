@@ -60,6 +60,8 @@ private:
 
 	float time_;
 
+	float offsetHeight_;
+
 	// jsonのデータをロードする
 	void Load(void)override;
 	//移動範囲外に出たか

@@ -9,6 +9,9 @@ public:
 
 	void Update(void)override;
 	void Draw(void)override;
+	VECTOR GetPos1(void)const { return pos1_; }
+	VECTOR GetPos2(void)const { return pos2_; }
+	float GetRadius(void)const { return radius_; }
 	GEOMETRY_TYPE GetType(void)override { return GEOMETRY_TYPE::CAPSULE; }
 
 

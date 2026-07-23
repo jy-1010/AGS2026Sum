@@ -27,6 +27,13 @@ bool ModelResource::IsLoaded(void) const
 	return handleId_ != -1;
 }
 
+const int ModelResource::GetHandleId(void)
+{
+	int i = MV1DuplicateModel(handleId_);
+	handleIds_.push_back(i);
+	return i;
+}
+
 void ModelResource::LoadResourceInfo(void)
 {
 	Init();

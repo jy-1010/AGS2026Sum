@@ -72,6 +72,8 @@ public:
 
 private:
 
+	bool isLoad_;
+
 	// 頂点シェーダ
 	int shaderVS_;
 

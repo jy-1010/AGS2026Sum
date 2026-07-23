@@ -1,6 +1,7 @@
 {
   "MoveSpeed": 20.0,
   "RiseSpeed": 3.0,
+  "OffSetHeight" : -600.0,
   "Height": 80,
   "MoveRadius": 50,
   "ChangeDIR": {

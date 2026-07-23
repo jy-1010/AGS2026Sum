@@ -17,6 +17,7 @@ DragonActionUpdatePlayerAttack::~DragonActionUpdatePlayerAttack(void)
 void DragonActionUpdatePlayerAttack::Init(void)
 {
 	destinationPos_ = parent_.GetPlayerPos();
+	destinationPos_.y += offsetHeight_;
 	moveDir_ = VNorm(VSub(destinationPos_, dragonTrans_.lock()->pos));
 	float rad = std::atan2f(moveDir_.x, moveDir_.z);
 	rad = rad < 0 ? rad + Utility::Deg2RadF(360.0f) : rad;
@@ -76,6 +77,7 @@ void DragonActionUpdatePlayerAttack::Load(void)
 	minChangeDir_ = json_["ChangeDIR"]["Min"];
 	maxChangeDir_ = json_["ChangeDIR"]["Max"];
 	reChangeDelay_ = json_["ReChangeDelay"];
+	offsetHeight_ = json_["OffSetHeight"];
 }
 
 bool DragonActionUpdatePlayerAttack::IsMoveLimit(void)

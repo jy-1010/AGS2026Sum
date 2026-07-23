@@ -27,6 +27,11 @@
     "JumpVelocity": 0.42
   },
 
+  "Damage": {
+    "Sword": 12.0,
+    "Arrow": 8.0
+  },
+
   "Model": "PlayerModelJson"
 
 }

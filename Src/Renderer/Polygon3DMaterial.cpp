@@ -5,6 +5,7 @@ Polygon3DMaterial::Polygon3DMaterial(
 	std::string shaderFileNameVS, int constBufFloat4SizeVS,
 	std::string shaderFileNamePS, int constBufFloat4SizePS)
 {
+	isLoad_ = true;
 
 	// 頂点シェーダのロード
 	shaderVS_ = LoadVertexShader(
@@ -37,6 +38,7 @@ Polygon3DMaterial::Polygon3DMaterial(
 
 Polygon3DMaterial::Polygon3DMaterial(int shaderHandleVS, int constBufFloat4SizeVS, int shaderHandlePS, int constBufFloat4SizePS)
 {
+	isLoad_ = false;
 	shaderVS_ = shaderHandleVS;
 	constBufFloat4SizeVS_ = constBufFloat4SizeVS;
 	constBufVS_ = CreateShaderConstantBuffer(sizeof(FLOAT4) * constBufFloat4SizeVS);
@@ -157,8 +159,11 @@ int Polygon3DMaterial::GetConstBufPS(void) const
 
 Polygon3DMaterial::~Polygon3DMaterial(void)
 {
-	DeleteShader(shaderVS_);
-	DeleteShaderConstantBuffer(constBufVS_);
-	DeleteShader(shaderPS_);
-	DeleteShaderConstantBuffer(constBufPS_);
+	if (isLoad_)
+	{
+		DeleteShader(shaderVS_);
+		DeleteShaderConstantBuffer(constBufVS_);
+		DeleteShader(shaderPS_);
+		DeleteShaderConstantBuffer(constBufPS_);
+	}
 }

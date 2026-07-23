@@ -2,6 +2,7 @@
 #include"../Application.h"
 #include "../Utility/Utility.h"
 #include"../Manager/SceneManager.h"
+#include"../Manager/CollisionManager.h"
 #include"../Manager/ResourceManager.h"
 #include"../Manager/InputManager.h"
 #include"../Manager/KeyConfig.h"
@@ -21,7 +22,7 @@ SceneGame::SceneGame(void)
 	dragon_ = std::make_unique<Dragon>(*player_,stage_->GetBlockSize());
 	dragon_->SetPos(stage_->GetEnemySpawnPos());
 	auto& camera = SceneManager::GetInstance().GetCamera();
-	camera.ChangeMode(Camera::MODE::FPS);
+	camera.ChangeMode(Camera::MODE::FOLLOW);
 	camera.SetFollow(player_->GetHeadTransform().lock());
 	camera.SetIsMousePos(true);
 }
@@ -60,6 +61,7 @@ void SceneGame::Update(void)
 	dragon_->Update();
 	player_->ApplyVertex();
 	UpdateIsPose();
+	CollisionManager::GetInstance().Update();
 }
 
 //•`‰æˆ—

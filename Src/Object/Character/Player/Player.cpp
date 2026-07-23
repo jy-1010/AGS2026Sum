@@ -5,6 +5,7 @@
 #include "../../../Manager/SceneManager.h"
 #include "../../../Manager/Camera.h"
 #include "../../../Application.h"
+#include "../../Common/Geometry/Capsule.h"
 #include "Skin/SkinManager.h"
 #include "PlayerModel.h"
 #include "Player.h"
@@ -20,6 +21,7 @@ Player::Player(std::string skinName,float blockSize)
 	transform_ = std::make_shared<Transform>();
 	headTrans_ = std::make_shared<Transform>();
 	model_ = std::make_unique<PlayerModel>(skinName, paramsJson_);
+	InitCollider();
 }
 
 Player::~Player(void)
@@ -42,6 +44,10 @@ void Player::Update(void)
 void Player::Draw(void)
 {
 	model_->Draw();
+	for (auto& param : colParam_)
+	{
+		//param.geometry_->Draw();
+	}
 }
 
 void Player::UIDraw(void)
@@ -64,6 +70,49 @@ void Player::ApplyVertex(void)
 	model_->ApplayVertexPos(transform_->pos, transform_->rot,params_.DefaultScale);
 }
 
+const float Player::GetDamage(Collider::TAG tag)const
+{
+	float ret = 0.0f;
+	switch (tag)
+	{
+	case Collider::TAG::PLAYER:
+		break;
+	case Collider::TAG::PLAYER_ATTACK_SWORD:
+		ret = params_.SWORD_DAMAGE;
+		break;
+	case Collider::TAG::PLAYER_ATTACK_ARROW:
+		ret = params_.ARROW_DAMAGE;
+		break;
+	case Collider::TAG::ENEMY:
+		break;
+	case Collider::TAG::ENEMY_ATTACK:
+		break;
+	default:
+		break;
+	}
+	return ret;
+}
+
+void Player::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
+{
+	std::shared_ptr<Collider> hitCol = _hitCol.lock();
+	Collider::TAG tag = hitCol->GetTag();
+	switch (tag)
+	{
+	case Collider::TAG::PLAYER_ATTACK_ARROW:
+	case Collider::TAG::PLAYER_ATTACK_SWORD:
+	case Collider::TAG::PLAYER:
+		return;
+		break;
+	case Collider::TAG::ENEMY:
+	case Collider::TAG::ENEMY_ATTACK:
+		return;
+		break;
+	default:
+		break;
+	}
+}
+
 void Player::LoadPlayerInfo(void)
 {
 	auto& resourceManager = ResourceManager::GetInstance();
@@ -77,6 +126,8 @@ void Player::LoadPlayerInfo(void)
 	params_.WALK_SPEED = paramsJson_["Move"]["WalkSpeed"];
 	params_.SPRINT_SPEED = paramsJson_["Move"]["SprintSpeed"];
 	params_.JUMP_POWER = paramsJson_["Move"]["JumpVelocity"];
+	params_.SWORD_DAMAGE = paramsJson_["Damage"]["Sword"];
+	params_.ARROW_DAMAGE = paramsJson_["Damage"]["Arrow"];
 	params_.health = paramsJson_["Status"]["Health"];
 	params_.DefaultScale = paramsJson_["DefaultScale"];
 }
@@ -192,4 +243,15 @@ void Player::CalcHeadPos(void)
 	float headHeight = blockSize_ * params_.HEAD_HEIGHT;
 	//足元座標から上方向に加算
 	headTrans_->pos = VAdd(transform_->pos, VScale(Utility::DIR_U, headHeight));
+}
+
+void Player::InitCollider(void)
+{
+	Collider::TAG tag = Collider::TAG::PLAYER;
+	std::vector<Collider::TAG> notHitTags;
+	notHitTags.push_back(Collider::TAG::PLAYER);
+	notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_SWORD);
+	notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_ARROW);
+	std::unique_ptr<Capsule> geo = std::make_unique<Capsule>(transform_->pos, headTrans_->pos, params_.COLLISION_SIZE.x * blockSize_);
+	MakeCollider(tag, std::move(geo), notHitTags);
 }

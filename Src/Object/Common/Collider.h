@@ -13,7 +13,8 @@ public:
 	enum class TAG
 	{
 		PLAYER,			//プレイヤー
-		PLAYER_ATTACK,	//プレイヤーの攻撃
+		PLAYER_ATTACK_SWORD,	//プレイヤーの攻撃
+		PLAYER_ATTACK_ARROW,	//プレイヤーの攻撃
 		ENEMY,			//敵
 		ENEMY_ATTACK,	//敵の攻撃
 	};

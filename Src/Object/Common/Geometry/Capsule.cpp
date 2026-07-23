@@ -39,7 +39,11 @@ const bool Capsule::IsHit(Sphere& _sphere, VECTOR& _hitPos)
 
 const bool Capsule::IsHit(Capsule& _capsule, VECTOR& _hitPos)
 {
-	return false;
+	VECTOR pos1 = _capsule.GetPos1();
+	VECTOR pos2 = _capsule.GetPos2();
+	float radius = _capsule.GetRadius();
+	bool ret = CollisionUtility::IsColCapsule2Capsule(pos1_, pos2_, radius_, pos1,pos2, radius, _hitPos);
+	return ret;
 }
 
 const bool Capsule::IsHit(Line3D& _line, VECTOR& _hitPos)

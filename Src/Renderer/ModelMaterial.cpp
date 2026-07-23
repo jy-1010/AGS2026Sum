@@ -5,6 +5,7 @@ ModelMaterial::ModelMaterial(
 	std::string shaderFileNameVS, int constBufFloat4SizeVS,
 	std::string shaderFileNamePS, int constBufFloat4SizePS)
 {
+	bool isLoad_ = true;
 
 	// 頂点シェーダのロード
 	shaderVS_ = LoadVertexShader(
@@ -20,6 +21,7 @@ ModelMaterial::ModelMaterial(
 
 ModelMaterial::ModelMaterial(int shaderHandleVS, int constBufFloat4SizeVS, int shaderHandlePS, int constBufFloat4SizePS)
 {
+	bool isLoad_ = false;
 
 	// 頂点シェーダのロード
 	shaderVS_ = shaderHandleVS;
@@ -152,8 +154,11 @@ int ModelMaterial::GetConstBufPS(void) const
 
 ModelMaterial::~ModelMaterial(void)
 {
-	DeleteShader(shaderVS_);
-	DeleteShaderConstantBuffer(constBufVS_);
-	DeleteShader(shaderPS_);
-	DeleteShaderConstantBuffer(constBufPS_);
+	if (isLoad_)
+	{
+		DeleteShader(shaderVS_);
+		DeleteShaderConstantBuffer(constBufVS_);
+		DeleteShader(shaderPS_);
+		DeleteShaderConstantBuffer(constBufPS_);
+	}
 }
