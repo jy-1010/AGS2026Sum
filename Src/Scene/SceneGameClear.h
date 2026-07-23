@@ -1,37 +1,50 @@
 //#pragma once
 #include "SceneBase.h"
 #include <vector>
-
 class SceneGameClear : public SceneBase
 {
 public:
-	//メンバー関数
-	//-----------------------------------------------------------
+
 	SceneGameClear(void);
+	~SceneGameClear(void)override;
 
-	~SceneGameClear(void) override;
-
-	//初期化処理(初回の1度のみ実行される)
 	bool Init(void)override;
-
-	//更新処理
-	void Update(void) override;
-
-	//描画処理
-	void Draw(void) override;
-
-	//ロード
+	void Update(void)override;
+	void Draw(void)override;
 	void Load(void)override;
-
 private:
 
-	//ボタンの状態
-	enum class ButtonState
-	{
-		NORMAL,	//通常
-		SELECT,	//選択中
-		PRESS,	//決定
-	};
+	//ボタンの情報
+	std::vector<ButtonInfo> buttonInfo_;
 
+	//ロゴの情報
+	std::vector<LogoInfo> logoInfo_;
+
+	//最大のレイヤー数
+	int maxLayerNum_;
+
+	nlohmann::json json_;
+
+	//現在選択されているもの
+	int selectIndex_;
+
+	void LoadJson(void);
+
+	void LoadLogo(void);
+	void LoadButton(void);
+	DrawStringInfo LoadDrawStringInfo(nlohmann::json stringJson);
+	//レイヤーに対応するオブジェクトを取得する
+	std::vector<ButtonInfo> GetButtonInfoToLayer(int layerNum);
+	std::vector<LogoInfo> GetLogoInfoToLayer(int layerNum);
+
+	void ChangeScene(void);
+
+	//ボタンのDraw
+	void DrawButton(ButtonInfo button);
+
+	//マウスと四角形の当たり判定処理と選択変更
+	bool ColCheckMouse(bool isCheakMove = true);
+
+	void UpdateSelectIndex(void);
 };
 

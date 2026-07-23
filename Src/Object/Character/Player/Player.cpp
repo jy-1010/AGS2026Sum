@@ -1,6 +1,7 @@
 #include <fstream>
 #include "../../../Manager/ResourceManager.h"
 #include "../../../Manager/Resource/JsonResource.h"
+#include "../../../Manager/Resource/Sound/Sound2DResource.h"
 #include "../../../Manager/KeyConfig.h"
 #include "../../../Manager/SceneManager.h"
 #include "../../../Manager/Camera.h"
@@ -12,7 +13,9 @@
 
 Player::Player(std::string skinName,float blockSize)
 {
+	damageDeray_ = 0.0f;
 	LoadPlayerInfo();
+	lineEndPos_ = {};
 	blockSize_ = blockSize;
 	if (skinName == "")
 	{
@@ -35,6 +38,15 @@ void Player::Init(void)
 
 void Player::Update(void)
 {
+	damageDeray_ -= SceneManager::GetInstance().GetDeltaTime();
+	for (auto& collparam : colParam_)
+	{
+		if (collparam.collider_->GetTag() == Collider::TAG::PLAYER_ATTACK_SWORD &&
+			!collparam.collider_->IsDead() && !model_->IsPlayAnim("Swing"))
+		{
+			collparam.collider_->Kill();
+		}
+	}
 	UpdateMove();
 	UpdateAttack();
 	CalcHeadPos();
@@ -46,6 +58,10 @@ void Player::Draw(void)
 	model_->Draw();
 	for (auto& param : colParam_)
 	{
+		if (param.collider_->IsDead())
+		{
+			continue;
+		}
 		//param.geometry_->Draw();
 	}
 }
@@ -53,6 +69,7 @@ void Player::Draw(void)
 void Player::UIDraw(void)
 {
 	model_->UIDraw();
+	DrawHPUI();
 }
 
 void Player::SetSkinHandle(int handle)
@@ -95,6 +112,21 @@ const float Player::GetDamage(Collider::TAG tag)const
 
 void Player::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
 {
+	for (auto& param : colParam_)
+	{
+		if (param.collider_->IsDead())
+		{
+			continue;
+		}
+		if (param.collider_->IsHit())
+		{
+			if (param.collider_->GetTag() == Collider::TAG::PLAYER_ATTACK_SWORD)
+			{
+				return;
+			}
+		}
+	}
+
 	std::shared_ptr<Collider> hitCol = _hitCol.lock();
 	Collider::TAG tag = hitCol->GetTag();
 	switch (tag)
@@ -106,11 +138,23 @@ void Player::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
 		break;
 	case Collider::TAG::ENEMY:
 	case Collider::TAG::ENEMY_ATTACK:
-		return;
+
 		break;
 	default:
 		break;
 	}
+	if (damageDeray_ < 0.0f)
+	{
+		params_.health -= 2.0f;
+		damageDeray_ = params_.DAMAGE_DERAY;
+	}
+	
+	if (params_.health < 0.0f)
+	{
+		params_.health = 0.0f;
+		isDead_ = true;
+	}
+	return;
 }
 
 void Player::LoadPlayerInfo(void)
@@ -130,14 +174,31 @@ void Player::LoadPlayerInfo(void)
 	params_.ARROW_DAMAGE = paramsJson_["Damage"]["Arrow"];
 	params_.health = paramsJson_["Status"]["Health"];
 	params_.DefaultScale = paramsJson_["DefaultScale"];
+	params_.DAMAGE_DERAY = paramsJson_["DamageDeray"];
 }
 
 void Player::UpdateAttack(void)
 {
 	KeyConfig& keycon = KeyConfig::GetInstance();
+	auto& camera = SceneManager::GetInstance().GetCamera();
 	if (keycon.IsTrgDown(KeyConfig::CONTROL_TYPE::PLAYER_ATTACK))
 	{
+		if (model_->IsPlayAnim("Swing"))
+		{
+			return;
+		}
 		SetAnimation("Swing", false);
+		auto& resManager = ResourceManager::GetInstance();
+		resManager.GetSound2DResource("AttackSE").lock()->Play();
+		VECTOR dir = camera.GetForward();
+		lineEndPos_ = VAdd(headTrans_->pos, VScale(dir, blockSize_ * params_.ENTITY_REACH));
+		std::unique_ptr<Geometry> geo = std::make_unique< Capsule>(headTrans_->pos, lineEndPos_,blockSize_ / 2);
+		Collider::TAG tag = Collider::TAG::PLAYER_ATTACK_SWORD;
+		std::vector<Collider::TAG> notHitTags;
+		notHitTags.push_back(Collider::TAG::PLAYER);
+		notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_SWORD);
+		notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_ARROW);
+		MakeCollider(tag, std::move(geo), notHitTags);
 	}
 }
 
@@ -252,6 +313,36 @@ void Player::InitCollider(void)
 	notHitTags.push_back(Collider::TAG::PLAYER);
 	notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_SWORD);
 	notHitTags.push_back(Collider::TAG::PLAYER_ATTACK_ARROW);
-	std::unique_ptr<Capsule> geo = std::make_unique<Capsule>(transform_->pos, headTrans_->pos, params_.COLLISION_SIZE.x * blockSize_);
+	std::unique_ptr<Capsule> geo = std::make_unique<Capsule>(transform_->pos, headTrans_->pos, params_.COLLISION_SIZE.x * blockSize_ / 2);
 	MakeCollider(tag, std::move(geo), notHitTags);
+}
+
+void Player::DrawHPUI(void)
+{
+	int x = MARGIN;
+	int y = Application::SCREEN_SIZE_Y - MARGIN - BAR_HEIGHT;
+
+
+	float rate = params_.health / params_.MAX_HEALTH;
+
+	// 背景
+	DrawBox(x, y,
+		x + BAR_WIDTH,
+		y + BAR_HEIGHT,
+		GetColor(40, 20, 40),
+		TRUE);
+
+	// HP
+	DrawBox(x, y,
+		x + static_cast<int>(BAR_WIDTH * rate),
+		y + BAR_HEIGHT,
+		GetColor(180, 0, 0),
+		TRUE);
+
+	// 枠
+	DrawBox(x, y,
+		x + BAR_WIDTH,
+		y + BAR_HEIGHT,
+		GetColor(255, 255, 255),
+		FALSE);
 }

@@ -109,6 +109,8 @@ public:
 		PLAYER_ATTACK,			//プレイヤー攻撃
 		PLAYER_JUMP,			//プレイヤージャンプ
 
+		CHANGE_CAMERA_MODE,
+
 		PUSH_SHIFT,
 
 		MAX,

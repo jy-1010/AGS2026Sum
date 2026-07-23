@@ -8,19 +8,31 @@
 
     "TitleLogoImage": {
       "Type": "Image",
-      "Path": "Image/Title/TitleLogo.png",
+      "Path": "Image/Logo/TitleLogo.png",
+      "Preload": true
+    },
+
+    "GameClearLogoImage": {
+      "Type": "Image",
+      "Path": "Image/Logo/GameClearLogo.png",
+      "Preload": true
+    },
+
+    "GameOverLogoImage": {
+      "Type": "Image",
+      "Path": "Image/Logo/GameOverLogo.png",
       "Preload": true
     },
 
     "MenuLogoImage": {
       "Type": "Image",
-      "Path": "Image/Menu/MenuLogo.png",
+      "Path": "Image/Logo/MenuLogo.png",
       "Preload": true
     },
 
     "TitleBackImage": {
       "Type": "Image",
-      "Path": "Image/Title/TitleBackImage.png",
+      "Path": "Image/Logo/TitleBackImage.png",
       "Preload": true
     },
 
@@ -52,6 +64,18 @@
     "TitleJson": {
       "Type": "Json",
       "Path": "Json/Scene/Title.json",
+      "Preload": true
+    },
+
+    "GameOverJson": {
+      "Type": "Json",
+      "Path": "Json/Scene/GameOver.json",
+      "Preload": true
+    },
+
+    "GameClearJson": {
+      "Type": "Json",
+      "Path": "Json/Scene/GameClear.json",
       "Preload": true
     },
 
@@ -203,7 +227,7 @@
       "Path": "Sound/GameClearBGM.mp3",
 
       "Preload": true,
-      "Loop": true,
+      "Loop": false,
 
       "SoundType": "BGM",
 
@@ -217,7 +241,7 @@
       "Path": "Sound/GameOverBGM.mp3",
 
       "Preload": true,
-      "Loop": true,
+      "Loop": false,
 
       "SoundType": "BGM",
 
@@ -229,6 +253,34 @@
     "EnterSE": {
       "Type": "Sound2D",
       "Path": "Sound/EnterSE.mp3",
+
+      "Preload": true,
+      "Loop": false,
+
+      "SoundType": "SE",
+
+      "MaxVolume": 0.7,
+      "MaxPlayNum": 5,
+      "Pitch": 0.0
+    },
+
+    "HitSE": {
+      "Type": "Sound2D",
+      "Path": "Sound/HitSE.mp3",
+
+      "Preload": true,
+      "Loop": false,
+
+      "SoundType": "SE",
+
+      "MaxVolume": 0.7,
+      "MaxPlayNum": 5,
+      "Pitch": 0.0
+    },
+
+    "AttackSE": {
+      "Type": "Sound2D",
+      "Path": "Sound/AttackSE.mp3",
 
       "Preload": true,
       "Loop": false,

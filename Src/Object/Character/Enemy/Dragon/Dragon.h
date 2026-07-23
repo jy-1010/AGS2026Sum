@@ -15,6 +15,7 @@ public:
 		float DEFAULT_SCALE;	//通常サイズ
 		float MAX_HEALTH;	//最大体力
 		float health;		//体力
+		float DAMAGE_DERAY;
 	};
 
 
@@ -62,8 +63,14 @@ public:
 
 	void OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)override;
 
+
+	bool IsDead(void) { return isDead_; }
 private:
 	
+	bool isDead_;
+
+	float damageDelayTime_;
+
 	//１ブロックの大きさ
 	float blockSize_;
 
@@ -88,5 +95,10 @@ private:
 	void UpdateFramePos(void);
 
 	void Damage(float damage);
+
+	static constexpr int BAR_WIDTH = 364;
+	static constexpr int BAR_HEIGHT = 30;
+	static constexpr int MARGIN = 10;
+	void DrawHPUI(void);
 };
 

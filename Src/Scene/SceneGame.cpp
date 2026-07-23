@@ -56,12 +56,34 @@ void SceneGame::Update(void)
 		camera.SetIsMousePos(true);
 	}
 	KeyConfig& ins = KeyConfig::GetInstance();
+	if (ins.IsTrgDown(KeyConfig::CONTROL_TYPE::CHANGE_CAMERA_MODE))
+	{
+		auto cameraMode = camera.GetMode();
+		if (cameraMode == Camera::MODE::FOLLOW)
+		{
+			camera.ChangeMode(Camera::MODE::FPS);
+		}
+		else if (cameraMode == Camera::MODE::FPS)
+		{
+			camera.ChangeMode(Camera::MODE::FOLLOW);
+		}
+	}
 	player_->Update();
 	stage_->Update();
 	dragon_->Update();
 	player_->ApplyVertex();
 	UpdateIsPose();
 	CollisionManager::GetInstance().Update();
+	if (dragon_->IsDead())
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAMECLEAR, true);
+		return;
+	}
+	if (player_->IsDead())
+	{
+		SceneManager::GetInstance().ChangeScene(SceneManager::SCENE_ID::GAMEOVER, true);
+		return;
+	}
 }
 
 //•`‰æˆ—
@@ -75,8 +97,6 @@ void SceneGame::Draw(void)
 	player_->Draw();
 	dragon_->Draw();
 	stage_->Draw();
-
-	DrawSphere3D(player_->GetHeadTransform().lock()->pos, 10, 16, 0xffffff, 0xffffff, true);
 
 	player_->UIDraw();
 	dragon_->UIDraw();

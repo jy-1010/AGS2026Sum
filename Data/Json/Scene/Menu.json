@@ -67,25 +67,6 @@
         }
       },
       {
-        "Name": "Repote Bug",
-        "String": {
-          "Font": "DefaultFont",
-          "DrawString": {
-            "Japanese": "バグを報告",
-            "Englesh": "Repote Bug"
-          }
-        },
-        "Layer": 2,
-        "NextScene": "RepoteBug",
-        "SelectIndex": 2,
-        "Rect": {
-          "Left": 0.31,
-          "Top": 0.61,
-          "Right": 0.69,
-          "Bottom": 0.69
-        }
-      },
-      {
         "Name": "Go Title",
         "String": {
           "Font": "DefaultFont",
@@ -96,12 +77,12 @@
         },
         "Layer": 2,
         "NextScene": "Title",
-        "SelectIndex": 3,
+        "SelectIndex": 2,
         "Rect": {
           "Left": 0.31,
-          "Top": 0.71,
+          "Top": 0.61,
           "Right": 0.69,
-          "Bottom": 0.79
+          "Bottom": 0.69
         }
       }
     ]

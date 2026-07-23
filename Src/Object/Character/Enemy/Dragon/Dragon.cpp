@@ -1,6 +1,9 @@
+#include "../../../../Application.h"
 #include "../../../../Utility/Utility.h"
 #include "../../../../Manager/ResourceManager.h"
 #include "../../../../Manager/Resource/JsonResource.h"
+#include "../../../../Manager/Resource/Sound/Sound2DResource.h"
+#include "../../../../Manager/SceneManager.h"
 #include "../../../Common/Geometry/Triangle3D.h"
 #include "../../../Common/Geometry/Capsule.h"
 #include "../../Player/Player.h"
@@ -10,7 +13,9 @@
 
 Dragon::Dragon(const Player& player, float blockSize):player_(player)
 {
+	isDead_ = false;
 	blockSize_ = blockSize;
+	damageDelayTime_ = 0.0f;
 	LoadDragonInfo();
 	transform_ = std::make_shared<Transform>();
 	transform_->quaRotLocal = Quaternion::Euler(VGet(0.0f, Utility::Deg2RadF(180.0f), 0.0f));
@@ -29,6 +34,7 @@ void Dragon::Init(void)
 
 void Dragon::Update(void)
 {
+	damageDelayTime_ -= SceneManager::GetInstance().GetDeltaTime();
 	actionManager_->Update();
 	model_->Update();
 	UpdateFramePos();
@@ -40,14 +46,15 @@ void Dragon::Draw(void)
 	model_->Draw();
 	for (auto& param : colParam_)
 	{
-		param.geometry_->Draw();
+		//param.geometry_->Draw();
 	}
 }
 
 void Dragon::UIDraw(void)
 {
-	actionManager_->UIDraw();
+	//actionManager_->UIDraw();
 	model_->UIDraw();
+	DrawHPUI();
 }
 
 void Dragon::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
@@ -67,7 +74,12 @@ void Dragon::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
 	default:
 		break;
 	}
-	Damage(player_.GetDamage(tag));	
+	if (damageDelayTime_ < 0.0f)
+	{
+		Damage(player_.GetDamage(tag));
+		auto& resManager = ResourceManager::GetInstance();
+		resManager.GetSound2DResource("HitSE").lock()->Play();
+	}
 }
 
 void Dragon::LoadDragonInfo(void)
@@ -78,6 +90,7 @@ void Dragon::LoadDragonInfo(void)
 	params_.MAX_HEALTH = paramsJson_["Status"]["MaxHealth"];
 	params_.health = paramsJson_["Status"]["Health"];
 	params_.DEFAULT_SCALE = paramsJson_["DefaultScale"];
+	params_.DAMAGE_DERAY = paramsJson_["DamageDelay"];
 }
 
 void Dragon::InitCollider(void)
@@ -121,4 +134,40 @@ void Dragon::UpdateFramePos(void)
 void Dragon::Damage(float damage)
 {
 	params_.health -= damage;
+	if (params_.health < 0.0f)
+	{
+		params_.health = 0.0f;
+		isDead_ = true;
+	}
+	damageDelayTime_ = params_.DAMAGE_DERAY;
+}
+
+void Dragon::DrawHPUI(void)
+{
+	int x = Application::SCREEN_HALF_X - BAR_WIDTH / 2;
+	int y = MARGIN;
+
+
+	float rate = params_.health / params_.MAX_HEALTH;
+
+	// 背景
+	DrawBox(x, y,
+		x + BAR_WIDTH,
+		y + BAR_HEIGHT,
+		GetColor(40, 20, 40),
+		TRUE);
+
+	// HP
+	DrawBox(x, y,
+		x + static_cast<int>(BAR_WIDTH * rate),
+		y + BAR_HEIGHT,
+		GetColor(180, 0, 180),
+		TRUE);
+
+	// 枠
+	DrawBox(x, y,
+		x + BAR_WIDTH,
+		y + BAR_HEIGHT,
+		GetColor(255, 255, 255),
+		FALSE);
 }

@@ -19,6 +19,7 @@ public:
 		float JUMP_POWER;	//ジャンプスピード
 		float SWORD_DAMAGE;	//剣のダメージ
 		float ARROW_DAMAGE;	//弓のダメージ
+		float DAMAGE_DERAY;
 		float health;		//体力
 		float DefaultScale;	//通常サイズ
 	};
@@ -107,10 +108,17 @@ public:
 	/// <returns></returns>
 	const float GetHP(void)const { return params_.health; }
 
+	bool IsDead(void) { return isDead_; }
 private:
+
+	bool isDead_;
+
+	float damageDeray_;
 
 	//頭座標のトランスフォーム
 	std::shared_ptr<Transform> headTrans_;
+
+	VECTOR lineEndPos_;
 
 	//モデル管理
 	std::unique_ptr<PlayerModel> model_;
@@ -138,5 +146,10 @@ private:
 	void CalcHeadPos(void);
 
 	void InitCollider(void);
+
+	static constexpr int BAR_WIDTH = 100;
+	static constexpr int BAR_HEIGHT = 30;
+	static constexpr int MARGIN = 10;
+	void DrawHPUI(void);
 };
 

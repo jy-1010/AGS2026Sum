@@ -28,9 +28,11 @@
   },
 
   "Damage": {
-    "Sword": 12.0,
+    "Sword": 3.0,
     "Arrow": 8.0
   },
+
+  "DamageDeray": 1.0,
 
   "Model": "PlayerModelJson"
 

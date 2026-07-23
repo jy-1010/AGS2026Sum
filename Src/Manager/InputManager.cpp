@@ -47,6 +47,14 @@ void InputManager::Init(void)
 	Add(KEY_INPUT_RETURN);
 	Add(KEY_INPUT_TAB);
 	Add(KEY_INPUT_ESCAPE);
+	Add(KEY_INPUT_F1);
+	Add(KEY_INPUT_F2);
+	Add(KEY_INPUT_F3);
+	Add(KEY_INPUT_F4);
+	Add(KEY_INPUT_F5);
+	Add(KEY_INPUT_F6);
+	Add(KEY_INPUT_F7);
+	Add(KEY_INPUT_F8);
 
 
 	InputManager::MouseInfo mouseInfo;
