@@ -87,8 +87,6 @@ public:
 		OPEN_MENU,				//メニューを開く
 		PAD_SHOW_HIDE,		//パッド表示非表示切り替え
 
-		CHENGE_CAMERA_MODE,	//カメラモード変更
-
 		SELECT_UP,			//選択上
 		SELECT_DOWN,		//選択下
 		SELECT_RIGHT,		//選択右
