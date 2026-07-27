@@ -48,6 +48,12 @@
       "Preload": true
     },
 
+    "CrossHairImage": {
+      "Type": "Image",
+      "Path": "Image/UI/CrossHair.png",
+      "Preload": true
+    },
+
     "EnemyDragonModel": {
       "Type": "Model",
       "Path": "Model/Dragon/Dragon.mv1",

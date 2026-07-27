@@ -60,11 +60,6 @@ void SceneGameClear::Update(void)
 		ChangeScene();
 		return;
 	}
-	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::OPEN_MENU))
-	{
-		SceneManager::GetInstance().PopScene();
-		return;
-	}
 	if (keyConfig.IsTrgDown(KeyConfig::CONTROL_TYPE::ENTER, KeyConfig::JOYPAD_NO::PAD1))
 	{
 		ChangeScene();

@@ -4,6 +4,7 @@
 #include"../Manager/SceneManager.h"
 #include"../Manager/CollisionManager.h"
 #include"../Manager/ResourceManager.h"
+#include"../Manager/Resource/ImageResource.h"
 #include"../Manager/InputManager.h"
 #include"../Manager/KeyConfig.h"
 #include"../Manager/Camera.h"
@@ -101,6 +102,10 @@ void SceneGame::Draw(void)
 	player_->UIDraw();
 	dragon_->UIDraw();
 	stage_->UIDraw();
+	if (SceneManager::GetInstance().GetCamera().GetMode() == Camera::MODE::FPS)
+	{
+		DrawRotaGraph(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, 1.0f, 0.0f, ResourceManager::GetInstance().GetImageResource("CrossHairImage").lock()->GetHandleId(), true);
+	}
 }
 
 void SceneGame::DebugDraw(void)
