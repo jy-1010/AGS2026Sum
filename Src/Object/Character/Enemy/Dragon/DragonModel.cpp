@@ -36,6 +36,11 @@ void DragonModel::UIDraw(void)
 {
 }
 
+void DragonModel::SetColorRate(FLOAT4 colorRate)
+{
+	material_->SetConstBufPS(0, colorRate);
+}
+
 void DragonModel::SetRendererInfo(void)
 {
 	ResourceManager& resourceManager = ResourceManager::GetInstance();
@@ -43,6 +48,7 @@ void DragonModel::SetRendererInfo(void)
 	auto shaderPSResource = resourceManager.GetShaderResource(shaderInfo_.PSKey).lock();
 	material_ = std::make_unique<ModelMaterial>(shaderVSResource->GetHandleId(), 1, shaderPSResource->GetHandleId(), 1);
 	renderer_ = std::make_shared<ModelRenderer>(transform_.lock()->modelId, *material_);
+	material_->AddConstBufPS(DEFAULT_COLOR_RATE);
 }
 
 void DragonModel::LoadModelInfo(void)

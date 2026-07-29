@@ -10,6 +10,12 @@ class DragonModel : public CharacterModelBase
 {
 public:
 
+	//通常時の色の倍率
+	static constexpr FLOAT4 DEFAULT_COLOR_RATE = { 1.0f,1.0f,1.0f,1.0f };
+
+	//ダメージ時の色の倍率
+	static constexpr FLOAT4 DAMAGE_COLOR_RATE = { 5.0f,0.1f,0.1f,1.0f };
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -46,7 +52,11 @@ public:
 	/// <param name=""></param>
 	void UIDraw(void)override;
 
-
+	/// <summary>
+	/// 色倍率を設定する
+	/// </summary>
+	/// <param name=""></param>
+	void SetColorRate(FLOAT4 colorRate);
 private:
 
 	struct AnimationInfo

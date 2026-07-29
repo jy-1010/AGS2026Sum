@@ -30,13 +30,6 @@ public:
 
 	// 追従位置からカメラ位置までの相対座標
 	static constexpr VECTOR LOCAL_F2C_POS = { 0.0f, 100.0f, -500.0f };
-	//static constexpr VECTOR LOCAL_F2C_POS = { 0.0f, -1000.0f, -200.0f };
-
-	//FPSの時の相対座標
-	//static constexpr VECTOR FPS_LOCAL_F2C_POS = { 0.0f, 130.0f, 20.0f };
-
-	//FPS用
-	//static constexpr VECTOR FPS_LOCAL_F2T_POS = { 0.0f, 0.0f, 2000.0f };
 
 	//固定上用
 	static constexpr VECTOR FIXED_LOCAL_P2T_POS = { 0.0f, -1500.0f, 0.0f };
@@ -49,11 +42,11 @@ public:
 
 	// カメラのX回転上限度角
 	static constexpr float LIMIT_X_UP_RAD = 85.0f * (DX_PI_F / 180.0f);
-	static constexpr float LIMIT_X_DW_RAD = -30.0f * (DX_PI_F / 180.0f);
+	static constexpr float LIMIT_X_DW_RAD = -50.0f * (DX_PI_F / 180.0f);
 
 	// カメラのX回転上限度角FPS
 	static constexpr float LIMIT_X_UP_FPS_RAD = 85.0f * (DX_PI_F / 180.0f);
-	static constexpr float LIMIT_X_DW_FPS_RAD = -30.0f * (DX_PI_F / 180.0f);
+	static constexpr float LIMIT_X_DW_FPS_RAD = -40.0f * (DX_PI_F / 180.0f);
 
 	//FPSの上限角
 	//static constexpr float FPS_LIMIT_X_UP_RAD = -80.0f * (DX_PI_F / 180.0f);

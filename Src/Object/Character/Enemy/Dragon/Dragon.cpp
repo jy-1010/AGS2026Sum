@@ -35,6 +35,10 @@ void Dragon::Init(void)
 void Dragon::Update(void)
 {
 	damageDelayTime_ -= SceneManager::GetInstance().GetDeltaTime();
+	if (damageDelayTime_ < 0.0f)
+	{
+		model_->SetColorRate(DragonModel::DEFAULT_COLOR_RATE);
+	}
 	actionManager_->Update();
 	model_->Update();
 	UpdateFramePos();
@@ -77,6 +81,7 @@ void Dragon::OnHit(const std::weak_ptr<Collider> _hitCol, VECTOR hitPos)
 	if (damageDelayTime_ < 0.0f)
 	{
 		Damage(player_.GetDamage(tag));
+		model_->SetColorRate(DragonModel::DAMAGE_COLOR_RATE);
 		auto& resManager = ResourceManager::GetInstance();
 		resManager.GetSound2DResource("HitSE").lock()->Play();
 	}

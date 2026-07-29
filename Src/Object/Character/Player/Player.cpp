@@ -188,6 +188,7 @@ void Player::UpdateAttack(void)
 			return;
 		}
 		SetAnimation("Swing", false);
+		transform_->rot.y = camera.GetAngles().y;
 		auto& resManager = ResourceManager::GetInstance();
 		resManager.GetSound2DResource("AttackSE").lock()->Play();
 		VECTOR dir = camera.GetForward();

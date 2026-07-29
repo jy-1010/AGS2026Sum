@@ -227,7 +227,7 @@ void Camera::SyncFollowFPS(void)
 	VECTOR forward;
 
 	forward.x = cosf(angles_.x) * sinf(angles_.y);
-	forward.y = sinf(angles_.x);
+	forward.y = sinf(-angles_.x);
 	forward.z = cosf(angles_.x) * cosf(angles_.y);
 
 	const float Distance = 100.0f;
@@ -279,12 +279,12 @@ void Camera::ProcessRotFPS(void)
 
 	auto rStick = ins.GetKnockRStickSize(padNo_);
 	rotPow = SPEED_PAD;
-	angles_.x -= Utility::Deg2RadF(rStick.y * rotPow);
+	angles_.x += Utility::Deg2RadF(rStick.y * rotPow);
 	angles_.y += Utility::Deg2RadF(rStick.x * rotPow);
 	//ƒ}ƒEƒX
 	auto mouseMove = ins.GetMouseMove();
 	rotPow = SPEED_MOUSE;
-	angles_.x -= Utility::Deg2RadF(mouseMove.y * rotPow);
+	angles_.x += Utility::Deg2RadF(mouseMove.y * rotPow);
 	angles_.y += Utility::Deg2RadF(mouseMove.x * rotPow);
 
 	if (angles_.x >= LIMIT_X_UP_FPS_RAD)
